@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react'
+﻿import { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react'
 import { AlertCircle, Mic, Heart, Compass, Award, User, Share2, MapPin, CheckCircle, ShieldCheck, Activity, Star, X, Bell, LogOut, Edit3, Lock, Phone, Mail, Camera, TrendingUp, Users, Clock, Trophy, ChevronRight, ChevronDown, Download, Calendar, Target, Zap, Globe, BookOpen, Badge } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -8,7 +8,7 @@ import { Line, Bar, Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement);
 
-/* ─── Animated Counter Hook ─── */
+/* â”€â”€â”€ Animated Counter Hook â”€â”€â”€ */
 function useCounter(end, duration = 2000) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -33,7 +33,7 @@ function useCounter(end, duration = 2000) {
   return [count, ref];
 }
 
-/* ─── Toast ─── */
+/* â”€â”€â”€ Toast â”€â”€â”€ */
 function Toast({ message, type = 'success', onClose }) {
   const colors = { success: '#10b981', error: '#ef4444', info: '#3b82f6', warning: '#f97316' };
   const icons = { success: <CheckCircle size={20}/>, error: <AlertCircle size={20}/>, info: <ShieldCheck size={20}/>, warning: <AlertCircle size={20}/> };
@@ -47,7 +47,7 @@ function Toast({ message, type = 'success', onClose }) {
   );
 }
 
-/* ─── Avatar Placeholder ─── */
+/* â”€â”€â”€ Avatar Placeholder â”€â”€â”€ */
 function AvatarPlaceholder({ name, size = 80 }) {
   const initials = name ? name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase() : '?';
   const colors = ['linear-gradient(135deg,#f97316,#ec4899)','linear-gradient(135deg,#8b5cf6,#3b82f6)','linear-gradient(135deg,#10b981,#06b6d4)','linear-gradient(135deg,#f59e0b,#ef4444)'];
@@ -59,9 +59,9 @@ function AvatarPlaceholder({ name, size = 80 }) {
   );
 }
 
-/* ─────────────────────────────────────────────────
-   AUTH MODAL  — Login / Register / Profile Collect
-───────────────────────────────────────────────────*/
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   AUTH MODAL  â€” Login / Register / Profile Collect
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€*/
 function AuthModal({ onClose, onLogin, addToast }) {
   const [step, setStep] = useState('choose'); // choose | email-login | phone-login | email-register | profile | otp
   const [method, setMethod] = useState('');
@@ -73,11 +73,11 @@ function AuthModal({ onClose, onLogin, addToast }) {
 
   const set = (k,v) => setForm(f=>({...f,[k]:v}));
 
-  // ── DUMMY DEMO ACCOUNTS — remove later when real Firebase auth is wired ──
+  // â”€â”€ DUMMY DEMO ACCOUNTS â€” remove later when real Firebase auth is wired â”€â”€
   const DUMMY_ACCOUNTS = [
     {
       id: 'demo1',
-      label: '🧑‍💻 Demo 1 — Priya Sharma (Volunteer · Champion)',
+      label: 'ðŸ§‘â€ðŸ’» Demo 1 â€” Priya Sharma (Volunteer Â· Champion)',
       tag: '4820 pts',
       tagColor: '#8b5cf6',
       user: {
@@ -90,14 +90,14 @@ function AuthModal({ onClose, onLogin, addToast }) {
         volunteerHours:340, points:4820, level:'Champion',
         joinDate:'2024-03-10', verifiedId:true, aadhar:'xxxx-5678',
         address:'Bandra West, Mumbai - 400050',
-        emergencyContact:'Rajesh Sharma — +91 9812345678',
+        emergencyContact:'Rajesh Sharma â€” +91 9812345678',
         interests:['Education','Healthcare','Women Empowerment'],
         notifications:{email:true, sms:true, push:true}
       }
     },
     {
       id: 'demo2',
-      label: '👨‍🎓 Demo 2 — Rahul Verma (NGO Coordinator · Legend)',
+      label: 'ðŸ‘¨â€ðŸŽ“ Demo 2 â€” Rahul Verma (NGO Coordinator Â· Legend)',
       tag: '3950 pts',
       tagColor: '#ec4899',
       user: {
@@ -105,12 +105,12 @@ function AuthModal({ onClose, onLogin, addToast }) {
         avatar:null, city:'Delhi', state:'Delhi', dob:'1995-11-22', gender:'Male',
         skills:['Logistics','Leadership','Driving','Carpentry'],
         languages:['Hindi','English','Punjabi'],
-        availability:'Flexible / Any time', org:'Delhi University — Social Work Dept.',
+        availability:'Flexible / Any time', org:'Delhi University â€” Social Work Dept.',
         bio:'NGO coordinator with 6+ years experience in disaster relief and rural development. Coordinated 500+ volunteers across 12 states.',
         volunteerHours:620, points:3950, level:'Legend',
         joinDate:'2023-08-05', verifiedId:true, aadhar:'xxxx-9012',
         address:'Vasant Kunj, New Delhi - 110070',
-        emergencyContact:'Anita Verma — +91 9887654321',
+        emergencyContact:'Anita Verma â€” +91 9887654321',
         interests:['Disaster Relief','Rural Development','Education'],
         notifications:{email:true, sms:false, push:true}
       }
@@ -121,7 +121,7 @@ function AuthModal({ onClose, onLogin, addToast }) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      addToast(`✅ Logged in as ${account.user.name} (Demo Account)`, 'success');
+      addToast(`âœ… Logged in as ${account.user.name} (Demo Account)`, 'success');
       onLogin(account.user);
     }, 600);
   };
@@ -135,13 +135,13 @@ function AuthModal({ onClose, onLogin, addToast }) {
       availability:'Weekends',org:'BITS Pilani',bio:'Passionate about social impact.',
       volunteerHours:120,points:1450,level:'Hero',joinDate:'2025-01-15',
       verifiedId:true,aadhar:'xxxx-1234',address:'Near BITS Campus, Pilani',
-      emergencyContact:'Narendra Patva — +91 9876543210',
+      emergencyContact:'Narendra Patva â€” +91 9876543210',
       interests:['Education','Medical','Disaster Relief'],
       notifications:{email:true,sms:true,push:true}
     };
     setTimeout(() => {
       setLoading(false);
-      addToast('✅ Signed in with Google successfully!','success');
+      addToast('âœ… Signed in with Google successfully!','success');
       onLogin(user);
     }, 900);
   };
@@ -149,11 +149,11 @@ function AuthModal({ onClose, onLogin, addToast }) {
   const handleSendOtp = () => {
     if (!form.phone || form.phone.length < 10) { addToast('Please enter a valid 10-digit phone number','error'); return; }
     setLoading(true);
-    setTimeout(() => { setLoading(false); setOtpSent(true); addToast(`📱 OTP sent to +91 ${form.phone}`,'info'); }, 1200);
+    setTimeout(() => { setLoading(false); setOtpSent(true); addToast(`ðŸ“± OTP sent to +91 ${form.phone}`,'info'); }, 1200);
   };
 
   const handleVerifyOtp = () => {
-    if (otp !== '123456') { addToast('❌ Incorrect OTP. Hint: use 123456','error'); return; }
+    if (otp !== '123456') { addToast('âŒ Incorrect OTP. Hint: use 123456','error'); return; }
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -166,7 +166,7 @@ function AuthModal({ onClose, onLogin, addToast }) {
         address:'', emergencyContact:'', interests:[],
         notifications:{email:false, sms:true, push:true}
       };
-      addToast('✅ Phone verified! Welcome to CommunityConnect','success');
+      addToast('âœ… Phone verified! Welcome to CommunityConnect','success');
       onLogin(user);
     }, 700);
   };
@@ -186,7 +186,7 @@ function AuthModal({ onClose, onLogin, addToast }) {
           joinDate: new Date().toISOString().split('T')[0], verifiedId:false, aadhar:'',
           address:'', emergencyContact:'', interests:[], notifications:{email:true,sms:false,push:true}
         };
-        addToast('✅ Login successful! Welcome back 👋','success');
+        addToast('âœ… Login successful! Welcome back ðŸ‘‹','success');
         onLogin(user);
       } else { setStep('profile'); }
     }, 900);
@@ -209,7 +209,7 @@ function AuthModal({ onClose, onLogin, addToast }) {
         interests:(form.interests||'').split(',').map(s=>s.trim()).filter(Boolean),
         notifications:{email:true,sms:true,push:true}
       };
-      addToast('🎉 Account created! Welcome to CommunityConnect','success'); onLogin(user);
+      addToast('ðŸŽ‰ Account created! Welcome to CommunityConnect','success'); onLogin(user);
     }, 1500);
   };
 
@@ -235,15 +235,15 @@ function AuthModal({ onClose, onLogin, addToast }) {
         {step === 'choose' && (
           <>
             <div style={{textAlign:'center',marginBottom:'1.5rem'}}>
-              <div style={{fontSize:'3rem',marginBottom:'0.5rem'}}>🔐</div>
+              <div style={{fontSize:'3rem',marginBottom:'0.5rem'}}>ðŸ”</div>
               <h2 style={{fontSize:'1.8rem'}}>Join CommunityConnect</h2>
               <p style={{color:'var(--text-secondary)',marginTop:'0.4rem',fontSize:'0.92rem'}}>Access missions, track impact, and earn rewards.</p>
             </div>
 
-            {/* ── DUMMY DEMO ACCOUNTS ── remove later ── */}
+            {/* â”€â”€ DUMMY DEMO ACCOUNTS â”€â”€ remove later â”€â”€ */}
             <div style={{marginBottom:'1.5rem',background:'linear-gradient(135deg,rgba(249,115,22,0.07),rgba(139,92,246,0.07))',border:'1px solid rgba(249,115,22,0.3)',borderRadius:'16px',padding:'1rem'}}>
               <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.8rem'}}>
-                <span style={{fontSize:'0.78rem',fontWeight:700,color:'white',background:'var(--primary-500)',padding:'0.2rem 0.6rem',borderRadius:'6px',letterSpacing:'0.03em'}}>🧪 DEMO</span>
+                <span style={{fontSize:'0.78rem',fontWeight:700,color:'white',background:'var(--primary-500)',padding:'0.2rem 0.6rem',borderRadius:'6px',letterSpacing:'0.03em'}}>ðŸ§ª DEMO</span>
                 <span style={{fontSize:'0.78rem',color:'var(--text-secondary)'}}>Click any account to instantly explore all features</span>
               </div>
               <div style={{display:'flex',flexDirection:'column',gap:'0.6rem'}}>
@@ -292,9 +292,9 @@ function AuthModal({ onClose, onLogin, addToast }) {
         {/* STEP: PHONE OTP */}
         {step === 'phone' && (
           <>
-            <button onClick={()=>setStep('choose')} style={{background:'none',border:'none',color:'var(--text-secondary)',cursor:'pointer',fontWeight:600,marginBottom:'1.5rem',display:'flex',alignItems:'center',gap:'0.4rem',fontSize:'0.9rem'}}>← Back</button>
+            <button onClick={()=>setStep('choose')} style={{background:'none',border:'none',color:'var(--text-secondary)',cursor:'pointer',fontWeight:600,marginBottom:'1.5rem',display:'flex',alignItems:'center',gap:'0.4rem',fontSize:'0.9rem'}}>â† Back</button>
             <div style={{textAlign:'center',marginBottom:'2rem'}}>
-              <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>📱</div>
+              <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>ðŸ“±</div>
               <h2 style={{fontSize:'1.6rem'}}>Phone Verification</h2>
               <p style={{color:'var(--text-secondary)',marginTop:'0.4rem'}}>We'll send a 6-digit OTP to your mobile number.</p>
             </div>
@@ -313,7 +313,7 @@ function AuthModal({ onClose, onLogin, addToast }) {
               <>
                 <p style={{color:'var(--text-secondary)',marginBottom:'1rem',fontSize:'0.9rem'}}>Enter the 6-digit OTP sent to +91 {form.phone} <span style={{color:'var(--primary-500)',cursor:'pointer'}} onClick={()=>setOtpSent(false)}>Change</span></p>
                 <label style={labelStyle}>OTP Code</label>
-                <input style={{...inputStyle,letterSpacing:'0.5rem',fontSize:'1.3rem',textAlign:'center',marginBottom:'1rem'}} placeholder="• • • • • •" maxLength={6} value={otp} onChange={e=>setOtp(e.target.value)}/>
+                <input style={{...inputStyle,letterSpacing:'0.5rem',fontSize:'1.3rem',textAlign:'center',marginBottom:'1rem'}} placeholder="â€¢ â€¢ â€¢ â€¢ â€¢ â€¢" maxLength={6} value={otp} onChange={e=>setOtp(e.target.value)}/>
                 <p style={{fontSize:'0.8rem',color:'var(--text-secondary)',marginBottom:'1rem'}}>Demo OTP: <strong>123456</strong></p>
                 <button onClick={handleVerifyOtp} disabled={loading} className="btn-magic" style={{width:'100%',padding:'1rem'}}>
                   {loading ? 'Verifying...' : 'Verify & Continue'}
@@ -326,9 +326,9 @@ function AuthModal({ onClose, onLogin, addToast }) {
         {/* STEP: EMAIL AUTH */}
         {step === 'emailauth' && (
           <>
-            <button onClick={()=>setStep('choose')} style={{background:'none',border:'none',color:'var(--text-secondary)',cursor:'pointer',fontWeight:600,marginBottom:'1.5rem',display:'flex',alignItems:'center',gap:'0.4rem',fontSize:'0.9rem',fontFamily:'var(--font-body)'}}>← Back</button>
+            <button onClick={()=>setStep('choose')} style={{background:'none',border:'none',color:'var(--text-secondary)',cursor:'pointer',fontWeight:600,marginBottom:'1.5rem',display:'flex',alignItems:'center',gap:'0.4rem',fontSize:'0.9rem',fontFamily:'var(--font-body)'}}>â† Back</button>
             <div style={{textAlign:'center',marginBottom:'1.5rem'}}>
-              <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>{isLogin?'🔑':'📧'}</div>
+              <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>{isLogin?'ðŸ”‘':'ðŸ“§'}</div>
               <h2 style={{fontSize:'1.6rem'}}>{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
             </div>
             {/* Sign In / Sign Up Toggle */}
@@ -353,19 +353,19 @@ function AuthModal({ onClose, onLogin, addToast }) {
               </div>
               <div>
                 <label style={labelStyle}>Password</label>
-                <input style={inputStyle} type="password" placeholder="••••••••" value={form.password||''} onChange={e=>set('password',e.target.value)}/>
+                <input style={inputStyle} type="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" value={form.password||''} onChange={e=>set('password',e.target.value)}/>
               </div>
               {!isLogin && (
                 <div>
                   <label style={labelStyle}>Confirm Password</label>
-                  <input style={inputStyle} type="password" placeholder="••••••••" value={form.confirmPassword||''} onChange={e=>set('confirmPassword',e.target.value)}/>
+                  <input style={inputStyle} type="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" value={form.confirmPassword||''} onChange={e=>set('confirmPassword',e.target.value)}/>
                 </div>
               )}
             </div>
             <button onClick={handleEmailAuth} disabled={loading} className="btn-magic" style={{width:'100%',padding:'1rem',marginTop:'1.5rem'}}>
-              {loading ? (isLogin ? 'Signing In...' : 'Creating Account...') : (isLogin ? '🚀 Sign In' : '🚀 Create Account')}
+              {loading ? (isLogin ? 'Signing In...' : 'Creating Account...') : (isLogin ? 'ðŸš€ Sign In' : 'ðŸš€ Create Account')}
             </button>
-            {isLogin && <p style={{textAlign:'center',marginTop:'0.7rem',fontSize:'0.8rem',color:'var(--text-secondary)'}}>💡 Any email + any password works in demo mode</p>}
+            {isLogin && <p style={{textAlign:'center',marginTop:'0.7rem',fontSize:'0.8rem',color:'var(--text-secondary)'}}>ðŸ’¡ Any email + any password works in demo mode</p>}
           </>
         )}
 
@@ -373,7 +373,7 @@ function AuthModal({ onClose, onLogin, addToast }) {
         {step === 'profile' && (
           <>
             <div style={{textAlign:'center',marginBottom:'2rem'}}>
-              <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>👤</div>
+              <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>ðŸ‘¤</div>
               <h2 style={{fontSize:'1.6rem'}}>Complete Your Profile</h2>
               <p style={{color:'var(--text-secondary)',marginTop:'0.4rem'}}>Help us match you with the perfect volunteering opportunities.</p>
             </div>
@@ -406,11 +406,11 @@ function AuthModal({ onClose, onLogin, addToast }) {
                 </select>
               </div>
               <div><label style={labelStyle}>Aadhaar (last 4 digits for verification)</label><input style={inputStyle} placeholder="XXXX" maxLength={4} value={form.aadhar||''} onChange={e=>set('aadhar',e.target.value)}/></div>
-              <div><label style={labelStyle}>Emergency Contact</label><input style={inputStyle} placeholder="Name — Phone number" value={form.emergencyContact||''} onChange={e=>set('emergencyContact',e.target.value)}/></div>
+              <div><label style={labelStyle}>Emergency Contact</label><input style={inputStyle} placeholder="Name â€” Phone number" value={form.emergencyContact||''} onChange={e=>set('emergencyContact',e.target.value)}/></div>
               <div><label style={labelStyle}>Short Bio</label><textarea style={{...inputStyle,minHeight:80,resize:'vertical'}} placeholder="Tell us about yourself and why you volunteer..." value={form.bio||''} onChange={e=>set('bio',e.target.value)}/></div>
             </div>
             <button onClick={handleProfileSubmit} disabled={loading} className="btn-magic" style={{width:'100%',padding:'1rem',marginTop:'1.5rem'}}>
-              {loading ? 'Saving Profile...' : '🚀 Launch My Dashboard'}
+              {loading ? 'Saving Profile...' : 'ðŸš€ Launch My Dashboard'}
             </button>
           </>
         )}
@@ -419,9 +419,9 @@ function AuthModal({ onClose, onLogin, addToast }) {
   );
 }
 
-/* ─────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    MY PROFILE PANEL
-─────────────────────────────────────────────*/
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€*/
 function ProfilePanel({ user, onClose, onUpdate, addToast }) {
   const [editing, setEditing] = useState(false);
   const [tab, setTab] = useState('personal');
@@ -432,7 +432,7 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
   const handleSave = () => {
     onUpdate(form);
     setEditing(false);
-    addToast('✅ Profile updated successfully!','success');
+    addToast('âœ… Profile updated successfully!','success');
   };
 
   const inputStyle = (locked=false) => ({
@@ -454,10 +454,10 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
           ? <select style={inputStyle(false)} value={form[key]||''} onChange={e=>set(key,e.target.value)}>
               {options.map(o=><option key={o}>{o}</option>)}
             </select>
-          : <div style={inputStyle(true)}>{form[key]||'—'}</div>
+          : <div style={inputStyle(true)}>{form[key]||'â€”'}</div>
       ) : editing && !locked
         ? <input style={inputStyle(false)} type={type} value={form[key]||''} onChange={e=>set(key,e.target.value)}/>
-        : <div style={inputStyle(true)}>{form[key]||'—'}</div>
+        : <div style={inputStyle(true)}>{form[key]||'â€”'}</div>
       }
     </div>
   );
@@ -470,10 +470,10 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
   const progress = nextLevel ? Math.min(100, ((user.points||0)/nextLevelPts)*100) : 100;
 
   const tabs = [
-    {id:'personal',label:'Personal',icon:'👤'},
-    {id:'volunteering',label:'Volunteer',icon:'🤝'},
-    {id:'achievements',label:'Awards',icon:'🏆'},
-    {id:'settings',label:'Settings',icon:'⚙️'},
+    {id:'personal',label:'Personal',icon:'ðŸ‘¤'},
+    {id:'volunteering',label:'Volunteer',icon:'ðŸ¤'},
+    {id:'achievements',label:'Awards',icon:'ðŸ†'},
+    {id:'settings',label:'Settings',icon:'âš™ï¸'},
   ];
 
   return (
@@ -492,12 +492,12 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
             </div>
             <div style={{color:'white'}}>
               <h2 style={{fontSize:'1.5rem',fontWeight:800}}>{user.name}</h2>
-              <p style={{opacity:0.85,fontSize:'0.9rem'}}>{user.org||'Community Volunteer'} · {user.city}</p>
+              <p style={{opacity:0.85,fontSize:'0.9rem'}}>{user.org||'Community Volunteer'} Â· {user.city}</p>
               <div style={{display:'flex',gap:'0.5rem',marginTop:'0.5rem',flexWrap:'wrap'}}>
                 <span style={{background:'rgba(255,255,255,0.2)',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>
-                  ⭐ {user.level||'Newcomer'}
+                  â­ {user.level||'Newcomer'}
                 </span>
-                {user.verifiedId && <span style={{background:'rgba(16,185,129,0.3)',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>✅ Verified</span>}
+                {user.verifiedId && <span style={{background:'rgba(16,185,129,0.3)',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>âœ… Verified</span>}
                 <span style={{background:'rgba(255,255,255,0.2)',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>
                   {user.points||0} pts
                 </span>
@@ -548,7 +548,7 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
               {fieldBlock('Aadhaar (last 4)','aadhar',true)}
               <div style={{marginBottom:'1rem'}}>
                 <label style={labelStyle}>Bio</label>
-                {editing ? <textarea style={{...inputStyle(false),width:'100%',minHeight:80,resize:'vertical'}} value={form.bio||''} onChange={e=>set('bio',e.target.value)}/> : <div style={{...inputStyle(true),minHeight:60,whiteSpace:'pre-wrap'}}>{form.bio||'—'}</div>}
+                {editing ? <textarea style={{...inputStyle(false),width:'100%',minHeight:80,resize:'vertical'}} value={form.bio||''} onChange={e=>set('bio',e.target.value)}/> : <div style={{...inputStyle(true),minHeight:60,whiteSpace:'pre-wrap'}}>{form.bio||'â€”'}</div>}
               </div>
             </div>
           )}
@@ -556,7 +556,7 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
           {tab === 'volunteering' && (
             <div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem',marginBottom:'1.5rem'}}>
-                {[{icon:'⏱️',label:'Total Hours',val:`${user.volunteerHours||0}h`},{icon:'✅',label:'Tasks Done',val:'24'},{icon:'🏙️',label:'Cities Covered',val:'3'},{icon:'❤️',label:'Lives Impacted',val:'480'}].map((s,i)=>(
+                {[{icon:'â±ï¸',label:'Total Hours',val:`${user.volunteerHours||0}h`},{icon:'âœ…',label:'Tasks Done',val:'24'},{icon:'ðŸ™ï¸',label:'Cities Covered',val:'3'},{icon:'â¤ï¸',label:'Lives Impacted',val:'480'}].map((s,i)=>(
                   <div key={i} style={{background:'var(--bg-secondary)',border:'1px solid var(--border-light)',borderRadius:'16px',padding:'1.2rem',textAlign:'center'}}>
                     <div style={{fontSize:'1.8rem'}}>{s.icon}</div>
                     <div style={{fontWeight:800,fontSize:'1.3rem'}}>{s.val}</div>
@@ -594,7 +594,7 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
               {fieldBlock('Availability','availability',false,'text',['Weekdays only','Weekends only','Weekdays & Weekends','Flexible / Any time'])}
               {/* Activity chart */}
               <div style={{marginTop:'1rem',background:'var(--bg-secondary)',borderRadius:'16px',padding:'1.2rem',border:'1px solid var(--border-light)'}}>
-                <div style={{fontWeight:700,marginBottom:'0.8rem',fontSize:'0.9rem'}}>📈 Monthly Activity</div>
+                <div style={{fontWeight:700,marginBottom:'0.8rem',fontSize:'0.9rem'}}>ðŸ“ˆ Monthly Activity</div>
                 <Bar data={{labels:['Jan','Feb','Mar','Apr','May','Jun'],datasets:[{data:[12,18,8,24,16,20],backgroundColor:'rgba(249,115,22,0.4)',borderColor:'var(--primary-500)',borderWidth:2,borderRadius:6}]}} options={{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'var(--border-light)'}}}}} style={{height:120}}/>
               </div>
             </div>
@@ -604,15 +604,15 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
             <div>
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem'}}>
                 {[
-                  {icon:'🏅',title:'First Responder',desc:'Completed 1st emergency task',earned:true},
-                  {icon:'🌟',title:'Super Volunteer',desc:'120+ volunteer hours logged',earned:true},
-                  {icon:'🔗',title:'Chain Maker',desc:'Referred 5+ volunteers',earned:false},
-                  {icon:'🏆',title:'Top 10 Achiever',desc:'Rank in top 10 leaderboard',earned:false},
-                  {icon:'🌍',title:'City Hero',desc:'Active in 3+ districts',earned:true},
-                  {icon:'📜',title:'NFT Certified',desc:'Blockchain certificate minted',earned:true},
+                  {icon:'ðŸ…',title:'First Responder',desc:'Completed 1st emergency task',earned:true},
+                  {icon:'ðŸŒŸ',title:'Super Volunteer',desc:'120+ volunteer hours logged',earned:true},
+                  {icon:'ðŸ”—',title:'Chain Maker',desc:'Referred 5+ volunteers',earned:false},
+                  {icon:'ðŸ†',title:'Top 10 Achiever',desc:'Rank in top 10 leaderboard',earned:false},
+                  {icon:'ðŸŒ',title:'City Hero',desc:'Active in 3+ districts',earned:true},
+                  {icon:'ðŸ“œ',title:'NFT Certified',desc:'Blockchain certificate minted',earned:true},
                 ].map((a,i)=>(
                   <div key={i} style={{background:'var(--bg-secondary)',border:`1px solid ${a.earned?'var(--primary-500)':'var(--border-light)'}`,borderRadius:'16px',padding:'1rem',textAlign:'center',opacity:a.earned?1:0.5,transition:'all 0.2s',position:'relative',overflow:'hidden'}}>
-                    {a.earned && <div style={{position:'absolute',top:6,right:8,fontSize:'0.65rem',color:'var(--primary-500)',fontWeight:700}}>✓ EARNED</div>}
+                    {a.earned && <div style={{position:'absolute',top:6,right:8,fontSize:'0.65rem',color:'var(--primary-500)',fontWeight:700}}>âœ“ EARNED</div>}
                     <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>{a.icon}</div>
                     <div style={{fontWeight:700,fontSize:'0.85rem'}}>{a.title}</div>
                     <div style={{fontSize:'0.75rem',color:'var(--text-secondary)',marginTop:'0.2rem'}}>{a.desc}</div>
@@ -620,10 +620,10 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
                 ))}
               </div>
               <div style={{marginTop:'1.5rem',background:'linear-gradient(135deg,rgba(139,92,246,0.1),rgba(236,72,153,0.1))',border:'1px solid var(--border-light)',borderRadius:'16px',padding:'1.2rem',textAlign:'center'}}>
-                <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>📜</div>
+                <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>ðŸ“œ</div>
                 <div style={{fontWeight:700,marginBottom:'0.3rem'}}>Blockchain Certificate</div>
                 <div style={{fontSize:'0.8rem',color:'var(--text-secondary)',marginBottom:'1rem'}}>Your 120h community service is minted on Polygon L2</div>
-                <div style={{fontSize:'0.7rem',color:'var(--accent-highlight)',fontFamily:'monospace',marginBottom:'1rem'}}>0x7f3a...b92e · {user.joinDate}</div>
+                <div style={{fontSize:'0.7rem',color:'var(--accent-highlight)',fontFamily:'monospace',marginBottom:'1rem'}}>0x7f3a...b92e Â· {user.joinDate}</div>
                 <button style={{padding:'0.6rem 1.5rem',borderRadius:'99px',background:'var(--accent-highlight)',color:'white',border:'none',cursor:'pointer',fontWeight:600,fontSize:'0.85rem',display:'inline-flex',alignItems:'center',gap:'0.5rem'}}>
                   <Download size={14}/> Download Certificate
                 </button>
@@ -646,7 +646,7 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
               <div style={{marginTop:'2rem',fontWeight:700,marginBottom:'1rem'}}>Privacy & Security</div>
               <div style={{display:'flex',flexDirection:'column',gap:'0.8rem'}}>
                 {['Change Password','Two-Factor Authentication','Delete Account'].map((item,i)=>(
-                  <button key={i} onClick={()=>addToast(`${item} — coming soon in full release`,'info')}
+                  <button key={i} onClick={()=>addToast(`${item} â€” coming soon in full release`,'info')}
                     style={{padding:'0.8rem 1rem',borderRadius:'12px',border:'1px solid var(--border-light)',background:'var(--bg-secondary)',color:i===2?'#ef4444':'var(--text-primary)',textAlign:'left',cursor:'pointer',fontWeight:500,display:'flex',justifyContent:'space-between',alignItems:'center',fontFamily:'var(--font-body)'}}>
                     {item} <ChevronRight size={16}/>
                   </button>
@@ -661,7 +661,7 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
           {editing ? (
             <>
               <button onClick={()=>setEditing(false)} style={{flex:1,padding:'0.9rem',borderRadius:'12px',border:'1px solid var(--border-light)',background:'transparent',color:'var(--text-primary)',cursor:'pointer',fontWeight:600,fontFamily:'var(--font-body)'}}>Cancel</button>
-              <button onClick={handleSave} className="btn-magic" style={{flex:2,padding:'0.9rem'}}>💾 Save Changes</button>
+              <button onClick={handleSave} className="btn-magic" style={{flex:2,padding:'0.9rem'}}>ðŸ’¾ Save Changes</button>
             </>
           ) : (
             <button onClick={()=>setEditing(true)} style={{width:'100%',padding:'0.9rem',borderRadius:'14px',background:'linear-gradient(135deg,var(--primary-400),var(--accent-highlight))',color:'white',border:'none',cursor:'pointer',fontWeight:700,fontSize:'1rem',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.6rem',fontFamily:'var(--font-body)',boxShadow:'0 6px 20px rgba(249,115,22,0.4)',transition:'transform 0.2s'}} onMouseEnter={e=>e.target.style.transform='scale(1.02)'} onMouseLeave={e=>e.target.style.transform='scale(1)'}>
@@ -674,15 +674,15 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
   );
 }
 
-/* ─────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    VOLUNTEER DASHBOARD (after login)
-─────────────────────────────────────────────*/
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€*/
 function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
   const [activeTab, setActiveTab] = useState('overview');
   const [acceptedTasks, setAcceptedTasks] = useState({});
   const [notifications, setNotifications] = useState([
     {id:1,text:'New CRITICAL task: Flood Relief in Kheda',time:'2m ago',read:false,type:'urgent'},
-    {id:2,text:'You earned the "City Hero" badge! 🏙️',time:'1h ago',read:false,type:'success'},
+    {id:2,text:'You earned the "City Hero" badge! ðŸ™ï¸',time:'1h ago',read:false,type:'success'},
     {id:3,text:'Priya Sharma liked your impact post',time:'3h ago',read:true,type:'social'},
     {id:4,text:'Your blockchain certificate is ready',time:'1d ago',read:true,type:'info'},
   ]);
@@ -695,7 +695,7 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
     { id:1, title: 'Emergency Medical Supply Drop', dist: '1.2 km', score: 98, type: 'CRITICAL', color: '#ef4444', skills: ['First Aid', 'Driving'], deadline:'Today 6:00 PM', volunteers:3, needed:5 },
     { id:2, title: 'Elderly Food Assistance', dist: '3.4 km', score: 85, type: 'URGENT', color: '#f97316', skills: ['Cooking', 'Transport'], deadline:'Today 8:00 PM', volunteers:8, needed:10 },
     { id:3, title: 'Local School Renovation Aid', dist: '5.0 km', score: 76, type: 'ROUTINE', color: '#10b981', skills: ['Painting', 'Carpentry'], deadline:'Tomorrow 9:00 AM', volunteers:15, needed:20 },
-    { id:4, title: 'Flood Relief — Kheda District', dist: '24 km', score: 99, type: 'CRITICAL', color: '#ef4444', skills: ['Swimming', 'First Aid', 'Driving'], deadline:'Immediate', volunteers:42, needed:100 },
+    { id:4, title: 'Flood Relief â€” Kheda District', dist: '24 km', score: 99, type: 'CRITICAL', color: '#ef4444', skills: ['Swimming', 'First Aid', 'Driving'], deadline:'Immediate', volunteers:42, needed:100 },
     { id:5, title: 'Clean Water Distribution', dist: '7.2 km', score: 80, type: 'URGENT', color: '#f97316', skills: ['Logistics'], deadline:'Tomorrow 12:00 PM', volunteers:6, needed:15 },
   ];
 
@@ -708,11 +708,11 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
   ], []);
 
   const govtSchemes = useMemo(() => [
-    { name: 'PM-KISAN', benefit: '₹6,000/year', eligible: true, desc: 'Direct income support for farming families' },
-    { name: 'Ayushman Bharat', benefit: '₹5 Lakh/year', eligible: true, desc: 'Health insurance for below-poverty families' },
+    { name: 'PM-KISAN', benefit: 'â‚¹6,000/year', eligible: true, desc: 'Direct income support for farming families' },
+    { name: 'Ayushman Bharat', benefit: 'â‚¹5 Lakh/year', eligible: true, desc: 'Health insurance for below-poverty families' },
     { name: 'MGNREGA', benefit: '100 days work', eligible: true, desc: 'Guaranteed rural employment scheme' },
     { name: 'PM Awas Yojana', benefit: 'Housing subsidy', eligible: false, desc: 'Affordable housing for urban poor' },
-    { name: 'PM Scholarship', benefit: 'Up to ₹25,000/yr', eligible: true, desc: 'Merit-based scholarship for students' },
+    { name: 'PM Scholarship', benefit: 'Up to â‚¹25,000/yr', eligible: true, desc: 'Merit-based scholarship for students' },
   ], []);
 
   const unread = notifications.filter(n=>!n.read).length;
@@ -721,12 +721,12 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
 
   const handleAccept = (task) => {
     setAcceptedTasks(p=>({...p,[task.id]:true}));
-    addToast(`✅ Mission accepted: "${task.title}" — GPS routing started`,'success');
+    addToast(`âœ… Mission accepted: "${task.title}" â€” GPS routing started`,'success');
   };
 
   const handleCheckin = () => {
     setCheckinActive(v=>!v);
-    addToast(checkinActive ? '📍 Checked out — great work today!' : '📍 Checked in! Your hours are being tracked','success');
+    addToast(checkinActive ? 'ðŸ“ Checked out â€” great work today!' : 'ðŸ“ Checked in! Your hours are being tracked','success');
   };
 
   const impactBar = useMemo(() => ({
@@ -754,7 +754,7 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
     whiteSpace: 'nowrap',
   }), [activeTab]);
 
-  // Lightweight card style — no heavy backdropFilter for perf
+  // Lightweight card style â€” no heavy backdropFilter for perf
   const cardS = useMemo(() => ({
     background:'#111827',
     border:'1px solid rgba(255,255,255,0.08)',
@@ -769,9 +769,9 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
       {/* Dashboard Navbar */}
       <div style={{position:'sticky',top:0,zIndex:100,background:'var(--glass-bg)',backdropFilter:'blur(20px)',borderBottom:'1px solid var(--border-light)',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <div style={{display:'flex',alignItems:'center',gap:'0.8rem'}}>
-          <span style={{fontSize:'1.5rem'}}>🌍</span>
+          <span style={{fontSize:'1.5rem'}}>ðŸŒ</span>
           <span style={{fontFamily:'var(--font-display)',fontWeight:800,fontSize:'1.2rem'}}>CommunityConnect</span>
-          <span style={{background:'rgba(16,185,129,0.15)',color:'#10b981',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>● LIVE</span>
+          <span style={{background:'rgba(16,185,129,0.15)',color:'#10b981',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>â— LIVE</span>
         </div>
         <div style={{display:'flex',gap:'0.5rem',overflowX:'auto',padding:'0 0.5rem'}}>
           {['overview','missions','history','schemes','community'].map(t=>(
@@ -817,14 +817,14 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
       </div>
 
       <div style={{maxWidth:1300,margin:'0 auto',padding:'2rem'}}>
-        {/* ── OVERVIEW TAB ── */}
+        {/* â”€â”€ OVERVIEW TAB â”€â”€ */}
         {activeTab === 'overview' && (
           <div>
             {/* Welcome Banner */}
             <motion.div initial={{y:20,opacity:0}} animate={{y:0,opacity:1}} style={{background:'linear-gradient(135deg,var(--primary-500),var(--accent-pink))',borderRadius:'24px',padding:'2rem',marginBottom:'2rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'1rem'}}>
               <div style={{color:'white'}}>
                 <p style={{opacity:0.85,marginBottom:'0.3rem'}}>Good {new Date().getHours()<12?'Morning':'Afternoon'},</p>
-                <h2 style={{fontSize:'2rem',fontWeight:800}}>Welcome back, {user.name.split(' ')[0]}! 👋</h2>
+                <h2 style={{fontSize:'2rem',fontWeight:800}}>Welcome back, {user.name.split(' ')[0]}! ðŸ‘‹</h2>
                 <p style={{opacity:0.85,marginTop:'0.3rem'}}>You have <strong>3 active missions</strong> near you. Ready to make an impact?</p>
               </div>
               <div style={{display:'flex',gap:'1rem',flexWrap:'wrap'}}>
@@ -840,10 +840,10 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
             {/* Stats Row */}
             <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:'1.5rem',marginBottom:'2rem'}}>
               {[
-                {icon:'⏱️',label:'Volunteer Hours',val:`${user.volunteerHours||120}h`,sub:'+4h this week',color:'#f97316'},
-                {icon:'⭐',label:'Impact Points',val:(user.points||1450).toLocaleString(),sub:'Rank #4 in Ahmedabad',color:'#8b5cf6'},
-                {icon:'✅',label:'Tasks Done',val:'24',sub:'3 this month',color:'#10b981'},
-                {icon:'❤️',label:'Lives Impacted',val:'480',sub:'+120 this week',color:'#ec4899'},
+                {icon:'â±ï¸',label:'Volunteer Hours',val:`${user.volunteerHours||120}h`,sub:'+4h this week',color:'#f97316'},
+                {icon:'â­',label:'Impact Points',val:(user.points||1450).toLocaleString(),sub:'Rank #4 in Ahmedabad',color:'#8b5cf6'},
+                {icon:'âœ…',label:'Tasks Done',val:'24',sub:'3 this month',color:'#10b981'},
+                {icon:'â¤ï¸',label:'Lives Impacted',val:'480',sub:'+120 this week',color:'#ec4899'},
               ].map((s,i)=>(
                 <motion.div key={i} whileHover={{y:-4}} style={{...cardS,textAlign:'center',cursor:'default'}}>
                   <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>{s.icon}</div>
@@ -857,13 +857,13 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
             {/* Charts + Near Tasks */}
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'2rem',marginBottom:'2rem'}}>
               <div style={cardS}>
-                <h3 style={{fontSize:'1.2rem',marginBottom:'1rem'}}>📊 Activity Overview</h3>
+                <h3 style={{fontSize:'1.2rem',marginBottom:'1rem'}}>ðŸ“Š Activity Overview</h3>
                 <div style={{position:'relative',height:180}}>
                   <Bar data={impactBar} options={{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{color:'#aaa'},grid:{color:'rgba(255,255,255,0.06)'}},x:{ticks:{color:'#aaa'},grid:{display:false}}}}}/>
                 </div>
               </div>
               <div style={cardS}>
-                <h3 style={{fontSize:'1.2rem',marginBottom:'1rem'}}>🎯 Impact by Category</h3>
+                <h3 style={{fontSize:'1.2rem',marginBottom:'1rem'}}>ðŸŽ¯ Impact by Category</h3>
                 <div style={{display:'flex',alignItems:'center',gap:'1.5rem'}}>
                   <div style={{position:'relative',height:160,width:160,flexShrink:0}}>
                     <Doughnut data={donut} options={{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}}/>
@@ -884,7 +884,7 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
             {/* Nearby Tasks Quick View */}
             <div style={cardS}>
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1.2rem'}}>
-                <h3 style={{fontSize:'1.2rem'}}>📍 Nearby Active Requests</h3>
+                <h3 style={{fontSize:'1.2rem'}}>ðŸ“ Nearby Active Requests</h3>
                 <button onClick={()=>setActiveTab('missions')} style={{background:'none',border:'none',color:'var(--primary-500)',cursor:'pointer',fontWeight:600,display:'flex',alignItems:'center',gap:'0.3rem',fontFamily:'var(--font-body)'}}>View All <ChevronRight size={16}/></button>
               </div>
               <div style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
@@ -899,7 +899,7 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
                     </div>
                     <button onClick={()=>handleAccept(task)} disabled={acceptedTasks[task.id]}
                       style={{padding:'0.5rem 1.2rem',borderRadius:'10px',border:'none',background:acceptedTasks[task.id]?'#10b981':'var(--primary-500)',color:'white',fontWeight:600,cursor:acceptedTasks[task.id]?'default':'pointer',fontSize:'0.85rem',flexShrink:0,fontFamily:'var(--font-body)'}}>
-                      {acceptedTasks[task.id]?'✓ Accepted':'Accept'}
+                      {acceptedTasks[task.id]?'âœ“ Accepted':'Accept'}
                     </button>
                   </div>
                 ))}
@@ -908,11 +908,11 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
           </div>
         )}
 
-        {/* ── MISSIONS TAB ── */}
+        {/* â”€â”€ MISSIONS TAB â”€â”€ */}
         {activeTab === 'missions' && (
           <div>
-            <h2 style={{fontSize:'1.8rem',marginBottom:'0.4rem'}}>🎯 Active Missions Near You</h2>
-            <p style={{color:'#9ca3af',marginBottom:'1.5rem',fontSize:'0.9rem'}}>AI-matched to your skills ({(user.skills||['All Skills']).slice(0,3).join(', ')}) · {user.city||'Your City'}.</p>
+            <h2 style={{fontSize:'1.8rem',marginBottom:'0.4rem'}}>ðŸŽ¯ Active Missions Near You</h2>
+            <p style={{color:'#9ca3af',marginBottom:'1.5rem',fontSize:'0.9rem'}}>AI-matched to your skills ({(user.skills||['All Skills']).slice(0,3).join(', ')}) Â· {user.city||'Your City'}.</p>
 
             <div style={{display:'flex',flexDirection:'column',gap:'1.2rem'}}>
               {tasks.map(task => {
@@ -924,13 +924,13 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
                         <div style={{display:'flex',gap:'0.5rem',alignItems:'center',marginBottom:'0.7rem',flexWrap:'wrap'}}>
                           <span style={{background:`${task.color}22`,color:task.color,padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>{task.type}</span>
                           <span style={{background:'rgba(139,92,246,0.15)',color:'#a78bfa',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>{task.score}% AI Match</span>
-                          {accepted && <span style={{background:'rgba(16,185,129,0.15)',color:'#10b981',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>✓ YOU'RE IN</span>}
+                          {accepted && <span style={{background:'rgba(16,185,129,0.15)',color:'#10b981',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>âœ“ YOU'RE IN</span>}
                         </div>
                         <h3 style={{fontSize:'1.1rem',marginBottom:'0.5rem',fontWeight:700}}>{task.title}</h3>
                         <div style={{display:'flex',gap:'0.8rem',color:'#9ca3af',fontSize:'0.82rem',flexWrap:'wrap',marginBottom:'0.7rem'}}>
-                          <span>📍 {task.dist}</span>
-                          <span>⏰ {task.deadline}</span>
-                          <span>👥 {task.volunteers}/{task.needed} volunteers</span>
+                          <span>ðŸ“ {task.dist}</span>
+                          <span>â° {task.deadline}</span>
+                          <span>ðŸ‘¥ {task.volunteers}/{task.needed} volunteers</span>
                         </div>
                         <div style={{display:'flex',gap:'0.4rem',flexWrap:'wrap',marginBottom:'0.8rem'}}>
                           {task.skills.map((s,i) => <span key={i} style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',padding:'0.15rem 0.6rem',borderRadius:'99px',fontSize:'0.75rem'}}>{s}</span>)}
@@ -964,33 +964,33 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
                           {accepted ? <><CheckCircle size={15}/> Accepted</> : <><Zap size={15}/> Accept Mission</>}
                         </button>
                         <button
-                          onClick={() => addToast(`🧭 AR Navigation launching for "${task.title}"`,'info')}
+                          onClick={() => addToast(`ðŸ§­ AR Navigation launching for "${task.title}"`,'info')}
                           style={{padding:'0.7rem',borderRadius:'10px',border:'1px solid rgba(255,255,255,0.1)',background:'transparent',color:'white',cursor:'pointer',fontWeight:600,display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',fontFamily:'var(--font-body)',fontSize:'0.88rem'}}>
                           <Compass size={15}/> AR Navigate
                         </button>
                         <button
-                          onClick={() => addToast(`📤 Sharing mission link...`,'info')}
+                          onClick={() => addToast(`ðŸ“¤ Sharing mission link...`,'info')}
                           style={{padding:'0.7rem',borderRadius:'10px',border:'1px solid rgba(255,255,255,0.1)',background:'transparent',color:'white',cursor:'pointer',fontWeight:600,display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',fontFamily:'var(--font-body)',fontSize:'0.88rem'}}>
                           <Share2 size={15}/> Share
                         </button>
                       </div>
                     </div>
 
-                    {/* Accepted — show active info panel */}
+                    {/* Accepted â€” show active info panel */}
                     {accepted && (
                       <div style={{marginTop:'1rem',padding:'0.9rem',background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.25)',borderRadius:'12px'}}>
-                        <div style={{fontWeight:700,color:'#10b981',marginBottom:'0.5rem',fontSize:'0.9rem'}}>✅ Mission Active — You are registered!</div>
+                        <div style={{fontWeight:700,color:'#10b981',marginBottom:'0.5rem',fontSize:'0.9rem'}}>âœ… Mission Active â€” You are registered!</div>
                         <div style={{display:'flex',gap:'1.5rem',flexWrap:'wrap',fontSize:'0.82rem',color:'#9ca3af'}}>
-                          <span>📍 Meet point: <strong style={{color:'white'}}>{task.dist} from you</strong></span>
-                          <span>⏰ Report by: <strong style={{color:'white'}}>{task.deadline}</strong></span>
-                          <span>📞 Coordinator: <strong style={{color:'white'}}>+91 98765 43210</strong></span>
+                          <span>ðŸ“ Meet point: <strong style={{color:'white'}}>{task.dist} from you</strong></span>
+                          <span>â° Report by: <strong style={{color:'white'}}>{task.deadline}</strong></span>
+                          <span>ðŸ“ž Coordinator: <strong style={{color:'white'}}>+91 98765 43210</strong></span>
                         </div>
                         <div style={{display:'flex',gap:'0.7rem',marginTop:'0.8rem',flexWrap:'wrap'}}>
-                          <button onClick={() => addToast('📞 Calling coordinator...','info')} style={{padding:'0.45rem 1rem',borderRadius:'8px',background:'#10b981',color:'white',border:'none',cursor:'pointer',fontWeight:600,fontSize:'0.8rem',fontFamily:'var(--font-body)'}}>
-                            📞 Call Coordinator
+                          <button onClick={() => addToast('ðŸ“ž Calling coordinator...','info')} style={{padding:'0.45rem 1rem',borderRadius:'8px',background:'#10b981',color:'white',border:'none',cursor:'pointer',fontWeight:600,fontSize:'0.8rem',fontFamily:'var(--font-body)'}}>
+                            ðŸ“ž Call Coordinator
                           </button>
-                          <button onClick={() => addToast('🗺️ Opening maps...','info')} style={{padding:'0.45rem 1rem',borderRadius:'8px',background:'rgba(255,255,255,0.08)',color:'white',border:'1px solid rgba(255,255,255,0.15)',cursor:'pointer',fontWeight:600,fontSize:'0.8rem',fontFamily:'var(--font-body)'}}>
-                            🗺️ Get Directions
+                          <button onClick={() => addToast('ðŸ—ºï¸ Opening maps...','info')} style={{padding:'0.45rem 1rem',borderRadius:'8px',background:'rgba(255,255,255,0.08)',color:'white',border:'1px solid rgba(255,255,255,0.15)',cursor:'pointer',fontWeight:600,fontSize:'0.8rem',fontFamily:'var(--font-body)'}}>
+                            ðŸ—ºï¸ Get Directions
                           </button>
                           <button onClick={() => { setAcceptedTasks(p => ({...p,[task.id]:false})); addToast('Mission cancelled','warning'); }} style={{padding:'0.45rem 1rem',borderRadius:'8px',background:'rgba(239,68,68,0.1)',color:'#f87171',border:'1px solid rgba(239,68,68,0.25)',cursor:'pointer',fontWeight:600,fontSize:'0.8rem',fontFamily:'var(--font-body)'}}>
                             Cancel
@@ -1005,10 +1005,10 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
           </div>
         )}
 
-        {/* ── HISTORY TAB ── */}
+        {/* â”€â”€ HISTORY TAB â”€â”€ */}
         {activeTab === 'history' && (
           <div>
-            <h2 style={{fontSize:'2rem',marginBottom:'0.5rem'}}>📋 My Volunteering History</h2>
+            <h2 style={{fontSize:'2rem',marginBottom:'0.5rem'}}>ðŸ“‹ My Volunteering History</h2>
             <p style={{color:'var(--text-secondary)',marginBottom:'2rem'}}>Your complete record of completed missions and earned impact points.</p>
             <div style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
               {myTaskHistory.map((t,i)=>(
@@ -1023,7 +1023,7 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
                   <div style={{display:'flex',alignItems:'center',gap:'1rem'}}>
                     <span style={{color:'#10b981',fontWeight:700,fontSize:'1.1rem'}}>+{t.pts} pts</span>
                     <span style={{background:'rgba(16,185,129,0.1)',color:'#10b981',padding:'0.3rem 0.8rem',borderRadius:'99px',fontSize:'0.8rem',fontWeight:700}}>{t.status}</span>
-                    <button onClick={()=>addToast('📜 Certificate download will be available in full release','info')} style={{padding:'0.4rem 0.9rem',borderRadius:'8px',border:'1px solid var(--border-light)',background:'transparent',color:'var(--text-primary)',cursor:'pointer',fontSize:'0.8rem',display:'flex',alignItems:'center',gap:'0.4rem',fontFamily:'var(--font-body)'}}>
+                    <button onClick={()=>addToast('ðŸ“œ Certificate download will be available in full release','info')} style={{padding:'0.4rem 0.9rem',borderRadius:'8px',border:'1px solid var(--border-light)',background:'transparent',color:'var(--text-primary)',cursor:'pointer',fontSize:'0.8rem',display:'flex',alignItems:'center',gap:'0.4rem',fontFamily:'var(--font-body)'}}>
                       <Download size={14}/> Certificate
                     </button>
                   </div>
@@ -1031,27 +1031,27 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
               ))}
             </div>
             <div style={{...cardS,marginTop:'2rem',textAlign:'center'}}>
-              <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>🔗</div>
+              <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>ðŸ”—</div>
               <h3>Verify on Blockchain</h3>
               <p style={{color:'var(--text-secondary)',margin:'0.5rem 0 1rem'}}>All your hours are cryptographically verified on Polygon L2. Share your proof anywhere.</p>
-              <button onClick={()=>addToast('🔗 Blockchain explorer opening...','info')} style={{padding:'0.8rem 2rem',borderRadius:'99px',background:'var(--accent-highlight)',color:'white',border:'none',cursor:'pointer',fontWeight:700,fontFamily:'var(--font-body)'}}><Globe size={16} style={{display:'inline',verticalAlign:'middle',marginRight:6}}/>Verify on Chain</button>
+              <button onClick={()=>addToast('ðŸ”— Blockchain explorer opening...','info')} style={{padding:'0.8rem 2rem',borderRadius:'99px',background:'var(--accent-highlight)',color:'white',border:'none',cursor:'pointer',fontWeight:700,fontFamily:'var(--font-body)'}}><Globe size={16} style={{display:'inline',verticalAlign:'middle',marginRight:6}}/>Verify on Chain</button>
             </div>
           </div>
         )}
 
-        {/* ── SCHEMES TAB ── */}
+        {/* â”€â”€ SCHEMES TAB â”€â”€ */}
         {activeTab === 'schemes' && (
           <div>
-            <h2 style={{fontSize:'2rem',marginBottom:'0.5rem'}}>🏛️ Government Scheme Eligibility</h2>
+            <h2 style={{fontSize:'2rem',marginBottom:'0.5rem'}}>ðŸ›ï¸ Government Scheme Eligibility</h2>
             <p style={{color:'var(--text-secondary)',marginBottom:'2rem'}}>AI-powered cross-referencing with DBT and Digital India portals based on beneficiary profiles.</p>
             <div style={{...cardS,marginBottom:'2rem',background:'linear-gradient(135deg,rgba(59,130,246,0.1),rgba(16,185,129,0.1))'}}>
               <div style={{display:'flex',gap:'1.5rem',alignItems:'center',flexWrap:'wrap'}}>
-                <div style={{fontSize:'3rem'}}>🤖</div>
+                <div style={{fontSize:'3rem'}}>ðŸ¤–</div>
                 <div style={{flex:1}}>
                   <h3 style={{fontSize:'1.3rem',marginBottom:'0.3rem'}}>Scan Beneficiary Profile</h3>
                   <p style={{color:'var(--text-secondary)'}}>Enter beneficiary details and our AI will instantly match them to eligible government schemes across PM-DBT portal, eKYC and UIDAI data.</p>
                 </div>
-                <button onClick={()=>{setShowSchemeResult(true);addToast('🔍 Scanning against 47 government schemes...','info');setTimeout(()=>addToast('✅ 3 eligible schemes found!','success'),2000)}}
+                <button onClick={()=>{setShowSchemeResult(true);addToast('ðŸ” Scanning against 47 government schemes...','info');setTimeout(()=>addToast('âœ… 3 eligible schemes found!','success'),2000)}}
                   style={{padding:'0.9rem 1.8rem',borderRadius:'14px',background:'#3b82f6',color:'white',border:'none',cursor:'pointer',fontWeight:700,display:'flex',alignItems:'center',gap:'0.5rem',fontFamily:'var(--font-body)'}}>
                   <ShieldCheck size={18}/> Scan Now
                 </button>
@@ -1071,8 +1071,8 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
                           {s.eligible ? <CheckCircle size={22} color="#10b981"/> : <X size={22} color="#ef4444"/>}
                         </div>
                         <div style={{fontWeight:800,fontSize:'1.2rem',color:s.eligible?'#10b981':'var(--text-secondary)'}}>{s.benefit}</div>
-                        <div style={{fontSize:'0.8rem',color:s.eligible?'#10b981':'#ef4444',marginTop:'0.2rem',fontWeight:600}}>{s.eligible?'✅ Eligible':'❌ Not Eligible'}</div>
-                        {s.eligible && <button onClick={()=>addToast(`📝 Applying for ${s.name}...`,'info')} style={{marginTop:'1rem',width:'100%',padding:'0.6rem',borderRadius:'10px',background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#10b981',cursor:'pointer',fontWeight:600,fontFamily:'var(--font-body)'}}>Apply Now →</button>}
+                        <div style={{fontSize:'0.8rem',color:s.eligible?'#10b981':'#ef4444',marginTop:'0.2rem',fontWeight:600}}>{s.eligible?'âœ… Eligible':'âŒ Not Eligible'}</div>
+                        {s.eligible && <button onClick={()=>addToast(`ðŸ“ Applying for ${s.name}...`,'info')} style={{marginTop:'1rem',width:'100%',padding:'0.6rem',borderRadius:'10px',background:'rgba(16,185,129,0.1)',border:'1px solid rgba(16,185,129,0.3)',color:'#10b981',cursor:'pointer',fontWeight:600,fontFamily:'var(--font-body)'}}>Apply Now â†’</button>}
                       </div>
                     ))}
                   </div>
@@ -1082,18 +1082,18 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
           </div>
         )}
 
-        {/* ── COMMUNITY TAB ── */}
+        {/* â”€â”€ COMMUNITY TAB â”€â”€ */}
         {activeTab === 'community' && (
           <div>
-            <h2 style={{fontSize:'2rem',marginBottom:'0.5rem'}}>🤝 Community & Leaderboard</h2>
+            <h2 style={{fontSize:'2rem',marginBottom:'0.5rem'}}>ðŸ¤ Community & Leaderboard</h2>
             <p style={{color:'var(--text-secondary)',marginBottom:'2rem'}}>Connect with fellow volunteers, track rankings, and celebrate impact.</p>
             <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:'2rem',flexWrap:'wrap'}}>
               <div style={cardS}>
                 <h3 style={{fontSize:'1.2rem',marginBottom:'1.2rem'}}><Trophy size={18} style={{display:'inline',verticalAlign:'middle',marginRight:6}} color="var(--primary-500)"/>Volunteer Leaderboard</h3>
                 {[
-                  {name:'Priya Sharma',city:'Mumbai',pts:4820,badge:'🥇',hrs:340},
-                  {name:'Rahul Verma',city:'Delhi',pts:3950,badge:'🥈',hrs:280},
-                  {name:'Ananya Iyer',city:'Bangalore',pts:3100,badge:'🥉',hrs:220},
+                  {name:'Priya Sharma',city:'Mumbai',pts:4820,badge:'ðŸ¥‡',hrs:340},
+                  {name:'Rahul Verma',city:'Delhi',pts:3950,badge:'ðŸ¥ˆ',hrs:280},
+                  {name:'Ananya Iyer',city:'Bangalore',pts:3100,badge:'ðŸ¥‰',hrs:220},
                   {name: user.name||'Dhruv Patva',city: user.city||'Ahmedabad',pts:user.points||1450,badge:'4',hrs:user.volunteerHours||120, isMe:true},
                   {name:'Kamal Singh',city:'Jaipur',pts:1200,badge:'5',hrs:95},
                 ].map((v,i)=>(
@@ -1101,7 +1101,7 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
                     <span style={{fontSize:i<3?'1.8rem':'1.1rem',width:36,textAlign:'center',fontWeight:800,color:i>=3?'var(--text-secondary)':'inherit'}}>{v.badge}</span>
                     <div style={{flex:1}}>
                       <div style={{fontWeight:700}}>{v.name} {v.isMe&&<span style={{background:'var(--primary-500)',color:'white',padding:'0.1rem 0.5rem',borderRadius:'6px',fontSize:'0.7rem',marginLeft:'0.5rem'}}>YOU</span>}</div>
-                      <div style={{fontSize:'0.8rem',color:'var(--text-secondary)'}}>{v.city} · {v.hrs}h volunteered</div>
+                      <div style={{fontSize:'0.8rem',color:'var(--text-secondary)'}}>{v.city} Â· {v.hrs}h volunteered</div>
                     </div>
                     <div style={{fontWeight:800,color:'var(--primary-500)'}}>{v.pts.toLocaleString()} pts</div>
                   </div>
@@ -1109,15 +1109,15 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
               </div>
               <div style={{display:'flex',flexDirection:'column',gap:'1.5rem'}}>
                 <div style={{...cardS,textAlign:'center',background:'linear-gradient(135deg,rgba(139,92,246,0.1),rgba(236,72,153,0.1))'}}>
-                  <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>🏅</div>
+                  <div style={{fontSize:'2.5rem',marginBottom:'0.5rem'}}>ðŸ…</div>
                   <h3 style={{fontSize:'1.1rem'}}>Your Rank</h3>
                   <div style={{fontSize:'3rem',fontWeight:800,color:'var(--primary-500)'}}>#4</div>
                   <div style={{color:'var(--text-secondary)',fontSize:'0.85rem'}}>in Ahmedabad</div>
                 </div>
                 <div style={cardS}>
-                  <h3 style={{fontSize:'1rem',marginBottom:'1rem'}}>📢 Recent Community Posts</h3>
-                  {['Flood relief op in Kheda — URGENT NEED!','Blanket drive this Sunday at 9 AM','New blood donation camp: 3 May','Volunteer meetup: Saturday evening'].map((post,i)=>(
-                    <div key={i} style={{padding:'0.6rem 0',borderBottom:i<3?'1px solid var(--border-light)':'none',fontSize:'0.83rem',cursor:'pointer',color:'var(--text-secondary)'}} onClick={()=>addToast('💬 Opening post...','info')}>
+                  <h3 style={{fontSize:'1rem',marginBottom:'1rem'}}>ðŸ“¢ Recent Community Posts</h3>
+                  {['Flood relief op in Kheda â€” URGENT NEED!','Blanket drive this Sunday at 9 AM','New blood donation camp: 3 May','Volunteer meetup: Saturday evening'].map((post,i)=>(
+                    <div key={i} style={{padding:'0.6rem 0',borderBottom:i<3?'1px solid var(--border-light)':'none',fontSize:'0.83rem',cursor:'pointer',color:'var(--text-secondary)'}} onClick={()=>addToast('ðŸ’¬ Opening post...','info')}>
                       {post}
                     </div>
                   ))}
@@ -1131,10 +1131,141 @@ function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile }) {
   );
 }
 
-/* ─────────────────────────────────────────
+/* ─────────────────────────────────────────────
+   SPLASH SCREEN (Nokia-style, ~3.8s)
+─────────────────────────────────────────────*/
+function SplashScreen({ onDone }) {
+  const [phase, setPhase] = useState(0);
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase(1), 900);
+    const t2 = setTimeout(() => setPhase(2), 1600);
+    const t3 = setTimeout(() => setPhase(3), 3100);
+    const t4 = setTimeout(onDone, 3800);
+    return () => [t1,t2,t3,t4].forEach(clearTimeout);
+  }, [onDone]);
+
+  const css = `
+    @keyframes splashSlideLeft  { from{transform:translateX(-160px) rotate(-15deg);opacity:0} to{transform:translateX(0) rotate(-15deg);opacity:1} }
+    @keyframes splashSlideRight { from{transform:translateX(160px) rotate(15deg);opacity:0} to{transform:translateX(0) rotate(15deg);opacity:1} }
+    @keyframes splashHeart  { 0%{transform:scale(0);opacity:0} 50%{transform:scale(1.4);opacity:1} 75%{transform:scale(0.9)} 100%{transform:scale(1);opacity:1} }
+    @keyframes splashLogo   { from{transform:translateY(28px);opacity:0} to{transform:translateY(0);opacity:1} }
+    @keyframes splashCredit { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:0.9} }
+    @keyframes splashRipple { 0%{transform:scale(1);opacity:0.6} 100%{transform:scale(4);opacity:0} }
+    @keyframes splashFadeOut{ from{opacity:1} to{opacity:0} }
+    @keyframes splashBar    { from{width:0} to{width:100%} }
+    @keyframes starTwinkle  { 0%,100%{opacity:0.15} 50%{opacity:0.7} }
+    .spl-hand-l { animation:splashSlideLeft  0.72s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    .spl-hand-r { animation:splashSlideRight 0.72s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    .spl-heart  { animation:splashHeart  0.6s  cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    .spl-logo   { animation:splashLogo   0.55s ease forwards; }
+    .spl-credit { animation:splashCredit 0.5s ease 0.3s forwards; opacity:0; }
+    .spl-ripple { animation:splashRipple 1.1s ease-out forwards; }
+    .spl-fade   { animation:splashFadeOut 0.7s ease forwards; }
+    .spl-bar    { animation:splashBar 1.6s ease forwards; }
+  `;
+
+  return (
+    <div className={phase===3?'spl-fade':''} style={{
+      position:'fixed',inset:0,zIndex:99999,
+      display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
+      background:'radial-gradient(ellipse at 60% 40%,#130a20 0%,#0a0a0f 60%,#0d0818 100%)',
+      overflow:'hidden',
+    }}>
+      <style>{css}</style>
+
+      {/* Ambient orbs */}
+      <div style={{position:'absolute',inset:0,pointerEvents:'none'}}>
+        <div style={{position:'absolute',top:'25%',left:'25%',width:380,height:380,borderRadius:'50%',background:'radial-gradient(circle,rgba(249,115,22,0.13) 0%,transparent 70%)'}}/>
+        <div style={{position:'absolute',top:'30%',right:'20%',width:320,height:320,borderRadius:'50%',background:'radial-gradient(circle,rgba(139,92,246,0.12) 0%,transparent 70%)'}}/>
+        <div style={{position:'absolute',bottom:'20%',left:'45%',width:250,height:250,borderRadius:'50%',background:'radial-gradient(circle,rgba(236,72,153,0.08) 0%,transparent 70%)'}}/>
+      </div>
+
+      {/* Stars */}
+      {[...Array(22)].map((_,i)=>(
+        <div key={i} style={{
+          position:'absolute',
+          left:`${5+Math.floor(i*4.3)%90}%`,
+          top:`${8+Math.floor(i*7.1)%84}%`,
+          width:i%4===0?3:i%4===1?2:1.5,
+          height:i%4===0?3:i%4===1?2:1.5,
+          borderRadius:'50%',background:'white',
+          animation:`starTwinkle ${1.5+i*0.3}s ease-in-out infinite`,
+          animationDelay:`${i*0.2}s`,
+        }}/>
+      ))}
+
+      {/* ── HANDS ANIMATION ── */}
+      <div style={{position:'relative',width:340,height:160,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'0.5rem'}}>
+        {/* Left hand: volunteer reaching out */}
+        <div className="spl-hand-l" style={{position:'absolute',left:20,fontSize:'4.5rem',filter:'drop-shadow(0 0 24px rgba(249,115,22,0.6))'}}>🤝</div>
+        {/* Right hand: community reaching back */}
+        <div className="spl-hand-r" style={{position:'absolute',right:20,fontSize:'4.5rem',filter:'drop-shadow(0 0 24px rgba(139,92,246,0.6))',transform:'scaleX(-1)'}}>🤝</div>
+
+        {/* Connection burst on phase>=1 */}
+        {phase>=1 && (
+          <div style={{position:'absolute',display:'flex',alignItems:'center',justifyContent:'center',zIndex:10}}>
+            {[0,1,2].map(i=>(
+              <div key={i} className="spl-ripple" style={{position:'absolute',width:56,height:56,borderRadius:'50%',border:`2px solid rgba(249,115,22,${0.5-i*0.12})`,animationDelay:`${i*0.2}s`}}/>
+            ))}
+            <div className="spl-heart" style={{fontSize:'3.2rem',filter:'drop-shadow(0 0 28px rgba(249,115,22,0.9))'}}>🫶</div>
+          </div>
+        )}
+      </div>
+
+      {/* ── LOGO ── */}
+      {phase>=2 && (
+        <div className="spl-logo" style={{textAlign:'center',marginBottom:'0.7rem'}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'0.6rem',marginBottom:'0.5rem'}}>
+            <span style={{fontSize:'2rem'}}>🌍</span>
+            <span style={{
+              fontFamily:'sans-serif',fontWeight:900,fontSize:'1.9rem',letterSpacing:'-0.5px',
+              background:'linear-gradient(135deg,#f97316 0%,#ec4899 50%,#8b5cf6 100%)',
+              WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
+            }}>CommunityConnect</span>
+          </div>
+          <p style={{color:'rgba(255,255,255,0.45)',fontSize:'0.8rem',letterSpacing:'0.14em',textTransform:'uppercase',fontFamily:'sans-serif',fontWeight:500,marginBottom:'1rem'}}>
+            AI · Volunteer · Social Impact
+          </p>
+          {/* Loading bar */}
+          <div style={{width:200,height:2,background:'rgba(255,255,255,0.08)',borderRadius:99,margin:'0 auto',overflow:'hidden'}}>
+            <div className="spl-bar" style={{height:'100%',background:'linear-gradient(90deg,#f97316,#8b5cf6)',borderRadius:99}}/>
+          </div>
+        </div>
+      )}
+
+      {/* ── CREDITS ── */}
+      {phase>=2 && (
+        <div className="spl-credit" style={{position:'absolute',bottom:'2.2rem',textAlign:'center'}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'0.55rem',marginBottom:'0.35rem'}}>
+            <div style={{width:30,height:30,borderRadius:'50%',background:'linear-gradient(135deg,#f97316,#8b5cf6)',display:'grid',placeItems:'center',color:'white',fontWeight:900,fontSize:'0.8rem',fontFamily:'sans-serif',flexShrink:0}}>D</div>
+            <div style={{textAlign:'left'}}>
+              <div style={{color:'rgba(255,255,255,0.9)',fontWeight:700,fontSize:'0.88rem',fontFamily:'sans-serif',lineHeight:1.2}}>Dhruv Narendra Patva</div>
+              <div style={{color:'rgba(255,255,255,0.4)',fontSize:'0.7rem',fontFamily:'sans-serif'}}>Developer · Google Solution Challenge 2026</div>
+            </div>
+          </div>
+          <div style={{color:'rgba(255,255,255,0.2)',fontSize:'0.65rem',letterSpacing:'0.1em',fontFamily:'monospace'}}>
+            Team CommunityConnect · GSC India 2026 · v2.0
+          </div>
+        </div>
+      )}
+
+      {/* Skip */}
+      <button onClick={onDone} style={{
+        position:'absolute',top:'1.2rem',right:'1.2rem',
+        background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',
+        color:'rgba(255,255,255,0.35)',padding:'0.3rem 0.8rem',borderRadius:99,
+        fontSize:'0.7rem',cursor:'pointer',fontFamily:'sans-serif',letterSpacing:'0.08em',
+        transition:'all 0.2s',
+      }}>SKIP ›</button>
+    </div>
+  );
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    MAIN APP
-─────────────────────────────────────────*/
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€*/
 function App() {
+  const [showSplash, setShowSplash] = useState(true)
   const [theme, setTheme] = useState('dark')
   const cursorRef = useRef(null)
   const blobRef = useRef(null)
@@ -1163,7 +1294,7 @@ function App() {
   const handleSos = () => {
     if (navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
     setSosActive(true);
-    addToast('🚨 SOS signal broadcast to 32 nearby volunteers!', 'error');
+    addToast('ðŸš¨ SOS signal broadcast to 32 nearby volunteers!', 'error');
     setTimeout(() => setSosActive(false), 5000);
   }
 
@@ -1171,7 +1302,7 @@ function App() {
     if (navigator.vibrate) navigator.vibrate(50);
     if (!voiceActive) {
       setVoiceActive(true); setVoiceText('Listening...');
-      addToast('🎤 Voice interface activated — speak in Hindi or English', 'info');
+      addToast('ðŸŽ¤ Voice interface activated â€” speak in Hindi or English', 'info');
       if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
         const r = new SR(); r.lang='en-IN'; r.continuous=false; r.interimResults=true;
@@ -1181,8 +1312,8 @@ function App() {
         r.start();
       } else {
         setTimeout(() => {
-          setVoiceText('मुझे आज का काम दिखाओ');
-          addToast('Simulated: "Show today\'s tasks" — navigating','success');
+          setVoiceText('à¤®à¥à¤à¥‡ à¤†à¤œ à¤•à¤¾ à¤•à¤¾à¤® à¤¦à¤¿à¤–à¤¾à¤“');
+          addToast('Simulated: "Show today\'s tasks" â€” navigating','success');
           setTimeout(() => { setVoiceActive(false); setVoiceText(''); }, 2000);
         }, 2000);
       }
@@ -1192,7 +1323,7 @@ function App() {
   const handleAcceptMission = (taskTitle, index) => {
     if (navigator.vibrate) navigator.vibrate(50);
     setAcceptedTasks(prev => ({...prev, [index]: true}));
-    addToast(`✅ Mission accepted: "${taskTitle}" — GPS routing started`, 'success');
+    addToast(`âœ… Mission accepted: "${taskTitle}" â€” GPS routing started`, 'success');
   }
 
   const handleLogin = (user) => {
@@ -1205,7 +1336,7 @@ function App() {
     setCurrentUser(null);
     setShowDashboard(false);
     setShowProfile(false);
-    addToast('👋 Logged out successfully. See you soon!','info');
+    addToast('ðŸ‘‹ Logged out successfully. See you soon!','info');
   };
 
   const handleProfileUpdate = (updated) => setCurrentUser(updated);
@@ -1265,9 +1396,9 @@ function App() {
   ];
 
   const leaderboard = [
-    {name:'Priya Sharma',city:'Mumbai',pts:4820,badge:'🥇'},
-    {name:'Rahul Verma',city:'Delhi',pts:3950,badge:'🥈'},
-    {name:'Ananya Iyer',city:'Bangalore',pts:3100,badge:'🥉'},
+    {name:'Priya Sharma',city:'Mumbai',pts:4820,badge:'ðŸ¥‡'},
+    {name:'Rahul Verma',city:'Delhi',pts:3950,badge:'ðŸ¥ˆ'},
+    {name:'Ananya Iyer',city:'Bangalore',pts:3100,badge:'ðŸ¥‰'},
     {name:'Dhruv Patva',city:'Ahmedabad',pts:1450,badge:'4'},
     {name:'Kamal Singh',city:'Jaipur',pts:1200,badge:'5'},
   ];
@@ -1279,14 +1410,20 @@ function App() {
   ];
 
   const govtSchemes = [
-    {name:'PM-KISAN',benefit:'₹6,000/year',eligible:true,desc:'Direct income support for farming families'},
-    {name:'Ayushman Bharat',benefit:'₹5 Lakh/year',eligible:true,desc:'Health insurance for below-poverty families'},
+    {name:'PM-KISAN',benefit:'â‚¹6,000/year',eligible:true,desc:'Direct income support for farming families'},
+    {name:'Ayushman Bharat',benefit:'â‚¹5 Lakh/year',eligible:true,desc:'Health insurance for below-poverty families'},
     {name:'MGNREGA',benefit:'100 days work',eligible:true,desc:'Guaranteed rural employment scheme'},
     {name:'PM Awas Yojana',benefit:'Housing subsidy',eligible:false,desc:'Affordable housing for urban poor'},
   ];
 
   return (
     <>
+      {/* â”€â”€ SPLASH SCREEN â”€â”€ */}
+      <AnimatePresence>
+        {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
+      </AnimatePresence>
+
+      {showSplash ? null : (<>
       <div className="cursor-trail" ref={cursorRef}/>
       <div className="cursor-blob" ref={blobRef}/>
       <div className="cosmic-layer"/>
@@ -1303,7 +1440,7 @@ function App() {
       <header className="navbar glass-panel">
         <div className="navbar-content">
           <div style={{display:'flex',alignItems:'center',gap:'0.8rem'}}>
-            <span style={{fontSize:'1.8rem'}}>🌍</span>
+            <span style={{fontSize:'1.8rem'}}>ðŸŒ</span>
             <span style={{fontFamily:'var(--font-display)',fontWeight:800,fontSize:'1.3rem',letterSpacing:'-0.5px'}}>CommunityConnect</span>
           </div>
           <nav style={{display:'flex',gap:'2rem'}}>
@@ -1313,7 +1450,7 @@ function App() {
           </nav>
           <div style={{display:'flex',alignItems:'center',gap:'1rem'}}>
             <button onClick={()=>setTheme(t=>t==='dark'?'light':'dark')} style={{background:'none',border:'none',fontSize:'1.4rem',cursor:'pointer'}} aria-label="Toggle theme">
-              {theme==='dark'?'🌑':'☀️'}
+              {theme==='dark'?'ðŸŒ‘':'â˜€ï¸'}
             </button>
             <button onClick={handleSos} className="sos-btn" aria-label="Emergency SOS"><AlertCircle size={20}/> SOS</button>
             {currentUser ? (
@@ -1363,7 +1500,7 @@ function App() {
         {/* Hero */}
         <section style={{minHeight:'80vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center',padding:'0 2rem'}}>
           <div className="animate-float-fast" style={{display:'inline-flex',alignItems:'center',gap:'0.5rem',background:'var(--glass-bg)',padding:'0.5rem 1.2rem',borderRadius:'100px',border:'1px solid var(--border-light)',marginBottom:'2rem',fontWeight:600,color:'var(--text-secondary)'}}>
-            <span style={{color:'var(--accent-pink)'}}>●</span> AI Matching Engine V2 Now Live
+            <span style={{color:'var(--accent-pink)'}}>â—</span> AI Matching Engine V2 Now Live
           </div>
           <h1 className="hero-title reveal active">
             Turn Compassion Into <br/>
@@ -1383,7 +1520,7 @@ function App() {
             <div style={{textAlign:'left'}}><div style={{fontSize:'0.8rem',color:'var(--text-secondary)'}}>Matching Accuracy</div><div style={{fontWeight:700}}>Algorithm V2</div></div>
           </div>
           <div className="glass-panel animate-float-fast" style={{position:'absolute',bottom:'20%',right:'10%',padding:'1rem',borderRadius:'16px',display:'flex',alignItems:'center',gap:'1rem',animationDelay:'1s'}}>
-            <div style={{width:40,height:40,background:'var(--primary-500)',borderRadius:10,display:'grid',placeItems:'center',color:'white',fontSize:'1.5rem'}}>⚡</div>
+            <div style={{width:40,height:40,background:'var(--primary-500)',borderRadius:10,display:'grid',placeItems:'center',color:'white',fontSize:'1.5rem'}}>âš¡</div>
             <div style={{textAlign:'left'}}><div style={{fontSize:'0.8rem',color:'var(--text-secondary)'}}>Response Network</div><div style={{fontWeight:700}}>30s Average Action</div></div>
           </div>
         </section>
@@ -1391,7 +1528,7 @@ function App() {
         {/* Counters */}
         <section className="reveal" style={{maxWidth:'1200px',margin:'0 auto',padding:'0 2rem'}}>
           <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'1.5rem',textAlign:'center'}}>
-            {[{ref:livesRef,val:livesCount,label:'Lives Impacted',suffix:'+',icon:'❤️'},{ref:volRef,val:volCount,label:'Active Volunteers',suffix:'+',icon:'🙋'},{ref:taskRef,val:taskCount,label:'Tasks Completed',suffix:'+',icon:'✅'},{ref:ngoRef,val:ngoCount,label:'NGO Partners',suffix:'+',icon:'🤝'}].map((m,i)=>(
+            {[{ref:livesRef,val:livesCount,label:'Lives Impacted',suffix:'+',icon:'â¤ï¸'},{ref:volRef,val:volCount,label:'Active Volunteers',suffix:'+',icon:'ðŸ™‹'},{ref:taskRef,val:taskCount,label:'Tasks Completed',suffix:'+',icon:'âœ…'},{ref:ngoRef,val:ngoCount,label:'NGO Partners',suffix:'+',icon:'ðŸ¤'}].map((m,i)=>(
               <div key={i} ref={m.ref} className="glass-panel" style={{padding:'2rem 1rem',borderRadius:'20px'}}>
                 <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>{m.icon}</div>
                 <div style={{fontSize:'2.5rem',fontWeight:800,fontFamily:'var(--font-display)'}}>{m.val.toLocaleString()}{m.suffix}</div>
@@ -1407,7 +1544,7 @@ function App() {
             <motion.div initial={{opacity:0,y:-50,scale:0.8}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,scale:0.8}}
               style={{position:'fixed',top:'100px',left:'50%',transform:'translateX(-50%)',zIndex:9999,background:'rgba(239,68,68,0.95)',color:'white',padding:'1rem 2rem',borderRadius:'16px',display:'flex',alignItems:'center',gap:'1rem',boxShadow:'0 10px 30px rgba(239,68,68,0.5)',border:'1px solid #ef4444'}}>
               <AlertCircle size={24}/>
-              <div><strong style={{display:'block'}}>🚨 SOS Dispatched!</strong><span style={{fontSize:'0.9rem'}}>32 volunteers alerted within 5km · Est. response: 4 min</span></div>
+              <div><strong style={{display:'block'}}>ðŸš¨ SOS Dispatched!</strong><span style={{fontSize:'0.9rem'}}>32 volunteers alerted within 5km Â· Est. response: 4 min</span></div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -1416,7 +1553,7 @@ function App() {
           <AnimatePresence>
             {voiceActive && voiceText && (
               <motion.div initial={{opacity:0,x:20}} animate={{opacity:1,x:0}} exit={{opacity:0,x:20}} className="glass-panel" style={{padding:'0.6rem 1rem',borderRadius:'12px',fontSize:'0.85rem',fontWeight:600,maxWidth:'250px'}}>
-                🎤 {voiceText}
+                ðŸŽ¤ {voiceText}
               </motion.div>
             )}
           </AnimatePresence>
@@ -1434,7 +1571,7 @@ function App() {
           <div className="bento-grid">
             <div className="card-3d glass-panel reveal" style={{gridColumn:'span 2',gridRow:'span 2',display:'flex',flexDirection:'column'}}>
               <div className="card-content" style={{flex:1}}>
-                <div style={{fontSize:'3rem',marginBottom:'1rem'}}>🔮</div>
+                <div style={{fontSize:'3rem',marginBottom:'1rem'}}>ðŸ”®</div>
                 <h3 style={{fontSize:'2rem',marginBottom:'1rem'}}>Predictive Needs Graph</h3>
                 <p style={{color:'var(--text-secondary)',fontSize:'1.1rem',maxWidth:'80%'}}>Leveraging historical climatic anomalies and socioeconomic shifts, the Vertex AI engine scales anticipated supply shortages before they impact marginalized communities.</p>
                 <div style={{marginTop:'auto',paddingTop:'2rem'}}>
@@ -1446,7 +1583,7 @@ function App() {
             </div>
             <div className="card-3d glass-panel reveal">
               <div className="card-content">
-                <div style={{fontSize:'2.5rem',marginBottom:'1rem'}}>🏆</div>
+                <div style={{fontSize:'2.5rem',marginBottom:'1rem'}}>ðŸ†</div>
                 <h3 style={{fontSize:'1.5rem',marginBottom:'0.5rem'}}>Gamified Growth</h3>
                 <p style={{color:'var(--text-secondary)',marginBottom:'1rem'}}>Rank up by aiding your community. Unlock exclusive blockchain badges.</p>
                 <div style={{background:'rgba(255,255,255,0.05)',borderRadius:'12px',padding:'1rem',border:'1px solid var(--border-light)'}}>
@@ -1457,7 +1594,7 @@ function App() {
             </div>
             <div className="card-3d glass-panel reveal" style={{background:'linear-gradient(135deg,var(--bg-elevated) 0%,rgba(236,72,153,0.1) 100%)'}}>
               <div className="card-content">
-                <div style={{fontSize:'2.5rem',marginBottom:'1rem'}}>🌍</div>
+                <div style={{fontSize:'2.5rem',marginBottom:'1rem'}}>ðŸŒ</div>
                 <h3 style={{fontSize:'1.5rem',marginBottom:'0.5rem'}}>Multilingual Voice</h3>
                 <p style={{color:'var(--text-secondary)'}}>Real-time Dialogflow parsing across 15+ complex regional dialects bridging technological divide.</p>
               </div>
@@ -1497,13 +1634,13 @@ function App() {
                     <span style={{color:'var(--accent-highlight)',fontWeight:800,fontSize:'0.9rem'}}>{task.score}% ML Match</span>
                   </div>
                   <h4 style={{fontSize:'1.2rem'}}>{task.title}</h4>
-                  <p style={{fontSize:'0.8rem',color:'var(--text-secondary)',display:'flex',alignItems:'center',gap:'0.3rem'}}><MapPin size={14}/> {task.dist} away · Skills: {task.skills.join(', ')}</p>
+                  <p style={{fontSize:'0.8rem',color:'var(--text-secondary)',display:'flex',alignItems:'center',gap:'0.3rem'}}><MapPin size={14}/> {task.dist} away Â· Skills: {task.skills.join(', ')}</p>
                   <div style={{display:'flex',gap:'0.5rem',marginTop:'0.5rem'}}>
                     <button onClick={()=>currentUser ? handleAcceptMission(task.title,i) : setShowAuthModal(true)} disabled={acceptedTasks[i]}
                       style={{flex:1,padding:'0.5rem',border:'none',background:acceptedTasks[i]?'#10b981':'var(--primary-500)',color:'white',borderRadius:'8px',fontWeight:600,cursor:acceptedTasks[i]?'default':'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.4rem'}}>
                       {acceptedTasks[i]?<><CheckCircle size={16}/> Accepted</>:'Accept Mission'}
                     </button>
-                    <button onClick={()=>addToast(`🧭 AR Navigation launching for "${task.title}"`,'info')} style={{padding:'0.5rem 1rem',border:'1px solid var(--border-light)',background:'transparent',color:'var(--text-primary)',borderRadius:'8px',cursor:'pointer'}} title="Launch AR Navigation"><Compass size={18}/></button>
+                    <button onClick={()=>addToast(`ðŸ§­ AR Navigation launching for "${task.title}"`,'info')} style={{padding:'0.5rem 1rem',border:'1px solid var(--border-light)',background:'transparent',color:'var(--text-primary)',borderRadius:'8px',cursor:'pointer'}} title="Launch AR Navigation"><Compass size={18}/></button>
                   </div>
                 </div>
               ))}
@@ -1515,10 +1652,10 @@ function App() {
               </div>
               <div className="card-3d glass-panel reveal" style={{background:'linear-gradient(135deg,rgba(59,130,246,0.1),rgba(16,185,129,0.1))'}}>
                 <div className="card-content">
-                  <div style={{fontSize:'2.5rem',marginBottom:'1rem'}}>🏛️</div>
+                  <div style={{fontSize:'2.5rem',marginBottom:'1rem'}}>ðŸ›ï¸</div>
                   <h3 style={{fontSize:'1.5rem',marginBottom:'0.5rem'}}>Govt Scheme Eligibility AI</h3>
                   <p style={{color:'var(--text-secondary)',marginBottom:'1rem'}}>Our system automatically cross-references beneficiary needs with Direct Benefit Transfer (DBT) and Digital India portals.</p>
-                  <button onClick={()=>{setShowSchemeResult(true);addToast('🔍 Scanning beneficiary profile against 47 government schemes...','info');setTimeout(()=>addToast('✅ 3 eligible schemes found! PM-KISAN, Ayushman Bharat, MGNREGA','success'),2500)}} style={{width:'100%',padding:'0.8rem',borderRadius:'12px',border:'1px solid #3b82f6',background:'rgba(59,130,246,0.1)',color:'#3b82f6',fontWeight:600,display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',cursor:'pointer',marginBottom:showSchemeResult?'1rem':0}}>
+                  <button onClick={()=>{setShowSchemeResult(true);addToast('ðŸ” Scanning beneficiary profile against 47 government schemes...','info');setTimeout(()=>addToast('âœ… 3 eligible schemes found! PM-KISAN, Ayushman Bharat, MGNREGA','success'),2500)}} style={{width:'100%',padding:'0.8rem',borderRadius:'12px',border:'1px solid #3b82f6',background:'rgba(59,130,246,0.1)',color:'#3b82f6',fontWeight:600,display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem',cursor:'pointer',marginBottom:showSchemeResult?'1rem':0}}>
                     <ShieldCheck size={18}/> Scan Beneficiary Profile
                   </button>
                   <AnimatePresence>
@@ -1528,7 +1665,7 @@ function App() {
                           {govtSchemes.map((s,i)=>(
                             <div key={i} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'0.6rem 1rem',borderRadius:'10px',border:'1px solid var(--border-light)',background:'var(--bg-secondary)'}}>
                               <div><div style={{fontWeight:700,fontSize:'0.95rem'}}>{s.name}</div><div style={{fontSize:'0.75rem',color:'var(--text-secondary)'}}>{s.desc}</div></div>
-                              <div style={{textAlign:'right'}}><div style={{fontWeight:700,color:s.eligible?'#10b981':'var(--text-secondary)',fontSize:'0.85rem'}}>{s.benefit}</div><div style={{fontSize:'0.7rem',color:s.eligible?'#10b981':'#ef4444'}}>{s.eligible?'✅ Eligible':'❌ Not eligible'}</div></div>
+                              <div style={{textAlign:'right'}}><div style={{fontWeight:700,color:s.eligible?'#10b981':'var(--text-secondary)',fontSize:'0.85rem'}}>{s.benefit}</div><div style={{fontSize:'0.7rem',color:s.eligible?'#10b981':'#ef4444'}}>{s.eligible?'âœ… Eligible':'âŒ Not eligible'}</div></div>
                             </div>
                           ))}
                         </div>
@@ -1593,7 +1730,7 @@ function App() {
               <h2 style={{fontSize:'3rem',marginBottom:'1rem'}}>Ready to Create Real Impact?</h2>
               <p style={{opacity:0.9,fontSize:'1.2rem',marginBottom:'2rem',maxWidth:600,margin:'0 auto 2rem'}}>Join 10,000+ volunteers already changing lives every day. Setup takes less than 2 minutes.</p>
               <button onClick={()=>setShowAuthModal(true)} style={{padding:'1.2rem 3rem',borderRadius:'99px',background:'white',color:'var(--primary-500)',border:'none',cursor:'pointer',fontWeight:800,fontSize:'1.1rem',display:'inline-flex',alignItems:'center',gap:'0.8rem',fontFamily:'var(--font-display)',boxShadow:'0 10px 30px rgba(0,0,0,0.2)',transition:'transform 0.2s'}} onMouseEnter={e=>e.target.style.transform='scale(1.04)'} onMouseLeave={e=>e.target.style.transform='scale(1)'}>
-                🚀 Get Started — It's Free
+                ðŸš€ Get Started â€” It's Free
               </button>
             </div>
           </div>
@@ -1604,7 +1741,7 @@ function App() {
       <footer style={{position:'relative',marginTop:'100px',borderTop:'1px solid var(--border-light)',padding:'4rem 2rem 2rem'}}>
         <div style={{maxWidth:'1200px',margin:'0 auto',display:'grid',gridTemplateColumns:'2fr 1fr 1fr 1fr',gap:'3rem'}}>
           <div>
-            <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'1rem'}}><span style={{fontSize:'1.5rem'}}>🌍</span><span style={{fontFamily:'var(--font-display)',fontWeight:800,fontSize:'1.2rem'}}>CommunityConnect</span></div>
+            <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'1rem'}}><span style={{fontSize:'1.5rem'}}>ðŸŒ</span><span style={{fontFamily:'var(--font-display)',fontWeight:800,fontSize:'1.2rem'}}>CommunityConnect</span></div>
             <p style={{color:'var(--text-secondary)',maxWidth:'300px',lineHeight:1.7}}>AI-powered volunteer coordination platform built for Google Solution Challenge 2026. Making social impact measurable, transparent, and accessible to all.</p>
           </div>
           <div>
@@ -1624,12 +1761,12 @@ function App() {
           <div>
             <h4 style={{marginBottom:'1rem',fontWeight:700}}>UN SDGs</h4>
             <div style={{display:'flex',flexDirection:'column',gap:'0.5rem',color:'var(--text-secondary)'}}>
-              <span>🎯 No Poverty</span><span>🍽️ Zero Hunger</span><span>❤️ Good Health</span><span>📚 Quality Education</span>
+              <span>ðŸŽ¯ No Poverty</span><span>ðŸ½ï¸ Zero Hunger</span><span>â¤ï¸ Good Health</span><span>ðŸ“š Quality Education</span>
             </div>
           </div>
         </div>
         <div style={{maxWidth:'1200px',margin:'3rem auto 0',borderTop:'1px solid var(--border-light)',paddingTop:'2rem',display:'flex',justifyContent:'space-between',alignItems:'center',color:'var(--text-secondary)',fontSize:'0.85rem',flexWrap:'wrap',gap:'1rem'}}>
-          <span>© 2026 CommunityConnect · Google Solution Challenge</span>
+          <span>Â© 2026 CommunityConnect Â· Google Solution Challenge</span>
           <div style={{display:'flex',gap:'1.5rem'}}><span>Privacy Policy</span><span>Terms of Service</span><span>Contact</span></div>
         </div>
       </footer>
@@ -1639,7 +1776,7 @@ function App() {
         <div onClick={()=>document.getElementById('impact')?.scrollIntoView({behavior:'smooth'})} style={{display:'flex',flexDirection:'column',alignItems:'center',color:'var(--primary-500)',cursor:'pointer'}}>
           <Heart size={24}/><span style={{fontSize:'0.7rem',marginTop:'0.2rem',fontWeight:600}}>Tasks</span>
         </div>
-        <div onClick={()=>addToast('🧭 AR Navigation requires camera access','info')} style={{display:'flex',flexDirection:'column',alignItems:'center',color:'var(--text-secondary)',cursor:'pointer'}}>
+        <div onClick={()=>addToast('ðŸ§­ AR Navigation requires camera access','info')} style={{display:'flex',flexDirection:'column',alignItems:'center',color:'var(--text-secondary)',cursor:'pointer'}}>
           <Compass size={24}/><span style={{fontSize:'0.7rem',marginTop:'0.2rem',fontWeight:600}}>AR Nav</span>
         </div>
         <div style={{display:'flex',flexDirection:'column',alignItems:'center',color:'var(--text-secondary)',position:'relative',top:'-15px'}}>
@@ -1661,7 +1798,10 @@ function App() {
         {toasts.map(t=><Toast key={t.id} message={t.message} type={t.type} onClose={()=>removeToast(t.id)}/>)}
       </AnimatePresence>
     </>
+    )}
+    </>
   )
 }
 
 export default App
+
