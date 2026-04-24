@@ -124,9 +124,10 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height
 
 .aurora-blur {
   position: absolute;
-  filter: blur(80px);
+  filter: blur(20px);
   border-radius: 50%;
-  opacity: 0.6;
+  opacity: 0.3;
+  will-change: transform;
   z-index: -1;
   animation: pulseRotate 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
@@ -163,11 +164,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height
 
 /* ------------------- UI COMPONENTS ------------------- */
 .glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: var(--bg-elevated);
   border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
 .navbar {
@@ -222,8 +221,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height
 
 /* 3D Bento Cards */
 .bento-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  grid-auto-rows: minmax(240px, auto); gap: 2rem; padding: 4rem 2rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-auto-rows: minmax(220px, auto); gap: 1.5rem; padding: 2rem 1rem;
   max-width: 1300px; margin: 0 auto;
 }
 

@@ -224,7 +224,7 @@ function AuthModal({ onClose, onLogin, addToast }) {
 
   return (
     <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={onClose}
-      style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',backdropFilter:'blur(10px)',zIndex:10000,display:'grid',placeItems:'center',padding:'1rem'}}>
+      style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.85)',backdropFilter:'none',zIndex:10000,display:'grid',placeItems:'center',padding:'1rem'}}>
       <motion.div initial={{scale:0.85,y:40}} animate={{scale:1,y:0}} exit={{scale:0.85,y:40}}
         onClick={e=>e.stopPropagation()} className="glass-panel"
         style={{padding:'2.5rem',borderRadius:'28px',maxWidth:'520px',width:'100%',maxHeight:'90vh',overflowY:'auto',position:'relative'}}>
@@ -478,7 +478,7 @@ function ProfilePanel({ user, onClose, onUpdate, addToast }) {
 
   return (
     <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={onClose}
-      style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',backdropFilter:'blur(12px)',zIndex:10000,display:'flex',alignItems:'flex-start',justifyContent:'flex-end',padding:'80px 1rem 1rem'}}>
+      style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.85)',backdropFilter:'none',zIndex:10000,display:'flex',alignItems:'flex-start',justifyContent:'flex-end',padding:'80px 1rem 1rem'}}>
       <motion.div initial={{x:100,opacity:0}} animate={{x:0,opacity:1}} exit={{x:100,opacity:0}} onClick={e=>e.stopPropagation()}
         className="glass-panel" style={{width:'min(560px,100%)',maxHeight:'calc(100vh - 100px)',borderRadius:'28px',overflow:'hidden',display:'flex',flexDirection:'column'}}>
 
