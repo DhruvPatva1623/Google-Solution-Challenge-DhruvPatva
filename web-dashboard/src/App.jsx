@@ -1145,8 +1145,21 @@ function App() {
   const [acceptedTasks, setAcceptedTasks] = useState({})
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [showSchemeResult, setShowSchemeResult] = useState(false)
-  const [currentUser, setCurrentUser] = useState(null)
-  const [showDashboard, setShowDashboard] = useState(false)
+  const [currentUser, setCurrentUser] = useState({
+      name:'Priya Sharma', email:'priya@demo.com', phone:'9876543210', method:'demo',
+      avatar:null, city:'Mumbai', state:'Maharashtra', dob:'1998-06-15', gender:'Female',
+      skills:['First Aid','Teaching','Social Media'],
+      languages:['Hindi','English','Marathi'],
+      availability:'Weekends only', org:'Tata Institute of Social Sciences',
+      bio:'Passionate social worker with 3 years of NGO experience. Love making communities stronger through education and healthcare.',
+      volunteerHours:340, points:4820, level:'Champion',
+      joinDate:'2024-03-10', verifiedId:true, aadhar:'xxxx-5678',
+      address:'Bandra West, Mumbai - 400050',
+      emergencyContact:'Rajesh Sharma — +91 9812345678',
+      interests:['Education','Healthcare','Women Empowerment'],
+      notifications:{email:true, sms:true, push:true}
+  })
+  const [showDashboard, setShowDashboard] = useState(true)
   const [showProfile, setShowProfile] = useState(false)
 
   const [livesCount, livesRef] = useCounter(50389, 2500);
