@@ -230,6 +230,28 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height
 .btn-magic:hover::before { opacity: 1; }
 .btn-magic:active { transform: translateY(0) scale(0.95); }
 
+.nav-page-btn {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  padding: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+.nav-page-btn:hover {
+  background: var(--primary-500);
+  color: white;
+  border-color: var(--primary-500);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+}
+.nav-page-btn:active {
+  transform: translateY(0);
+}
+
 /* Hero Typography */
 .hero-title {
   font-size: clamp(3rem, 6vw, 5.5rem); letter-spacing: -0.03em;

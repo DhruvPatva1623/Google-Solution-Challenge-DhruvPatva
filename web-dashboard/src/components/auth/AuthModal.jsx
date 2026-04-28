@@ -94,25 +94,28 @@ export function AuthModal({ onClose, onLogin, addToast, theme }) {
     setTimeout(() => { setLoading(false); setOtpSent(true); addToast(`📱 OTP sent to +91 ${form.phone}`,'info'); }, 1200);
   };
 
-  const handleVerifyOtp = () => {
+  const handleVerifyOtp = async () => {
     if (otp !== '123456') { addToast('❌ Incorrect OTP. Hint: use 123456','error'); return; }
     setLoading(true);
-    setTimeout(() => {
+    try {
+      // In real world, result = await confirmationResult.confirm(otp);
+      // For demo, we simulate finding or creating a user
+      const mockUid = 'phone-' + form.phone;
+      const userDoc = await getDoc(doc(db, 'users', mockUid));
+      
+      if (userDoc.exists()) {
+        addToast('✅ Phone verified! Welcome back', 'success');
+        onLogin(userDoc.data());
+      } else {
+        addToast('📱 Phone verified! Please complete your profile.', 'info');
+        setForm(prev => ({ ...prev, uid: mockUid }));
+        setStep('profile');
+      }
+    } catch (error) {
+      addToast('Error verifying OTP', 'error');
+    } finally {
       setLoading(false);
-      const user = {
-        uid: 'phone-user-' + Date.now(),
-        name:'Phone User', email:'', phone:form.phone, method:'phone',
-        avatar:null, city:'', state:'', dob:'', gender:'',
-        skills:[], languages:[], availability:'', org:'', bio:'',
-        volunteerHours:0, points:0, level:'Newcomer',
-        joinDate: new Date().toISOString().split('T')[0], verifiedId:false, aadhar:'',
-        address:'', emergencyContact:'', interests:[],
-        notifications:{email:false, sms:true, push:true},
-        role // injected from state
-      };
-      addToast('✅ Phone verified! Welcome to CommunityConnect','success');
-      onLogin(user);
-    }, 700);
+    }
   };
 
   const handleEmailAuth = async () => {
@@ -145,35 +148,71 @@ export function AuthModal({ onClose, onLogin, addToast, theme }) {
   };
 
   const handleProfileSubmit = async () => {
-    if (!form.name||!form.city||!form.dob) { addToast('Please fill Name, City, and Date of Birth','error'); return; }
+    // Role-based validation
+    if (role === 'volunteer') {
+      if (!form.name || !form.city || !form.dob) {
+        addToast('Please fill Name, City, and Date of Birth', 'error');
+        return;
+      }
+    } else {
+      if (!form.org || !form.city || !form.regId) {
+        addToast('Please fill Org Name, City, and Registration ID', 'error');
+        return;
+      }
+    }
     
     setLoading(true);
     try {
-      let uid;
-      if (method === 'google') {
-        uid = auth.currentUser.uid;
-      } else {
-        const result = await createUserWithEmailAndPassword(auth, form.email, form.password);
-        uid = result.user.uid;
+      let uid = auth.currentUser?.uid || form.uid;
+      
+      // If we don't have a UID yet (Email Sign Up flow)
+      if (!uid) {
+        if (method === 'google') {
+          uid = auth.currentUser.uid;
+        } else if (method === 'email') {
+          const result = await createUserWithEmailAndPassword(auth, form.email, form.password);
+          uid = result.user.uid;
+        } else {
+          // Phone fallback - for demo we generate a unique ID if real auth isn't setup
+          uid = 'user-' + Date.now();
+        }
       }
 
       const userData = {
         uid,
-        name:form.name, email:form.email||'', phone:form.phone||'', method: method || 'email',
-        avatar:null, city:form.city, state:form.state||'', dob:form.dob, gender:form.gender||'',
-        skills:(form.skills||[]),
-        languages:(form.languages||[]),
-        availability:form.availability||'', org:form.org||'', bio:form.bio||'',
-        volunteerHours:0, points:0, level:'Newcomer',
-        joinDate: new Date().toISOString().split('T')[0], verifiedId:false, aadhar:form.aadhar||'',
-        address:form.address||'', emergencyContact:form.emergencyContact||'',
-        interests:(form.interests||[]),
-        notifications:{email:true,sms:true,push:true},
+        name: form.name || form.org || 'New User',
+        email: form.email || auth.currentUser?.email || '',
+        phone: form.phone || '',
+        method: method || 'email',
+        avatar: null,
+        city: form.city || '',
+        state: form.state || '',
+        dob: form.dob || '',
+        gender: form.gender || '',
+        age: form.age || null,
+        skills: (form.skills || []),
+        languages: (form.languages || []),
+        availability: form.availability || '',
+        org: form.org || '',
+        bio: form.bio || form.vision || '',
+        established: form.established || '',
+        regId: form.regId || '',
+        vision: form.vision || '',
+        volunteerHours: 0,
+        points: 0,
+        level: 'Newcomer',
+        joinDate: new Date().toISOString().split('T')[0],
+        verifiedId: false,
+        aadhar: form.aadhar || '',
+        address: form.address || '',
+        emergencyContact: form.emergencyContact || '',
+        interests: (form.interests || []),
+        notifications: { email: true, sms: true, push: true },
         role
       };
 
       await setDoc(doc(db, 'users', uid), userData);
-      addToast('🎉 Account created! Welcome to CommunityConnect','success'); 
+      addToast('🎉 Account created! Welcome to CommunityConnect', 'success'); 
       onLogin(userData);
     } catch (error) {
       console.error(error);
@@ -235,31 +274,46 @@ export function AuthModal({ onClose, onLogin, addToast, theme }) {
         {/* STEP: CHOOSE METHOD */}
         {step === 'choose' && (
           <>
-            <button onClick={()=>setStep('choose-role')} style={{background:'none',border:'none',color:'var(--text-secondary)',cursor:'pointer',fontWeight:600,marginBottom:'1.5rem',display:'flex',alignItems:'center',gap:'0.4rem',fontSize:'0.9rem'}}>← Back to Role</button>
+            <button onClick={()=>setStep('choose-role')} style={{background:'none',border:'none',color:'var(--text-secondary)',cursor:'pointer',fontWeight:600,marginBottom:'1rem',display:'flex',alignItems:'center',gap:'0.4rem',fontSize:'0.9rem'}}>← Back to Role</button>
+
+            {/* Global Sign In / Sign Up Toggle */}
+            <div style={{display:'flex',background:'var(--bg-secondary)',borderRadius:'12px',padding:'4px',marginBottom:'1.5rem',border:'1px solid var(--border-light)'}}>
+              {['Sign In','Sign Up'].map((t,i) => (
+                <button key={t} onClick={()=>setIsLogin(i===0)}
+                  style={{flex:1,padding:'0.6rem',borderRadius:'9px',border:'none',cursor:'pointer',fontWeight:600,fontSize:'0.9rem',background:(isLogin&&i===0)||(!isLogin&&i===1)?'var(--primary-500)':'transparent',color:(isLogin&&i===0)||(!isLogin&&i===1)?'white':'var(--text-secondary)',transition:'all 0.2s',fontFamily:'var(--font-body)'}}>
+                  {t}
+                </button>
+              ))}
+            </div>
+
             <div style={{textAlign:'center',marginBottom:'1.5rem'}}>
-              <div style={{fontSize:'3rem',marginBottom:'0.5rem'}}>🔐</div>
-              <h2 style={{fontSize:'1.8rem'}}>Join CommunityConnect</h2>
-              <p style={{color:'var(--text-secondary)',marginTop:'0.4rem',fontSize:'0.92rem'}}>Access missions, track impact, and earn rewards.</p>
+              <div style={{fontSize:'3rem',marginBottom:'0.5rem'}}>{isLogin ? '🔐' : '✨'}</div>
+              <h2 style={{fontSize:'1.8rem'}}>{isLogin ? 'Welcome Back' : 'Join CommunityConnect'}</h2>
+              <p style={{color:'var(--text-secondary)',marginTop:'0.4rem',fontSize:'0.92rem'}}>
+                {isLogin ? 'Access missions, track impact, and earn rewards.' : 'Create an account to start your journey.'}
+              </p>
             </div>
 
             {/* ── DUMMY DEMO ACCOUNTS ── remove later ── */}
-            <div style={{marginBottom:'1.5rem',background:'var(--bg-secondary)',border:'1px solid var(--primary-500)',borderRadius:'16px',padding:'1rem'}}>
-              <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.8rem'}}>
-                <span style={{fontSize:'0.78rem',fontWeight:800,color:'white',background:'var(--primary-500)',padding:'0.2rem 0.6rem',borderRadius:'6px',letterSpacing:'0.03em'}}>🧪 DEMO</span>
-                <span style={{fontSize:'0.78rem',color:'var(--text-secondary)',fontWeight:600}}>Instant access to all features</span>
+            {isLogin && (
+              <div style={{marginBottom:'1.5rem',background:'var(--bg-secondary)',border:'1px solid var(--primary-500)',borderRadius:'16px',padding:'1rem'}}>
+                <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.8rem'}}>
+                  <span style={{fontSize:'0.78rem',fontWeight:800,color:'white',background:'var(--primary-500)',padding:'0.2rem 0.6rem',borderRadius:'6px',letterSpacing:'0.03em'}}>🧪 DEMO</span>
+                  <span style={{fontSize:'0.78rem',color:'var(--text-secondary)',fontWeight:600}}>Instant access to all features</span>
+                </div>
+                <div style={{display:'flex',flexDirection:'column',gap:'0.6rem'}}>
+                  {DUMMY_ACCOUNTS.map(acc => (
+                    <button key={acc.id} onClick={() => handleDemoLogin(acc)} disabled={loading}
+                      style={{padding:'0.8rem 1rem',borderRadius:'12px',border:'1px solid var(--border-light)',background:'var(--bg-elevated)',color:'var(--text-primary)',cursor:loading?'wait':'pointer',display:'flex',alignItems:'center',justifyContent:'space-between',gap:'0.6rem',textAlign:'left',fontFamily:'var(--font-body)',transition:'all 0.2s',width:'100%',boxShadow:'0 2px 4px rgba(0,0,0,0.02)'}}
+                      onMouseEnter={e=>{e.currentTarget.style.borderColor=acc.tagColor;e.currentTarget.style.boxShadow=`0 4px 12px ${acc.tagColor}22`}}
+                      onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--border-light)';e.currentTarget.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)'}}>
+                      <span style={{fontWeight:700,fontSize:'0.88rem'}}>{acc.label}</span>
+                      <span style={{background:`${acc.tagColor}`,color:'white',padding:'0.2rem 0.6rem',borderRadius:'6px',fontSize:'0.72rem',fontWeight:800,flexShrink:0,whiteSpace:'nowrap'}}>{acc.tag}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div style={{display:'flex',flexDirection:'column',gap:'0.6rem'}}>
-                {DUMMY_ACCOUNTS.map(acc => (
-                  <button key={acc.id} onClick={() => handleDemoLogin(acc)} disabled={loading}
-                    style={{padding:'0.8rem 1rem',borderRadius:'12px',border:'1px solid var(--border-light)',background:'var(--bg-elevated)',color:'var(--text-primary)',cursor:loading?'wait':'pointer',display:'flex',alignItems:'center',justifyContent:'space-between',gap:'0.6rem',textAlign:'left',fontFamily:'var(--font-body)',transition:'all 0.2s',width:'100%',boxShadow:'0 2px 4px rgba(0,0,0,0.02)'}}
-                    onMouseEnter={e=>{e.currentTarget.style.borderColor=acc.tagColor;e.currentTarget.style.boxShadow=`0 4px 12px ${acc.tagColor}22`}}
-                    onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--border-light)';e.currentTarget.style.boxShadow='0 2px 4px rgba(0,0,0,0.02)'}}>
-                    <span style={{fontWeight:700,fontSize:'0.88rem'}}>{acc.label}</span>
-                    <span style={{background:`${acc.tagColor}`,color:'white',padding:'0.2rem 0.6rem',borderRadius:'6px',fontSize:'0.72rem',fontWeight:800,flexShrink:0,whiteSpace:'nowrap'}}>{acc.tag}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            )}
 
             <div style={{display:'flex',alignItems:'center',gap:'1rem',marginBottom:'1rem'}}>
               <div style={{flex:1,height:1,background:'var(--border-light)'}}/>
@@ -287,6 +341,17 @@ export function AuthModal({ onClose, onLogin, addToast, theme }) {
                 onMouseLeave={e=>{e.currentTarget.style.borderColor='var(--border-light)'}}>
                 <Mail size={18}/> Continue with Email
               </button>
+            </div>
+            <div style={{marginTop:'1.5rem',paddingTop:'1.2rem',borderTop:'1px solid var(--border-light)',textAlign:'center'}}>
+              <p style={{fontSize:'0.9rem',color:'var(--text-secondary)', fontFamily:'var(--font-body)'}}>
+                New to CommunityConnect?{' '}
+                <span 
+                  onClick={()=>{setIsLogin(false); setStep('emailauth'); setMethod('email')}}
+                  style={{color:'var(--primary-500)',fontWeight:700,cursor:'pointer',textDecoration:'underline'}}
+                >
+                  Create an account
+                </span>
+              </p>
             </div>
           </>
         )}
@@ -384,31 +449,46 @@ export function AuthModal({ onClose, onLogin, addToast, theme }) {
               {role === 'volunteer' ? (
                 <>
                   <div><label style={labelStyle}>Full Name</label>
-                  <input style={inputStyle} placeholder="Priya Sharma" onChange={e=>set('name',e.target.value)}/></div>
+                  <input style={inputStyle} value={form.name||''} placeholder="Priya Sharma" onChange={e=>set('name',e.target.value)}/></div>
+                  
+                  <div style={rowStyle}>
+                    <div style={colStyle}><label style={labelStyle}>City</label>
+                    <input style={inputStyle} value={form.city||''} placeholder="Mumbai" onChange={e=>set('city',e.target.value)}/></div>
+                    <div style={colStyle}><label style={labelStyle}>Date of Birth</label>
+                    <input type="date" style={inputStyle} value={form.dob||''} onChange={e=>set('dob',e.target.value)}/></div>
+                  </div>
+
                   <div style={rowStyle}>
                     <div style={colStyle}><label style={labelStyle}>Age</label>
-                    <input type="number" style={inputStyle} placeholder="24" onChange={e=>set('age',e.target.value)}/></div>
+                    <input type="number" style={inputStyle} value={form.age||''} placeholder="24" onChange={e=>set('age',e.target.value)}/></div>
                     <div style={colStyle}><label style={labelStyle}>Gender</label>
-                    <select style={inputStyle} onChange={e=>set('gender',e.target.value)}>
+                    <select style={inputStyle} value={form.gender||'Male'} onChange={e=>set('gender',e.target.value)}>
                       <option>Male</option><option>Female</option><option>Other</option>
                     </select></div>
                   </div>
-                  <div><label style={labelStyle}>Skills (e.g. Teaching, Health)</label>
-                  <input style={inputStyle} placeholder="First Aid, Coding..." onChange={e=>set('skills',e.target.value.split(','))}/></div>
-                  <div><label style={labelStyle}>Areas of Interest</label>
-                  <input style={inputStyle} placeholder="Education, Environment..." onChange={e=>set('interests',e.target.value.split(','))}/></div>
+
+                  <div><label style={labelStyle}>Skills (comma separated)</label>
+                  <input style={inputStyle} placeholder="First Aid, Teaching..." onChange={e=>set('skills',e.target.value.split(',').map(s=>s.trim()))}/></div>
+                  
+                  <div><label style={labelStyle}>Interests (comma separated)</label>
+                  <input style={inputStyle} placeholder="Education, Environment..." onChange={e=>set('interests',e.target.value.split(',').map(s=>s.trim()))}/></div>
                 </>
               ) : (
                 <>
                   <div><label style={labelStyle}>Organization / Company Name</label>
-                  <input style={inputStyle} placeholder="Goonj NGO" onChange={e=>set('org',e.target.value)}/></div>
+                  <input style={inputStyle} value={form.org||''} placeholder="Goonj NGO" onChange={e=>set('org',e.target.value)}/></div>
+                  
                   <div style={rowStyle}>
+                    <div style={colStyle}><label style={labelStyle}>City</label>
+                    <input style={inputStyle} value={form.city||''} placeholder="Delhi" onChange={e=>set('city',e.target.value)}/></div>
                     <div style={colStyle}><label style={labelStyle}>Year Established</label>
-                    <input type="number" style={inputStyle} placeholder="1999" onChange={e=>set('established',e.target.value)}/></div>
-                    <div style={colStyle}><label style={labelStyle}>Registration ID</label>
-                    <input style={inputStyle} placeholder="NGO-8822-DL" onChange={e=>set('regId',e.target.value)}/></div>
+                    <input type="number" style={inputStyle} value={form.established||''} placeholder="1999" onChange={e=>set('established',e.target.value)}/></div>
                   </div>
-                  <div><label style={labelStyle}>Mission / Why join us?</label>
+
+                  <div><label style={labelStyle}>Registration ID</label>
+                  <input style={inputStyle} value={form.regId||''} placeholder="NGO-8822-DL" onChange={e=>set('regId',e.target.value)}/></div>
+                  
+                  <div><label style={labelStyle}>Mission / Vision Statement</label>
                   <textarea style={{...inputStyle, minHeight:'80px'}} placeholder="What is your organization's primary goal?" onChange={e=>set('vision',e.target.value)}/></div>
                 </>
               )}

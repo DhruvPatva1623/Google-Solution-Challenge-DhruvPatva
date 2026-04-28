@@ -18,13 +18,13 @@ export function SplashScreen() {
         transition={{ duration: 1, type: "spring", bounce: 0.5 }}
         style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}
       >
-        <motion.span 
-          animate={{ rotate: 360 }} 
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          style={{ fontSize: '3.5rem', display: 'inline-block' }}
-        >
-          🌍
-        </motion.span>
+        <motion.img 
+          src="/CC_LOGO.png"
+          alt="Logo"
+          animate={{ scale: [1, 1.1, 1] }} 
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          style={{ height: '80px', width: 'auto', objectFit: 'contain' }}
+        />
         <h1 style={{ 
           fontFamily: 'var(--font-display)', 
           fontWeight: 900, 

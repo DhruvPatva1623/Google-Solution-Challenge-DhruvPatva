@@ -110,7 +110,7 @@ export function SessionController({ activeSessionSecs, isCheckingIn, isPaused, o
                       <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', textAlign: 'center', padding: '1rem' }}>No markers added yet</div>
                     ) : (
                       timestamps.map((t, i) => (
-                        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.4rem 0.8rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', fontSize: '0.75rem' }}>
+                        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.4rem 0.8rem', background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', borderRadius: '8px', fontSize: '0.75rem' }}>
                           <span style={{ color: 'var(--text-secondary)' }}>Marker #{timestamps.length - i}</span>
                           <span style={{ fontWeight: 700, color: 'var(--accent-highlight)' }}>{formatTime(t)}</span>
                         </div>
@@ -133,7 +133,7 @@ export function SessionController({ activeSessionSecs, isCheckingIn, isPaused, o
       <style dangerouslySetInnerHTML={{ __html: `
         .session-controller {
           backdrop-filter: blur(20px);
-          background: rgba(15, 23, 42, 0.8);
+          background: var(--glass-bg);
         }
         .session-btn {
           display: flex;
@@ -143,7 +143,7 @@ export function SessionController({ activeSessionSecs, isCheckingIn, isPaused, o
           gap: 0.4rem;
           padding: 0.8rem 0.4rem;
           border-radius: 16px;
-          border: 1px solid rgba(255,255,255,0.1);
+          border: 1px solid var(--border-light);
           color: white;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

@@ -1,7 +1,7 @@
 import { AlertCircle, Clock, CheckCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 import { AvatarPlaceholder } from '../common/AvatarPlaceholder';
 
-export function Navbar({ theme, setTheme, handleSos, currentUser, setShowDashboard, setShowProfile, setShowAuthModal, activeSessionSecs, isCheckingIn, onCheckOut }) {
+export function Navbar({ theme, setTheme, handleSos, currentUser, setShowDashboard, setShowProfile, setShowAuthModal, activeSessionSecs, isCheckingIn, onCheckOut, onNavigateBack, setActiveTab }) {
   const formatTime = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -12,10 +12,22 @@ export function Navbar({ theme, setTheme, handleSos, currentUser, setShowDashboa
   return (
     <header className="navbar glass-panel">
       <div className="navbar-content">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-          <span style={{ fontSize: '1.8rem' }}>🌍</span>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.3rem', letterSpacing: '-0.5px' }}>CommunityConnect</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+            <img src="/CC_LOGO.png" alt="CommunityConnect Logo" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.3rem', letterSpacing: '-0.5px' }}>CommunityConnect</span>
+          </div>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', paddingLeft: '1.2rem', borderLeft: '1px solid var(--border-light)' }}>
+            <button onClick={onNavigateBack} className="nav-page-btn" title="Back">
+              <ArrowLeft size={18} />
+            </button>
+            <button onClick={() => window.history.forward()} className="nav-page-btn" title="Forward">
+              <ArrowRight size={18} />
+            </button>
+          </div>
         </div>
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           {isCheckingIn && (
             <div onClick={() => {}} style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', padding: '0.4rem 1rem', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '0.8rem', cursor: 'pointer' }}>
@@ -26,21 +38,14 @@ export function Navbar({ theme, setTheme, handleSos, currentUser, setShowDashboa
               </div>
             </div>
           )}
-          <nav style={{ display: 'flex', gap: '2rem' }}>
+          <nav className="desktop-nav" style={{ display: 'flex', gap: '2rem' }}>
             <a href="#features" style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 600 }}>Platform</a>
             <a href="#impact" style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 600 }}>Impact</a>
             <a href="#stories" style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 600 }}>Stories</a>
           </nav>
         </div>
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginRight: '1rem', borderRight: '1px solid var(--border-light)', paddingRight: '1rem' }}>
-            <button onClick={() => window.history.back()} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center' }} title="Back">
-              <ArrowLeft size={16} />
-            </button>
-            <button onClick={() => window.history.forward()} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center' }} title="Forward">
-              <ArrowRight size={16} />
-            </button>
-          </div>
           <button onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} style={{ background: 'none', border: 'none', fontSize: '1.4rem', cursor: 'pointer' }} aria-label="Toggle theme">
             {theme === 'dark' ? '🌑' : '☀️'}
           </button>
@@ -49,7 +54,7 @@ export function Navbar({ theme, setTheme, handleSos, currentUser, setShowDashboa
           )}
           {currentUser ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-              <button onClick={() => setShowDashboard(true)} className="btn-magic">My Dashboard</button>
+              <button onClick={() => { setShowDashboard(true); if(setActiveTab) setActiveTab('overview'); }} className="btn-magic">My Dashboard</button>
               <div onClick={() => setShowProfile(true)} style={{ cursor: 'pointer' }}><AvatarPlaceholder name={currentUser.name} size={36} /></div>
             </div>
           ) : (

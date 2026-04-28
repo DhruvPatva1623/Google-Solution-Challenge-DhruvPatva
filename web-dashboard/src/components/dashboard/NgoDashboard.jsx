@@ -17,10 +17,10 @@ export function NgoDashboard({ user, onLogout, onOpenProfile, addToast, emergenc
   ], []);
 
   const stats = [
-    { label: 'Total Volunteers', val: '1,240', change: '+12%', icon: <Users size={20}/>, color: '#3b82f6' },
-    { label: 'Tasks Completed', val: '342', change: '+8%', icon: <CheckCircle size={20}/>, color: '#10b981' },
-    { label: 'Active Missions', val: '14', change: '0%', icon: <PlusCircle size={20}/>, color: '#f97316' },
-    { label: 'Impact Score', val: '9.4', change: '+0.5', icon: <BarChart3 size={20}/>, color: '#8b5cf6' },
+    { label: 'Total Volunteers', val: '0', change: '0%', icon: <Users size={20}/>, color: '#3b82f6' },
+    { label: 'Tasks Completed', val: '0', change: '0%', icon: <CheckCircle size={20}/>, color: '#10b981' },
+    { label: 'Active Missions', val: '0', change: '0%', icon: <PlusCircle size={20}/>, color: '#f97316' },
+    { label: 'Impact Score', val: '0', change: '0', icon: <BarChart3 size={20}/>, color: '#8b5cf6' },
   ];
 
   const cardS = {
@@ -50,7 +50,7 @@ export function NgoDashboard({ user, onLogout, onOpenProfile, addToast, emergenc
       {/* NGO Header */}
       <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--glass-bg)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border-light)', padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-          <span style={{ fontSize: '1.5rem' }}>🏛️</span>
+          <img src="/CC_LOGO.png" alt="Logo" style={{ height: '30px', width: 'auto', objectFit: 'contain' }} />
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.2rem' }}>{user.org}</span>
           <span style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#3b82f6', padding: '0.2rem 0.7rem', borderRadius: '99px', fontSize: '0.75rem', fontWeight: 700 }}>NGO PORTAL</span>
         </div>

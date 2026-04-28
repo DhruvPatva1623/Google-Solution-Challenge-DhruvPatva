@@ -72,11 +72,14 @@ function App() {
         // Fetch user profile from Firestore
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
-          setCurrentUser(userDoc.data());
+          const userData = userDoc.data();
+          setCurrentUser(userData);
+          // Only show dashboard if profile is complete
           setShowDashboard(true);
         } else {
-          // If no doc, user might be in middle of setup or deleted
+          // New user or missing profile - don't logout, let them complete setup
           setCurrentUser(null);
+          setShowDashboard(false);
         }
       } else {
         setCurrentUser(null);
@@ -305,9 +308,9 @@ function App() {
     if (!currentUser) return;
     try {
       const userRef = doc(db, 'users', currentUser.uid);
-      await updateDoc(userRef, updated);
+      await setDoc(userRef, updated, { merge: true });
       setCurrentUser(updated);
-      addToast('✅ Profile updated in cloud', 'success');
+      addToast('✅ Profile updated successfully', 'success');
     } catch (error) {
       console.error(error);
       addToast('Failed to update profile', 'error');
@@ -391,6 +394,12 @@ function App() {
             activeSessionSecs={activeSessionSecs}
             isCheckingIn={!!checkInTime || accumulatedSecs > 0}
             onCheckOut={handleCheckOut}
+            setActiveTab={setActiveTab}
+            onNavigateBack={() => {
+              if (showProfile) setShowProfile(false);
+              else if (showDashboard) setShowDashboard(false);
+              else window.history.back();
+            }}
           />
         </div>
 
@@ -731,7 +740,7 @@ function App() {
           <footer style={{position:'relative',marginTop:'100px',borderTop:'1px solid var(--border-light)',padding:'4rem 2rem 2rem'}}>
             <div style={{maxWidth:'1200px',margin:'0 auto',display:'grid',gridTemplateColumns:'2fr 1fr 1fr 1fr',gap:'3rem'}}>
               <div>
-                <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'1rem'}}><span style={{fontSize:'1.5rem'}}>🌍</span><span style={{fontFamily:'var(--font-display)',fontWeight:800,fontSize:'1.2rem'}}>CommunityConnect</span></div>
+                <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'1rem'}}><img src="/CC_LOGO.png" alt="Logo" style={{ height: '28px' }} /><span style={{fontFamily:'var(--font-display)',fontWeight:800,fontSize:'1.2rem'}}>CommunityConnect</span></div>
                 <p style={{color:'var(--text-secondary)',maxWidth:'300px',lineHeight:1.7}}>AI-powered volunteer coordination platform built for Google Solution Challenge 2026. Making social impact measurable, transparent, and accessible to all.</p>
               </div>
               <div>

@@ -121,7 +121,7 @@ export function ProfilePanel({ user, onClose, onUpdate, addToast }) {
               <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0 1rem'}}>
                 {fieldBlock('Full Name','name',false)}
                 {fieldBlock('Gender','gender',false,'text',['Male','Female','Non-binary','Prefer not to say'])}
-                {fieldBlock('Date of Birth','dob',true,'date')}
+                {fieldBlock('Date of Birth','dob',false,'date')}
                 {fieldBlock('Join Date','joinDate',true)}
                 {fieldBlock('Email','email',true)}
                 {fieldBlock('Phone','phone',false)}
@@ -133,7 +133,7 @@ export function ProfilePanel({ user, onClose, onUpdate, addToast }) {
               </div>
               {fieldBlock('Organization / College','org',false)}
               {fieldBlock('Emergency Contact','emergencyContact',false)}
-              {fieldBlock('Aadhaar (last 4)','aadhar',true)}
+              {fieldBlock('Aadhaar (last 4)','aadhar',false)}
               <div style={{marginBottom:'1rem'}}>
                 <label style={labelStyle}>Bio</label>
                 {editing ? <textarea style={{...inputStyle(false),width:'100%',minHeight:80,resize:'vertical'}} value={form.bio||''} onChange={e=>set('bio',e.target.value)}/> : <div style={{...inputStyle(true),minHeight:60,whiteSpace:'pre-wrap'}}>{form.bio||'—'}</div>}

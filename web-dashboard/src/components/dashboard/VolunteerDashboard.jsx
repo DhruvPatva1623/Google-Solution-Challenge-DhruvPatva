@@ -88,7 +88,7 @@ export function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile, em
       {/* Dashboard Navbar */}
       <div style={{position:'sticky',top:0,zIndex:100,background:'var(--glass-bg)',backdropFilter:'blur(20px)',borderBottom:'1px solid var(--border-light)',padding:'1rem 2rem',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <div style={{display:'flex',alignItems:'center',gap:'0.8rem'}}>
-          <span style={{fontSize:'1.5rem'}}>🌍</span>
+          <img src="/CC_LOGO.png" alt="Logo" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
           <span style={{fontFamily:'var(--font-display)',fontWeight:800,fontSize:'1.2rem'}}>CommunityConnect</span>
           <span style={{background:'rgba(16,185,129,0.15)',color:'#10b981',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>● LIVE</span>
         </div>
@@ -175,10 +175,10 @@ export function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile, em
             {/* Stats Row */}
             <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:'1.5rem',marginBottom:'2rem'}}>
               {[
-                {icon:'⏱️',label:'Volunteer Hours',val:`${user.volunteerHours||120}h`,sub:'+4h this week',color:'#f97316'},
-                {icon:'⭐',label:'Impact Points',val:(user.points||1450).toLocaleString(),sub:'Rank #4 in Ahmedabad',color:'#8b5cf6'},
-                {icon:'✅',label:'Tasks Done',val:'24',sub:'3 this month',color:'#10b981'},
-                {icon:'❤️',label:'Lives Impacted',val:'480',sub:'+120 this week',color:'#ec4899'},
+                {icon:'⏱️',label:'Volunteer Hours',val:`${user.volunteerHours||0}h`,sub:'+0h this week',color:'#f97316'},
+                {icon:'⭐',label:'Impact Points',val:(user.points||0).toLocaleString(),sub:'Start your journey today',color:'#8b5cf6'},
+                {icon:'✅',label:'Tasks Done',val:user.history?.length || 0,sub:'0 this month',color:'#10b981'},
+                {icon:'❤️',label:'Lives Impacted',val:'0',sub:'+0 this week',color:'#ec4899'},
               ].map((s,i)=>(
                 <motion.div key={i} whileHover={{y:-4}} style={{...cardS,textAlign:'center',cursor:'default'}}>
                   <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>{s.icon}</div>
