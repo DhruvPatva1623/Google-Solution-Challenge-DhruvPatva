@@ -384,6 +384,18 @@ function App() {
     }
   };
 
+  const handleLogin = (userData) => {
+    setCurrentUser(userData);
+    setShowAuthModal(false);
+    setShowDashboard(true);
+    localStorage.setItem('showDashboard', 'true');
+  };
+
+  const handleMissionAccept = (title, taskId) => {
+    setAcceptedTasks(prev => ({ ...prev, [taskId]: true }));
+    addToast(`✅ Accepted: ${title}`, 'success');
+  };
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -510,9 +522,9 @@ function App() {
           ) : (
             <motion.div key="dashboard" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}>
               {currentUser.role === 'NGO' ? (
-                <NgoDashboard user={currentUser} activeTab={activeTab} setActiveTab={setActiveTab} addToast={addToast} />
+                <NgoDashboard user={currentUser} activeTab={activeTab} setActiveTab={setActiveTab} addToast={addToast} onTriggerSos={handleSosSubmit} theme={theme} setTheme={setTheme} onLogout={handleLogout} onOpenProfile={() => setShowProfile(true)} />
               ) : (
-                <VolunteerDashboard user={currentUser} activeTab={activeTab} setActiveTab={setActiveTab} addToast={addToast} />
+                <VolunteerDashboard user={currentUser} activeTab={activeTab} setActiveTab={setActiveTab} addToast={addToast} acceptedTasks={acceptedTasks} onMissionAccept={handleMissionAccept} theme={theme} setTheme={setTheme} onLogout={handleLogout} onOpenProfile={() => setShowProfile(true)} />
               )}
             </motion.div>
           )}

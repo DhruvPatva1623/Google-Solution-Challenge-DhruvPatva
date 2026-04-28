@@ -79,7 +79,7 @@ export function ProfilePanel({ user, onClose, onUpdate, addToast, onLogout }) {
                 <span style={{background:'rgba(255,255,255,0.2)',padding:'0.1rem 0.6rem',borderRadius:'6px',fontSize:'0.65rem',fontWeight:800,textTransform:'uppercase',letterSpacing:'0.5px'}}>
                   {user.role === 'ngo' ? '🏢 Organization' : '🤝 Volunteer'}
                 </span>
-                <p style={{opacity:0.85,fontSize:'0.9rem'}}>{user.org || (user.role === 'ngo' ? 'Authorized NGO' : 'Community Member')} · {user.city}</p>
+                <p style={{opacity:0.85,fontSize:'0.9rem'}}>{user.org || (user.role === 'ngo' ? 'Authorized NGO' : 'Community Member')} · {user.city || 'N/A'}</p>
               </div>
               <div style={{display:'flex',gap:'0.5rem',marginTop:'0.5rem',flexWrap:'wrap'}}>
                 <span style={{background:'rgba(255,255,255,0.2)',padding:'0.2rem 0.7rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>

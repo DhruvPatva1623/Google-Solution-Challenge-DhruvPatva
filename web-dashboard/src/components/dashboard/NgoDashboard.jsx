@@ -140,7 +140,7 @@ export function NgoDashboard({ user, onLogout, onOpenProfile, addToast, emergenc
                       <div style={{ width: 50, height: 50, borderRadius: '12px', background: 'rgba(255,255,255,0.05)', display: 'grid', placeItems: 'center', fontSize: '1.5rem' }}>📋</div>
                       <div>
                         <h4 style={{ fontSize: '1.1rem', fontWeight: 700 }}>{m.title}</h4>
-                        <p style={{ fontSize: '0.85rem', color: '#9ca3af' }}>Posted on {m.date} · {user.city}</p>
+                        <p style={{ fontSize: '0.85rem', color: '#9ca3af' }}>Posted on {m.date} · {user.city || 'N/A'}</p>
                       </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>

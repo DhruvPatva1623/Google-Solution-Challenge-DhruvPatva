@@ -23,6 +23,7 @@ CommunityConnect AI is not just another volunteer platform - it's a **digital sa
 Our color system tells a story - from the warmth of community (oranges/corals) to the trust of institutions (deep blues), with vibrant accents that signal urgency without panic.
 
 #### Light Mode Palette
+
 ```css
 :root {
   /* Primary Brand Colors - Warm & Inviting */
@@ -82,6 +83,7 @@ Our color system tells a story - from the warmth of community (oranges/corals) t
 ```
 
 #### Dark Mode Palette (Auto-switches based on system preference)
+
 ```css
 [data-theme="dark"] {
   /* Primary - Warm Glow in Darkness */
@@ -267,6 +269,7 @@ Every animation serves a purpose - guide attention, provide feedback, or create 
 ### Signature Animations
 
 #### 1. **Hero Entrance** - Staggered Reveal
+
 ```css
 @keyframes fadeInUp {
   from {
@@ -293,6 +296,7 @@ Every animation serves a purpose - guide attention, provide feedback, or create 
 ```
 
 #### 2. **Dynamic Scrolling Background** - Parallax Layers
+
 ```css
 .parallax-bg {
   position: fixed;
@@ -329,6 +333,7 @@ Every animation serves a purpose - guide attention, provide feedback, or create 
 ```
 
 #### 3. **Haptic Button Feedback** - Micro-interactions
+
 ```css
 .haptic-button {
   position: relative;
@@ -373,6 +378,7 @@ Every animation serves a purpose - guide attention, provide feedback, or create 
 ```
 
 #### 4. **Loading States** - Skeleton & Shimmer
+
 ```css
 .skeleton {
   background: linear-gradient(
@@ -393,6 +399,7 @@ Every animation serves a purpose - guide attention, provide feedback, or create 
 ```
 
 #### 5. **Card Hover Effects** - 3D Tilt
+
 ```css
 .card-3d {
   transition: transform var(--duration-normal) var(--ease-smooth),
@@ -421,6 +428,7 @@ Every animation serves a purpose - guide attention, provide feedback, or create 
 ```
 
 #### 6. **Scroll-Triggered Animations**
+
 ```javascript
 // Intersection Observer for scroll animations
 const observerOptions = {
@@ -457,6 +465,7 @@ document.querySelectorAll('.scroll-animate').forEach(el => observer.observe(el))
 ## 📱 Responsive Design Strategy
 
 ### Breakpoint System
+
 ```css
 :root {
   --breakpoint-xs: 320px;   /* Small phones */
@@ -489,6 +498,7 @@ document.querySelectorAll('.scroll-animate').forEach(el => observer.observe(el))
 ```
 
 ### Responsive Typography
+
 ```css
 /* Fluid typography scales with viewport */
 h1 {
@@ -507,6 +517,7 @@ p {
 ## 🌓 Dark/Light Mode Implementation
 
 ### Automatic Theme Detection with Manual Override
+
 ```javascript
 // Theme Manager
 class ThemeManager {
@@ -581,6 +592,7 @@ const themeManager = new ThemeManager();
 ## 🧩 Component Library
 
 ### 1. **Hero Section** - First Impression
+
 ```jsx
 <section className="hero-section">
   <div className="parallax-bg">
@@ -619,6 +631,7 @@ const themeManager = new ThemeManager();
 ```
 
 ### 2. **Feature Cards** - Interactive Showcases
+
 ```jsx
 <div className="feature-grid">
   <div className="feature-card card-3d">
@@ -644,6 +657,7 @@ const themeManager = new ThemeManager();
 ```
 
 ### 3. **Navigation** - Glassmorphic Header
+
 ```jsx
 <header className="navbar">
   <div className="navbar-blur"></div>
@@ -684,6 +698,7 @@ const themeManager = new ThemeManager();
 ```
 
 ### 4. **Interactive Dashboard** - Data Visualization
+
 ```jsx
 <div className="dashboard-section">
   <div className="dashboard-card glass-card">
@@ -717,6 +732,7 @@ const themeManager = new ThemeManager();
 ```
 
 ### 5. **Call-to-Action** - Conversion Focused
+
 ```jsx
 <section className="cta-section">
   <div className="cta-background">
@@ -763,6 +779,7 @@ const themeManager = new ThemeManager();
 ## 🤖 AI Enhancement Features (No Pro Tier)
 
 ### 1. **Smart Search** - AI-Powered Instant Results
+
 ```jsx
 <div className="ai-search-bar">
   <div className="search-input-wrapper">
@@ -788,6 +805,7 @@ const themeManager = new ThemeManager();
 ```
 
 ### 2. **Intelligent Notifications** - Context-Aware Alerts
+
 ```jsx
 <div className="notification-center">
   <div className="notification ai-notification">
@@ -817,6 +835,7 @@ const themeManager = new ThemeManager();
 ```
 
 ### 3. **Predictive Task Recommendations**
+
 ```jsx
 <div className="ai-recommendations">
   <div className="recommendation-header">
@@ -853,6 +872,7 @@ const themeManager = new ThemeManager();
 ```
 
 ### 4. **Real-Time Language Translation** - Voice & Text
+
 ```jsx
 <div className="translation-widget">
   <div className="language-selector">
@@ -882,6 +902,7 @@ const themeManager = new ThemeManager();
 ## 🎨 Advanced Visual Effects
 
 ### 1. **Noise Texture Overlay** - Grain Effect
+
 ```css
 .noise-texture {
   position: relative;
@@ -900,6 +921,7 @@ const themeManager = new ThemeManager();
 ```
 
 ### 2. **Cursor Trail Effect**
+
 ```javascript
 const cursorTrail = document.querySelector('.cursor-trail');
 let mouseX = 0, mouseY = 0;
@@ -942,6 +964,7 @@ button:hover ~ .cursor-trail {
 ```
 
 ### 3. **Bento Grid Layout** - Modern Card Organization
+
 ```css
 .bento-grid {
   display: grid;
@@ -974,6 +997,7 @@ button:hover ~ .cursor-trail {
 ```
 
 ### 4. **SVG Path Animations** - Drawing Effect
+
 ```html
 <svg className="hero-illustration" viewBox="0 0 800 600">
   <path 
@@ -1005,6 +1029,7 @@ button:hover ~ .cursor-trail {
 ## ♿ Accessibility Standards
 
 ### WCAG 2.1 AAA Compliance
+
 ```css
 /* Focus visible for keyboard navigation */
 :focus-visible {
@@ -1044,6 +1069,7 @@ button:hover ~ .cursor-trail {
 ```
 
 ### Color Contrast Checker
+
 ```javascript
 // Ensure 7:1 contrast ratio for AAA compliance
 function checkContrast(foreground, background) {
@@ -1074,6 +1100,7 @@ function checkContrast(foreground, background) {
 ## 📊 Performance Optimization
 
 ### Critical CSS Inline
+
 ```html
 <!-- Inline critical above-the-fold CSS -->
 <style>
@@ -1088,6 +1115,7 @@ function checkContrast(foreground, background) {
 ```
 
 ### Image Optimization
+
 ```html
 <!-- Responsive images with lazy loading -->
 <img 
@@ -1105,6 +1133,7 @@ function checkContrast(foreground, background) {
 ```
 
 ### Font Loading Strategy
+
 ```css
 /* Display fallback immediately, swap when loaded */
 @font-face {
@@ -1119,6 +1148,7 @@ function checkContrast(foreground, background) {
 ## 🎯 Component States & Interactions
 
 ### Button States Comprehensive
+
 ```css
 .btn-primary {
   /* Default state */
@@ -1178,6 +1208,7 @@ function checkContrast(foreground, background) {
 ## 📱 Mobile-Specific Enhancements
 
 ### Touch-Friendly Targets
+
 ```css
 /* Minimum 44x44px touch targets */
 .touch-target {
@@ -1190,6 +1221,7 @@ function checkContrast(foreground, background) {
 ```
 
 ### Pull-to-Refresh
+
 ```javascript
 let startY = 0;
 let pulling = false;
@@ -1215,6 +1247,7 @@ document.addEventListener('touchmove', (e) => {
 ```
 
 ### Bottom Navigation (Mobile)
+
 ```jsx
 <nav className="bottom-nav">
   <a href="#home" className="nav-item active">
@@ -1271,6 +1304,7 @@ document.addEventListener('touchmove', (e) => {
 ## 🎨 Design Tokens Export
 
 ### For Developers (CSS Variables)
+
 ```css
 /* Copy this to your root stylesheet */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
@@ -1285,6 +1319,7 @@ document.addEventListener('touchmove', (e) => {
 ```
 
 ### For Designers (Figma/Sketch)
+
 - Download color palette JSON
 - Import typography scale
 - Use spacing tokens for consistent layouts
