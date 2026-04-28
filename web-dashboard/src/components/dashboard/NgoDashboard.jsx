@@ -1,0 +1,196 @@
+import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  BarChart3, Users, PlusCircle, AlertCircle, CheckCircle, 
+  ChevronRight, MapPin, Clock, Shield, Search, Filter, 
+  MoreVertical, Share2, LogOut, User
+} from 'lucide-react';
+import { Bar, Line, Doughnut } from 'react-chartjs-2';
+import { AvatarPlaceholder } from '../common/AvatarPlaceholder';
+
+export function NgoDashboard({ user, onLogout, onOpenProfile, addToast, emergencyMissions = [], onTriggerSos, theme, setTheme }) {
+  const [activeTab, setActiveTab] = useState('overview');
+  
+  const myMissions = useMemo(() => [
+    { id: 101, title: 'Slum Education Drive', status: 'Active', volunteers: 12, target: 15, date: '2026-04-25' },
+    { id: 102, title: 'Tree Plantation - Vasant Kunj', status: 'Completed', volunteers: 45, target: 40, date: '2026-04-10' },
+    { id: 103, title: 'Health Checkup Camp', status: 'Pending', volunteers: 0, target: 8, date: '2026-05-01' },
+  ], []);
+
+  const stats = [
+    { label: 'Total Volunteers', val: '1,240', change: '+12%', icon: <Users size={20}/>, color: '#3b82f6' },
+    { label: 'Tasks Completed', val: '342', change: '+8%', icon: <CheckCircle size={20}/>, color: '#10b981' },
+    { label: 'Active Missions', val: '14', change: '0%', icon: <PlusCircle size={20}/>, color: '#f97316' },
+    { label: 'Impact Score', val: '9.4', change: '+0.5', icon: <BarChart3 size={20}/>, color: '#8b5cf6' },
+  ];
+
+  const cardS = {
+    background: 'var(--bg-elevated)',
+    border: '1px solid var(--border-light)',
+    borderRadius: '20px',
+    padding: '1.5rem',
+    color: 'var(--text-primary)'
+  };
+
+  const chartData = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [{
+      label: 'Volunteer Engagement',
+      data: [65, 59, 80, 81, 56, 95, 40],
+      backgroundColor: 'rgba(59, 130, 246, 0.5)',
+      borderColor: '#3b82f6',
+      borderWidth: 2,
+      borderRadius: 8,
+    }]
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      style={{ position: 'fixed', inset: 0, background: 'var(--bg-primary)', zIndex: 9000, overflowY: 'auto' }}>
+      
+      {/* NGO Header */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--glass-bg)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border-light)', padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+          <span style={{ fontSize: '1.5rem' }}>🏛️</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.2rem' }}>{user.org}</span>
+          <span style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#3b82f6', padding: '0.2rem 0.7rem', borderRadius: '99px', fontSize: '0.75rem', fontWeight: 700 }}>NGO PORTAL</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <button onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', padding: '0.4rem 0.8rem', borderRadius: '10px', fontSize: '1.2rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }} aria-label="Toggle theme">
+            {theme === 'dark' ? '🌑' : '☀️'}
+          </button>
+          <button onClick={onTriggerSos} style={{ background: '#ef4444', color: 'white', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '10px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <AlertCircle size={18}/> NEW SOS
+          </button>
+          <div onClick={onOpenProfile} style={{ cursor: 'pointer' }}><AvatarPlaceholder name={user.name} size={40} /></div>
+          <button onClick={onLogout} style={{ background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer' }}><LogOut size={20}/></button>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: '1200px', margin: '2rem auto', padding: '0 2rem' }}>
+        
+        {/* Welcome Section */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <h1 style={{ fontSize: '2.2rem', fontWeight: 800 }}>Welcome back, {user.name.split(' ')[0]}!</h1>
+          <p style={{ color: '#9ca3af', marginTop: '0.5rem' }}>Manage your organization's impact and coordinate your volunteers across {user.city}.</p>
+        </div>
+
+        {/* Stats Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '2.5rem' }}>
+          {stats.map((s, i) => (
+            <div key={i} style={cardS}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                <div style={{ width: 40, height: 40, borderRadius: '10px', background: `${s.color}15`, color: s.color, display: 'grid', placeItems: 'center' }}>
+                  {s.icon}
+                </div>
+                <span style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 700 }}>{s.change}</span>
+              </div>
+              <div style={{ fontSize: '1.8rem', fontWeight: 800 }}>{s.val}</div>
+              <div style={{ fontSize: '0.85rem', color: '#9ca3af', marginTop: '0.2rem' }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Tabs */}
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', overflowX: 'auto', paddingBottom: '0.5rem' }}>
+          {['overview', 'missions', 'volunteers', 'analytics'].map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{
+              padding: '0.7rem 1.5rem', borderRadius: '12px', border: 'none', cursor: 'pointer', fontWeight: 700,
+              background: activeTab === t ? '#3b82f6' : 'rgba(255,255,255,0.05)',
+              color: activeTab === t ? 'white' : '#9ca3af',
+              transition: 'all 0.2s', textTransform: 'capitalize'
+            }}>
+              {t}
+            </button>
+          ))}
+        </div>
+
+        {/* Content Tabs */}
+        <AnimatePresence mode="wait">
+          {activeTab === 'overview' && (
+            <motion.div key="overview" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
+                
+                {/* Engagement Chart */}
+                <div style={cardS}>
+                  <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}><BarChart3 size={20} color="#3b82f6"/> Engagement Trends</h3>
+                  <div style={{ height: 300 }}><Bar data={chartData} options={{ maintainAspectRatio: false }} /></div>
+                </div>
+
+                {/* Critical Missions Side panel */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  <div style={{ ...cardS, border: '1px solid rgba(239,68,68,0.2)', background: 'rgba(239,68,68,0.03)' }}>
+                    <h3 style={{ color: '#ef4444', fontSize: '1.1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}><AlertCircle size={18}/> Active SOS</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      {emergencyMissions.filter(m => m.org === user.org).length > 0 ? (
+                        emergencyMissions.filter(m => m.org === user.org).map(m => (
+                          <div key={m.id} style={{ padding: '0.8rem', background: 'rgba(0,0,0,0.3)', borderRadius: '10px' }}>
+                            <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{m.topic}</div>
+                            <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '0.2rem' }}>{m.time} · 12 Responded</div>
+                          </div>
+                        ))
+                      ) : (
+                        <p style={{ fontSize: '0.85rem', color: '#9ca3af', fontStyle: 'italic' }}>No active SOS broadcasts from your organization.</p>
+                      )}
+                    </div>
+                  </div>
+                  <div style={cardS}>
+                    <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>Top Volunteers</h3>
+                    {[1, 2, 3].map(i => (
+                      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '1rem' }}>
+                        <AvatarPlaceholder name={`Volunteer ${i}`} size={32} />
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>Volunteer {i}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#9ca3af' }}>{100 - i * 10} missions completed</div>
+                        </div>
+                        <ChevronRight size={16} color="#4b5563"/>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'missions' && (
+            <motion.div key="missions" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <h2 style={{ fontSize: '1.8rem', fontWeight: 800 }}>Organization Missions</h2>
+                <button className="btn-magic" style={{ padding: '0.8rem 1.5rem' }}>Create New Mission</button>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {myMissions.map(m => (
+                  <div key={m.id} style={{ ...cardS, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                      <div style={{ width: 50, height: 50, borderRadius: '12px', background: 'rgba(255,255,255,0.05)', display: 'grid', placeItems: 'center', fontSize: '1.5rem' }}>📋</div>
+                      <div>
+                        <h4 style={{ fontSize: '1.1rem', fontWeight: 700 }}>{m.title}</h4>
+                        <p style={{ fontSize: '0.85rem', color: '#9ca3af' }}>Posted on {m.date} · {user.city}</p>
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
+                      <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '1.1rem', fontWeight: 800 }}>{m.volunteers}/{m.target}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#9ca3af' }}>Volunteers</div>
+                      </div>
+                      <div style={{ 
+                        padding: '0.4rem 1rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 700,
+                        background: m.status === 'Active' ? 'rgba(16,185,129,0.15)' : (m.status === 'Completed' ? 'rgba(59,130,246,0.15)' : 'rgba(249,115,22,0.15)'),
+                        color: m.status === 'Active' ? '#10b981' : (m.status === 'Completed' ? '#3b82f6' : '#f97316')
+                      }}>
+                        {m.status.toUpperCase()}
+                      </div>
+                      <button style={{ background: 'none', border: 'none', color: '#4b5563', cursor: 'pointer' }}><MoreVertical size={20}/></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+      </div>
+    </motion.div>
+  );
+}
