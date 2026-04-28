@@ -1,103 +1,243 @@
-# 🌍 CommunityConnect AI - Intelligent Volunteer & Resource Coordination Platform
+# 🌍 CommunityConnect AI
 
-## 🎯 Problem Statement (Redefined)
+> Intelligent Volunteer & Resource Coordination Platform
 
-Communities worldwide face a **critical coordination crisis** during emergencies, disasters, and daily social welfare operations. Current challenges include:
+[![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Mobile-blue.svg)](https://example.com)
+[![Status](https://img.shields.io/badge/Status-Active-success.svg)](https://example.com)
 
-### Real-World Pain Points
-1. **Fragmented Communication**: NGOs, volunteers, and beneficiaries operate in silos using WhatsApp, Excel sheets, and paper forms
-2. **Resource Wastage**: 40% of donated supplies expire or remain unused due to poor tracking and distribution
-3. **Volunteer Burnout**: Mismatched skills lead to 60% volunteer dropout within 3 months
-4. **Emergency Response Delays**: Average 4-6 hour delay in mobilizing help during local crises
-5. **Data Blindness**: NGOs lack real-time insights into community needs, making strategic planning impossible
-6. **Accessibility Gaps**: Language barriers and digital literacy prevent 70% of rural communities from seeking help
+CommunityConnect AI is an AI-powered, multi-stakeholder platform that revolutionizes how communities organize, respond, and scale social impact through intelligent resource coordination.
 
-## 💡 Our Solution: CommunityConnect AI
+---
 
-An **AI-powered, multi-stakeholder platform** that revolutionizes how communities organize, respond, and scale social impact through intelligent resource coordination.
+## 📚 Table of Contents
 
-### Core Innovation Pillars
+- [Problem Statement](#-problem-statement)
+- [Solution](#-solution)
+- [Key Features](#-key-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Project Structure](#-project-structure)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Contact](#-contact)
 
-#### 1️⃣ **AI-Driven Smart Matching Engine**
-- **Multi-factor Algorithm**: Matches volunteers based on skills, location, availability, past performance, emotional readiness, and task complexity
-- **Predictive Analytics**: Forecasts community needs using historical data, seasonal patterns, and local events
-- **Sentiment Analysis**: Analyzes volunteer feedback to prevent burnout and improve retention
+---
 
-#### 2️⃣ **Real-Time Crisis Response Network**
-- **SOS Alert System**: Community members can trigger geo-tagged emergency requests (medical, food, shelter)
-- **Rapid Mobilization**: Auto-notifies nearest volunteers within 30 seconds
-- **Live Coordination Dashboard**: Real-time tracking of volunteer deployment during disasters
-- **Crowdsourced Verification**: Community validates urgent needs to prevent false alerts
+## 🎯 Problem Statement
 
-#### 3️⃣ **Multilingual & Accessible Design**
-- **Voice-First Interface**: Voice commands in 10+ regional languages for low-literacy users
-- **SMS/WhatsApp Integration**: Works without internet via USSD codes and chatbot
-- **Offline-First Architecture**: Sync data when connectivity returns
-- **Visual Instruction System**: Icon-based navigation for universal understanding
+Communities worldwide face a **critical coordination crisis** during emergencies, disasters, and daily social welfare operations:
 
-#### 4️⃣ **Blockchain-Verified Impact Tracking**
-- **Transparent Donation Trail**: Track every rupee/dollar from donor to beneficiary
-- **Verified Impact Certificates**: Volunteers earn blockchain-certified skill badges
-- **Smart Contracts**: Automated fund release when milestones are achieved
-- **Audit-Ready Reports**: Immutable records for NGO accountability
+| Challenge | Impact |
+|-----------|--------|
+| **Fragmented Communication** | NGOs, volunteers, and beneficiaries operate in silos |
+| **Resource Wastage** | 40% of donated supplies expire due to poor tracking |
+| **Volunteer Burnout** | 60% volunteer dropout within 3 months |
+| **Emergency Response Delays** | 4-6 hour average delay in mobilizing help |
+| **Data Blindness** | NGOs lack real-time insights for strategic planning |
+| **Accessibility Gaps** | 70% of rural communities cannot seek help |
 
-#### 5️⃣ **Gamification & Community Building**
-- **Impact Points System**: Volunteers earn points redeemable for skill courses, certificates
-- **Leaderboards & Challenges**: Friendly competition between volunteer groups
-- **Story Sharing**: Beneficiaries share success stories to inspire more participation
-- **Mentorship Matching**: Experienced volunteers guide newcomers
+---
 
-#### 6️⃣ **Predictive Resource Optimization**
-- **Demand Forecasting**: ML models predict food/medicine needs 2 weeks in advance
-- **Smart Inventory Management**: Alerts for expiring supplies, suggests redistribution
-- **Route Optimization**: Google Maps integration for efficient last-mile delivery
-- **Climate-Aware Planning**: Adjusts strategies based on weather forecasts
+## 💡 Our Solution
 
-## 🏗️ Technical Architecture
+CommunityConnect AI combines **AI-driven matching**, **real-time crisis response**, **multilingual accessibility**, and **blockchain-verified impact tracking** to create a unified platform for social good.
 
-### Technology Stack
+---
+
+## ✨ Key Features
+
+### 1. AI-Driven Smart Matching
+- Multi-factor algorithm (skills, location, availability, performance)
+- Predictive analytics for community needs forecasting
+- Sentiment analysis to prevent volunteer burnout
+
+### 2. Real-Time Crisis Response
+- SOS Alert System with geo-tagged emergency requests
+- Rapid mobilization within 30 seconds
+- Live coordination dashboard
+- Crowdsourced verification
+
+### 3. Multilingual & Accessible Design
+- Voice-first interface in 10+ regional languages
+- SMS/WhatsApp integration
+- Offline-first architecture
+- Visual icon-based navigation
+
+### 4. Blockchain-Verified Impact
+- Transparent donation trail
+- Verified impact certificates (NFT)
+- Smart contracts for automated fund release
+- Audit-ready immutable records
+
+### 5. Gamification System
+- Impact points and leaderboards
+- Story sharing for community building
+- Mentorship matching
+
+### 6. Predictive Resource Optimization
+- Demand forecasting with ML models
+- Smart inventory management
+- Route optimization
+- Climate-aware planning
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- **React** 19.x with Vite
+- **Firebase** (Auth, Firestore)
+- **Framer Motion** (Animations)
+- **Chart.js** (Data visualization)
+- **Lucide React** (Icons)
+
+### Backend (Future)
+- Node.js / Python FastAPI
+- PostgreSQL + Redis
+- Google Cloud Platform
+
+### AI/ML (Future)
+- TensorFlow / PyTorch
+- Vertex AI
+- NLP for multilingual support
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+| Tool | Version |
+|------|---------|
+| Node.js | ≥ 18.x |
+| npm | ≥ 9.x |
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/your-org/communityconnect-ai.git
+cd communityconnect-ai
+
+# Install root dependencies
+npm install
+
+# Install web dashboard dependencies
+cd web-dashboard
+npm install
 ```
-Frontend:
-├── React Native (Cross-platform mobile app)
-├── Flutter (Alternative for iOS/Android)
-├── Progressive Web App (Offline-capable)
-└── Voice UI (Google Dialogflow / Alan AI)
 
-Backend:
-├── Node.js / Python FastAPI
-├── Firebase (Real-time database, Authentication)
-├── Google Cloud Platform
-│   ├── Cloud Run (Serverless deployment)
-│   ├── Cloud Functions (Event-driven tasks)
-│   ├── Vertex AI (ML model training)
-│   └── Cloud Translation API
-├── PostgreSQL (Structured data)
-└── Redis (Caching, real-time features)
+### Environment Setup
 
-AI/ML:
-├── TensorFlow / PyTorch (Predictive models)
-├── Natural Language Processing (Need extraction from text)
-├── Computer Vision (Verify supply distribution via photos)
-└── Recommendation System (Volunteer-task matching)
+```bash
+# Copy the example environment file
+cp web-dashboard/.env.example web-dashboard/.env
 
-Blockchain:
-├── Polygon/Ethereum (Low-cost smart contracts)
-└── IPFS (Decentralized storage for certificates)
-
-Integrations:
-├── Google Maps API (Location services)
-├── Twilio (SMS notifications)
-├── WhatsApp Business API
-└── Google Sheets (Data import for NGOs)
+# Edit .env with your credentials
+# Required variables:
+# - VITE_FIREBASE_API_KEY
+# - VITE_FIREBASE_PROJECT_ID
+# - VITE_FIREBASE_AUTH_DOMAIN
 ```
 
-## 🚀 Implementation Roadmap
+### Running the App
 
-### Phase 1: MVP (Months 1-2)
-**Goal**: Functional core matching system
-- [ ] User registration (Volunteers, NGOs, Beneficiaries)
-- [ ] Task creation and skill-based matching
-- [ ] Basic dashboard for task assignment
+```bash
+# Development server
+cd web-dashboard
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+---
+
+## 📁 Project Structure
+
+```
+communityconnect-ai/
+├── .github/                # GitHub workflows & templates
+├── docs/                   # Documentation
+├── web-dashboard/          # Main web application
+│   ├── public/             # Static assets
+│   ├── src/
+│   │   ├── assets/        # Images, fonts
+│   │   ├── components/    # React components
+│   │   │   ├── auth/      # Authentication
+│   │   │   ├── common/    # Shared components
+│   │   │   ├── dashboard/ # Dashboard pages
+│   │   │   ├── landing/   # Landing page
+│   │   │   └── layout/    # Layout components
+│   │   ├── config/        # Configuration
+│   │   ├── constants/     # App constants
+│   │   ├── contexts/     # React contexts
+│   │   ├── hooks/        # Custom hooks
+│   │   ├── services/     # API services
+│   │   ├── styles/       # Global styles
+│   │   └── utils/        # Utility functions
+│   └── tests/            # Test files
+├── backend/               # Backend API (future)
+├── mobile-app/           # Mobile app (future)
+└── scripts/              # Build scripts
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Quick Steps
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📞 Contact
+
+| Channel | Link |
+|---------|------|
+| Email | team@communityconnect.ai |
+| Discord | [Join Community](https://discord.gg) |
+| Twitter | [@CommunityConnectAI](https://twitter.com) |
+
+---
+
+## 🙏 Acknowledgments
+
+- Google Solution Challenge 2026
+- Open-source community
+- NGO partners for real-world insights
+- All volunteers and contributors
+
+---
+
+**Built with ❤️ for communities that need it most**
+
+*"Technology should amplify human compassion, not replace it."*
+
+---
+
+<div align="center">
+
+Last Updated: April 2026 | Version: 1.0.0
+
+</div>
 - [ ] SMS notifications for task updates
 - [ ] Geolocation-based volunteer search
 
@@ -255,11 +395,15 @@ We welcome contributions! Here's how you can help:
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
-## 📱 Demo & Prototypes
+## 📱 Live Environments
 
-- **Live Demo**: [app.communityconnect.ai](https://app.communityconnect.ai) *(Coming Soon)*
-- **Video Walkthrough**: [YouTube Link](https://youtube.com) *(Coming Soon)*
-- **Figma Prototype**: [Design Preview](https://figma.com) *(Coming Soon)*
+| Environment | URL |
+|-------------|-----|
+| **Local Development** | http://localhost:5179 |
+| **Production (Primary)** | https://gsc26-dashboard-xyz.web.app |
+| **Production (Secondary)** | https://gsc26-dashboard-xyz.firebaseapp.com |
+
+See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for deployment instructions.
 
 ## 📄 License
 

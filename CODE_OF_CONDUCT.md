@@ -1,48 +1,114 @@
-# Contributor Covenant Code of Conduct
+# 📜 Code of Conduct
+
+> Last Updated: April 2026
+
+---
 
 ## Our Pledge
 
-We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+In the interest of fostering an open and welcoming environment, we as contributors, maintainers, and leaders pledge to make participation in our community a harassment-free experience for everyone—regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
-We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
+---
+
+## 📋 Table of Contents
+
+- [Our Standards](#our-standards)
+- [Enforcement Responsibilities](#enforcement-responsibilities)
+- [Enforcement Guidelines](#enforcement-guidelines)
+- [Reporting](#reporting)
+- [Attribution](#attribution)
+
+---
 
 ## Our Standards
 
-Examples of behavior that contributes to a positive environment for our community include:
+### ✅ Positive Contributions
 
-* Demonstrating empathy and kindness toward other people
-* Being respectful of differing opinions, viewpoints, and experiences
-* Giving and gracefully accepting constructive feedback
-* Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience
-* Focusing on what is best not just for us as individuals, but for the overall community
+Examples of behavior that contribute to a positive environment include:
+
+| Behavior | Description |
+|----------|-------------|
+| **Empathy** | Demonstrating kindness toward others |
+| **Respect** | Being respectful of differing opinions and experiences |
+| **Feedback** | Giving and gracefully accepting constructive feedback |
+| **Accountability** | Accepting responsibility and apologizing for mistakes |
+| **Community Focus** | Prioritizing what benefits the entire community |
+
+### ❌ Unacceptable Behavior
 
 Examples of unacceptable behavior include:
 
-* The use of sexualized language or imagery, and sexual attention or advances of any kind
-* Trolling, insulting or derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or email address, without their explicit permission
-* Other conduct which could reasonably be considered inappropriate in a professional setting
+| Behavior | Description |
+|----------|-------------|
+| **Harassment** | Public or private harassment of any kind |
+| **Inappropriate Language** | Use of sexualized language or imagery |
+| **Trolling** | Insulting or derogatory comments |
+| **Personal Attacks** | Political or personal attacks |
+| **Privacy Violation** | Publishing others' private information without permission |
+| **Professional Misconduct** | Conduct inappropriate in a professional setting |
 
-## Enforcement Responsibilities
+---
 
-Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.
+## 🏛️ Enforcement Responsibilities
 
-## Enforcement Guidelines
+Community leaders are responsible for:
 
-Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:
+- Clarifying and enforcing standards of acceptable behavior
+- Taking fair and appropriate corrective action
+- Protecting the safety and well-being of community members
+- Removing, editing, or rejecting contributions that violate this Code
 
-**1. Correction**
-**Community Impact**: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.
+---
 
-**2. Warning**
-**Community Impact**: A violation through a single incident or series of actions.
+## ⚖️ Enforcement Guidelines
 
-**3. Temporary Ban**
-**Community Impact**: A serious violation of community standards, including sustained inappropriate behavior.
+Community leaders will follow these guidelines when determining consequences:
 
-**4. Permanent Ban**
-**Community Impact**: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.
+### 1. Correction
+- **Community Impact**: Inappropriate language or unprofessional behavior
+- **Action**: Private written warning with clarity on improvement areas
 
-## Attribution
-This Code of Conduct is adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct.html.
+### 2. Warning
+- **Community Impact**: Single incident or series of actions
+- **Action**: Public written warning with clear expectations
+
+### 3. Temporary Ban
+- **Community Impact**: Serious violation of community standards
+- **Action**: Temporary suspension from community interactions
+
+### 4. Permanent Ban
+- **Community Impact**: Pattern of violation, harassment, or aggression
+- **Action**: Permanent removal from community
+
+---
+
+## 📢 Reporting
+
+### How to Report
+
+If you experience or witness violations of this Code of Conduct:
+
+1. **Email**: conduct@communityconnect.ai
+2. **Include**: Details of the incident, date, and any relevant context
+
+### What to Expect
+
+| Response | Timeline |
+|----------|----------|
+| Acknowledgment | 24 hours |
+| Initial response | 3 days |
+| Resolution | Based on complexity |
+
+---
+
+## 📝 Attribution
+
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.1.
+
+---
+
+<div align="center">
+
+*By participating in this community, you agree to uphold this Code of Conduct.*
+
+</div>
