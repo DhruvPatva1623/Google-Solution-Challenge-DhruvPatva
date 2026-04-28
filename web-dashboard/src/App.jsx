@@ -1,449 +1,166 @@
 import { useState, useEffect, useRef } from 'react'
-import { AlertCircle, Mic, Heart, Compass, Award, User, MapPin, CheckCircle, ShieldCheck, Activity, Star, Clock, AlertTriangle, ChevronRight } from 'lucide-react'
+import { AlertCircle, Mic, Heart, Compass, Award, User, MapPin, CheckCircle, ShieldCheck, Activity, Star, Clock, AlertTriangle, ChevronRight, Menu, X, LogOut } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Line } from 'react-chartjs-2'
-import {
-  Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement
-} from 'chart.js';
 
 // Firebase
-import { auth, db } from './firebase';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, getDoc, updateDoc, arrayUnion, collection, onSnapshot, query, orderBy, limit, addDoc, serverTimestamp, setDoc } from 'firebase/firestore';
-
-// Hooks
-import { useCounter } from './hooks/useCounter';
-
-// Components
-import { Toast } from './components/common/Toast';
-import { AvatarPlaceholder } from './components/common/AvatarPlaceholder';
-import { SplashScreen } from './components/common/SplashScreen';
-import { Navbar } from './components/layout/Navbar';
-import { AuthModal } from './components/auth/AuthModal';
-import { VolunteerDashboard } from './components/dashboard/VolunteerDashboard';
-import { NgoDashboard } from './components/dashboard/NgoDashboard';
-import { ProfilePanel } from './components/dashboard/ProfilePanel';
-import { Hero } from './components/landing/Hero';
-import { SosModal } from './components/common/SosModal';
-import { SessionController } from './components/common/SessionController';
-import { HostProfileModal } from './components/common/HostProfileModal';
-
-// Data
-import { IMPACT_DATA, LANDING_TASKS, LEADERBOARD_DATA, TESTIMONIALS, GOVT_SCHEMES } from './constants/data';
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement);
-
-function ImpactSection() {
-  const [livesCount, livesRef] = useCounter(50389, 2500);
-  const [volCount, volRef] = useCounter(10245, 2000);
-  const [taskCount, taskRef] = useCounter(8742, 2200);
-  const [ngoCount, ngoRef] = useCounter(127, 1500);
-
-  return (
-    <section id="impact-stats" style={{padding:'6rem 2rem 2rem',maxWidth:'1400px',margin:'0 auto'}}>
-      <div className="reveal" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'1.5rem',textAlign:'center'}}>
-        {[{ref:livesRef,val:livesCount,label:'Lives Impacted',icon:'❤️',color:'var(--accent-pink)'},
-          {ref:volRef,val:volCount,label:'Active Volunteers',icon:'🙋‍♂️',color:'var(--primary-500)'},
-          {ref:taskRef,val:taskCount,label:'Tasks Completed',icon:'✅',color:'var(--accent-highlight)'},
-          {ref:ngoRef,val:ngoCount,label:'NGO Partners',icon:'🤝',color:'#fbbf24'}].map((m,i)=>(
-          <div key={i} className="card-3d" style={{padding:'3rem 2rem',background:'var(--glass-bg)',backdropFilter:'blur(16px)',border:'1px solid var(--glass-border)'}}>
-            <div style={{fontSize:'3rem',marginBottom:'1.5rem'}}>{m.icon}</div>
-            <div style={{fontSize:'3.5rem',fontWeight:900,color:m.color,marginBottom:'0.5rem'}} ref={m.ref}>{m.val.toLocaleString()}+</div>
-            <div style={{color:'var(--text-secondary)',fontWeight:700,fontSize:'0.9rem',textTransform:'uppercase',letterSpacing:'1px'}}>{m.label}</div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function EcosystemSection() {
-  return (
-    <section id="ecosystem" className="dotted-bg" style={{position:'relative',padding:'8rem 2rem',maxWidth:'1400px',margin:'0 auto',overflow:'hidden'}}>
-      {/* Decorative Aurora Blurs */}
-      <div className="aurora-blur" style={{top:'-10%',right:'-5%',width:'500px',height:'500px',background:'rgba(249,115,22,0.12)',filter:'blur(120px)'}}/>
-      <div className="aurora-blur" style={{bottom:'-10%',left:'-5%',width:'600px',height:'600px',background:'rgba(139,92,246,0.1)',filter:'blur(150px)'}}/>
-
-      <div style={{textAlign:'center',marginBottom:'6rem',position:'relative',zIndex:1}} className="reveal">
-        <h2 style={{fontSize:'4.5rem',fontWeight:900,marginBottom:'1rem',color:'white',letterSpacing:'-1px'}}>Intelligent Ecosystem</h2>
-        <p style={{color:'var(--text-secondary)',fontSize:'1.2rem',fontWeight:500}}>Powered by cutting-edge heuristics and empathy-driven UX.</p>
-      </div>
-      
-      <div style={{display:'grid',gridTemplateColumns:'repeat(12,1fr)',gap:'1.5rem',maxWidth:'1300px',margin:'0 auto',position:'relative',zIndex:1}}>
-        <div className="bento-card reveal" style={{gridColumn:'span 6',gridRow:'span 2',display:'flex',flexDirection:'column'}}>
-          <div style={{fontSize:'3rem',marginBottom:'2rem'}}>🔮</div>
-          <h3 style={{fontSize:'2.5rem',fontWeight:800,marginBottom:'1.5rem',color:'white'}}>Predictive Needs Graph</h3>
-          <p style={{color:'var(--text-secondary)',fontSize:'1.1rem',lineHeight:1.8,marginBottom:'2rem'}}>Leveraging historical climatic anomalies and socioeconomic shifts, the Vertex AI engine scales anticipated supply shortages before they impact marginalized communities.</p>
-          <div style={{height:'220px',marginTop:'auto'}}>
-             <Line 
-               data={{
-                 labels: ['','','','','','','','',''],
-                 datasets: [{ 
-                   data: [12, 18, 15, 22, 20, 28, 25, 32, 38], 
-                   borderColor: '#f97316', 
-                   tension: 0.4, 
-                   borderWidth: 4, 
-                   pointRadius: 0, 
-                   fill: true,
-                   backgroundColor: (context) => {
-                     const ctx = context.chart.ctx;
-                     const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-                     gradient.addColorStop(0, 'rgba(249,115,22,0.1)');
-                     gradient.addColorStop(1, 'rgba(249,115,22,0)');
-                     return gradient;
-                   }
-                 }]
-               }}
-               options={{ maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{display:false}},y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{display:false}}} }}
-             />
-          </div>
-        </div>
-
-        <div className="bento-card reveal" style={{gridColumn:'span 3'}}>
-          <div style={{fontSize:'2.5rem',marginBottom:'1.5rem'}}>🏆</div>
-          <h3 style={{fontSize:'1.8rem',fontWeight:800,marginBottom:'1rem',color:'white'}}>Gamified Growth</h3>
-          <p style={{color:'var(--text-secondary)',fontSize:'1rem',lineHeight:1.6,marginBottom:'2rem'}}>Rank up by aiding your community. Unlock exclusive blockchain badges.</p>
-          <div style={{background:'rgba(2,6,23,0.4)',padding:'1.2rem',borderRadius:'20px',border:'1px solid rgba(255,255,255,0.05)'}}>
-            <div style={{display:'flex',justifyContent:'space-between',marginBottom:'1rem',fontSize:'0.9rem',fontWeight:800}}><span>Level 4: Hero</span><span style={{color:'var(--primary-500)'}}>1450 pts</span></div>
-            <div style={{height:'10px',background:'rgba(255,255,255,0.08)',borderRadius:'99px',overflow:'hidden'}}><div style={{width:'72%',height:'100%',background:'linear-gradient(90deg,#f97316,#ec4899)'}}/></div>
-          </div>
-        </div>
-
-        <div className="bento-card reveal" style={{gridColumn:'span 3'}}>
-          <div style={{fontSize:'2.5rem',marginBottom:'1.5rem'}}>🌍</div>
-          <h3 style={{fontSize:'1.8rem',fontWeight:800,marginBottom:'1rem',color:'white'}}>Multilingual Voice</h3>
-          <p style={{color:'var(--text-secondary)',fontSize:'1rem',lineHeight:1.7}}>Real-time Dialogflow parsing across 15+ complex regional dialects bridging technological divide.</p>
-        </div>
-
-        <div className="bento-card reveal" style={{gridColumn:'span 6',display:'flex',justifyContent:'space-between',alignItems:'center',gap:'2rem',marginTop:'-1.5rem'}}>
-          <div style={{flex:1}}>
-            <h3 style={{fontSize:'2rem',fontWeight:800,marginBottom:'0.5rem',color:'white'}}>Polygon Blockchain Identity</h3>
-            <p style={{color:'var(--text-secondary)',fontSize:'0.9rem',lineHeight:1.7}}>Your verified volunteer hours are securely minted as non-fungible certificates on the Polygon L2 network, preventing fraud and providing lifelong, transportable accreditation.</p>
-          </div>
-          <div style={{background:'rgba(2,6,23,0.5)',padding:'1.2rem 1.8rem',borderRadius:'20px',border:'1px solid rgba(255,255,255,0.05)',display:'flex',alignItems:'center',gap:'1.2rem',minWidth:'280px'}}>
-             <div style={{fontSize:'2.5rem'}}>🏅</div>
-             <div>
-               <div style={{fontSize:'0.75rem',color:'var(--text-secondary)',fontWeight:800,textTransform:'uppercase',letterSpacing:'1px',marginBottom:'0.2rem'}}>Verified NFT Minted</div>
-               <div style={{fontSize:'1.1rem',fontWeight:900,color:'white'}}>120h Community Service</div>
-               <div style={{fontSize:'0.65rem',fontFamily:'monospace',color:'var(--primary-400)',marginTop:'0.2rem'}}>0x7f3a...b92e</div>
-             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function LiveNeedsSection({ setShowAuthModal, currentUser, setShowDashboard }) {
-  return (
-    <section id="impact" className="dotted-bg" style={{padding:'8rem 2rem',maxWidth:'1400px',margin:'0 auto',position:'relative',overflow:'hidden'}}>
-      {/* Decorative Aurora Blurs */}
-      <div className="aurora-blur" style={{top:'10%',left:'-10%',width:'400px',height:'400px',background:'rgba(59,130,246,0.12)',filter:'blur(100px)'}}/>
-      <div className="aurora-blur" style={{bottom:'5%',right:'-8%',width:'500px',height:'500px',background:'rgba(236,72,153,0.08)',filter:'blur(130px)'}}/>
-
-      <div style={{textAlign:'center',marginBottom:'6rem',position:'relative',zIndex:1}} className="reveal">
-        <h2 style={{fontSize:'4.5rem',fontWeight:900,marginBottom:'1rem',color:'white',letterSpacing:'-1px'}}>Live Needs & Social Impact</h2>
-        <p style={{color:'var(--text-secondary)',fontSize:'1.2rem',fontWeight:500}}>Real-time matching powered by TensorFlow.js and geospatial ML models.</p>
-      </div>
-
-      <div style={{display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:'2rem',maxWidth:'1300px',margin:'0 auto'}}>
-        <div className="card-3d reveal" style={{padding:'3rem',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
-          <div style={{display:'flex',alignItems:'center',gap:'1rem',marginBottom:'3rem'}}>
-            <Activity color="#f97316" size={32} />
-            <h3 style={{fontSize:'2rem',fontWeight:900,color:'white'}}>Active Action Requests</h3>
-          </div>
-          {LANDING_TASKS.map((t,i)=>(
-            <div key={i} className="mission-item">
-              <div style={{display:'flex',justifyContent:'space-between',marginBottom:'1.2rem',alignItems:'center'}}>
-                <span className={t.type === 'CRITICAL' ? 'tag-critical' : t.type === 'URGENT' ? 'tag-urgent' : 'tag-routine'} style={{fontSize:'0.75rem',fontWeight:900,padding:'0.3rem 0.8rem',borderRadius:'6px',textTransform:'uppercase',letterSpacing:'1px'}}>{t.type}</span>
-                <span style={{color:'var(--accent-highlight)',fontWeight:900,fontSize:'0.95rem'}}>{t.score}% ML Match</span>
-              </div>
-              <h4 style={{fontSize:'1.6rem',fontWeight:800,marginBottom:'0.8rem',color:'white'}}>{t.title}</h4>
-              <div style={{display:'flex',alignItems:'center',gap:'1.2rem',color:'var(--text-secondary)',fontSize:'0.9rem',marginBottom:'2rem'}}>
-                <span>📍 {t.dist} away</span>
-                <span>• Skills: {t.skills.join(', ')}</span>
-              </div>
-              <div style={{display:'flex',gap:'1rem'}}>
-                <button style={{background:'#f97316',color:'white',padding:'1rem 2rem',borderRadius:'12px',fontWeight:800,border:'none',flex:1,cursor:'pointer'}} onClick={()=>currentUser ? setShowDashboard(true) : setShowAuthModal(true)}>Accept Mission</button>
-                <button style={{width:'56px',height:'56px',background:'transparent',border:'1px solid rgba(255,255,255,0.2)',borderRadius:'12px',display:'flex',alignItems:'center',justifyContent:'center'}}><Compass size={24} color="white" /></button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{display:'flex',flexDirection:'column',gap:'2rem'}}>
-          <div className="card-3d reveal" style={{background:'var(--glass-bg)',backdropFilter:'blur(16px)',padding:'2rem'}}>
-            <h3 style={{fontSize:'1.8rem',fontWeight:800,marginBottom:'2.5rem',color:'white'}}>Community Impact Trajectory</h3>
-            <div style={{height:'300px'}}>
-              <Line 
-                data={IMPACT_DATA} 
-                options={{
-                  maintainAspectRatio:false,
-                  plugins:{legend:{display:false}},
-                  scales:{
-                    y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'rgba(255,255,255,0.4)',font:{weight:700}}},
-                    x:{grid:{display:false},ticks:{color:'rgba(255,255,255,0.4)',font:{weight:700}}}
-                  }
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="card-3d reveal" style={{background:'rgba(15, 23, 42, 0.6)',backdropFilter:'blur(16px)',padding:'2rem'}}>
-            <div style={{fontSize:'3rem',marginBottom:'1.5rem'}}>🏛️</div>
-            <h3 style={{fontSize:'2rem',fontWeight:900,marginBottom:'1.2rem',color:'white'}}>Govt Scheme Eligibility AI</h3>
-            <p style={{color:'var(--text-secondary)',fontSize:'1rem',lineHeight:1.8,marginBottom:'2.5rem'}}>Our system automatically cross-references beneficiary needs with Direct Benefit Transfer (DBT) and Digital India portals.</p>
-            <button style={{width:'100%',padding:'1.2rem',borderRadius:'14px',background:'transparent',border:'1px solid rgba(59,130,246,0.3)',color:'#60a5fa',fontWeight:800,fontSize:'1rem',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.8rem'}}>
-              <ShieldCheck size={22} /> Scan Beneficiary Profile
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function LeaderboardSection() {
-  return (
-    <section id="leaderboard" style={{padding:'8rem 2rem',maxWidth:'1400px',margin:'0 auto'}}>
-      <div style={{textAlign:'center',marginBottom:'6rem'}} className="reveal">
-        <h2 style={{fontSize:'4rem',fontWeight:900,marginBottom:'1rem',color:'white'}}>Volunteer Leaderboard</h2>
-        <p style={{color:'var(--text-secondary)',fontSize:'1.2rem'}}>Top contributors making the most impact this month.</p>
-      </div>
-      <div className="card-3d reveal" style={{padding:0,overflow:'hidden',maxWidth:'1000px',margin:'0 auto',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
-        {LEADERBOARD_DATA.map((v,i)=>(
-          <div key={i} className="leaderboard-row" style={{background:i===3?'rgba(249,115,22,0.08)':'transparent'}}>
-            <div style={{display:'flex',alignItems:'center',gap:'2rem'}}>
-              <div style={{width:'40px',height:'40px',background:i<3?'rgba(59,130,246,0.1)':'transparent',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:i<3?'1.5rem':'1rem',fontWeight:900,color:'#3b82f6'}}>
-                {i<3 ? <Award size={24} /> : i+1}
-              </div>
-              <div>
-                <div style={{fontWeight:800,fontSize:'1.2rem',color:'white'}}>{v.name} {i===3&&<span style={{background:'var(--primary-500)',color:'white',padding:'0.2rem 0.6rem',borderRadius:'6px',fontSize:'0.75rem',marginLeft:'0.8rem',fontWeight:900}}>YOU</span>}</div>
-                <div style={{fontSize:'0.9rem',color:'var(--text-secondary)',fontWeight:600}}>{v.city}</div>
-              </div>
-            </div>
-            <div style={{fontWeight:900,fontSize:'1.3rem',color:'var(--primary-500)'}}>{v.pts.toLocaleString()} pts</div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function StoriesSection() {
-  return (
-    <section id="stories" style={{padding:'8rem 2rem',maxWidth:'1400px',margin:'0 auto'}}>
-      <div style={{textAlign:'center',marginBottom:'6rem'}} className="reveal">
-        <h2 style={{fontSize:'4rem',fontWeight:900,marginBottom:'1rem',color:'white'}}>Success Stories</h2>
-        <p style={{color:'var(--text-secondary)',fontSize:'1.2rem'}}>Real voices from the communities we serve.</p>
-      </div>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(340px,1fr))',gap:'2rem',maxWidth:'1300px',margin:'0 auto'}}>
-        {TESTIMONIALS.map((t,i)=>(
-          <motion.div key={i} whileHover={{y:-10}} className="card-3d reveal" style={{display:'flex',flexDirection:'column',padding:'3rem',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
-            <div style={{display:'flex',gap:'0.4rem',marginBottom:'2rem'}}>
-              {Array.from({length:t.rating}).map((_,j)=><Star key={j} size={20} fill="#f97316" color="#f97316"/>)}
-            </div>
-            <p style={{color:'var(--text-secondary)',fontStyle:'italic',flex:1,lineHeight:1.9,marginBottom:'2.5rem',fontSize:'1.1rem'}}>"{t.text}"</p>
-            <div style={{borderTop:'1px solid rgba(255,255,255,0.05)',paddingTop:'2rem'}}>
-              <div style={{fontWeight:900,fontSize:'1.2rem',color:'white'}}>{t.name}</div>
-              <div style={{fontSize:'0.95rem',color:'var(--text-secondary)',fontWeight:700}}>{t.role}</div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function CtaSection({ setShowAuthModal }) {
-  return (
-    <section id="cta" style={{padding:'8rem 2rem',textAlign:'center'}}>
-      <div className="card-3d reveal" style={{padding:'5rem 2rem',borderRadius:'40px',background:'linear-gradient(135deg,#f97316,#ec4899)',color:'white',maxWidth:'1000px',margin:'0 auto',position:'relative',overflow:'hidden',border:'none'}}>
-        <div style={{position:'absolute',inset:0,opacity:0.1,backgroundImage:'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',backgroundSize:'32px 32px'}}/>
-        <div style={{position:'relative',zIndex:2}}>
-          <h2 style={{fontSize:'clamp(2.5rem, 6vw, 4.5rem)',fontWeight:900,marginBottom:'1.5rem'}}>Ready to Create Real Impact?</h2>
-          <p style={{fontSize:'1.3rem',opacity:0.9,maxWidth:'600px',margin:'0 auto 3rem',lineHeight:1.6}}>Join 10,000+ volunteers already changing lives every day. Setup takes less than 2 minutes.</p>
-          <button className="btn-magic" style={{background:'white',color:'var(--primary-500)',padding:'1.2rem 3rem',fontSize:'1.2rem',fontWeight:800,boxShadow:'0 10px 30px rgba(0,0,0,0.2)'}} onClick={() => setShowAuthModal(true)}>🚀 Get Started — It's Free</button>
-        </div>
-      </div>
-    </section>
-  );
-}
+import { auth, db, googleProvider } from './firebase';
+import { onAuthStateChanged, signOut, signInWithPopup } from 'firebase/auth';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 function App() {
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
   const [currentUser, setCurrentUser] = useState(null);
-  const [authLoading, setAuthLoading] = useState(true);
-  const [showDashboard, setShowDashboard] = useState(() => localStorage.getItem('showDashboard') === 'true');
-  const [activeTab, setActiveTab] = useState(() => localStorage.getItem('activeTab') || 'overview');
+  const [isLoading, setIsLoading] = useState(true);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [theme, setTheme] = useState('dark');
+  const [toasts, setToasts] = useState([]);
+  
+  const cursorRef = useRef(null);
+  const blobRef = useRef(null);
 
-  const cursorRef = useRef(null)
-  const blobRef = useRef(null)
-  const [sosActive, setSosActive] = useState(false)
-  const [voiceActive, setVoiceActive] = useState(false)
-  const [voiceText, setVoiceText] = useState('')
-  const [toasts, setToasts] = useState([])
-  const [acceptedTasks, setAcceptedTasks] = useState({})
-  const [showAuthModal, setShowAuthModal] = useState(false)
-  const [showProfile, setShowProfile] = useState(false)
-  const [showSplash, setShowSplash] = useState(true)
-  const [showSosModal, setShowSosModal] = useState(false)
-  const [showHostProfile, setShowHostProfile] = useState(null)
-  const [emergencyMissions, setEmergencyMissions] = useState([])
-  const [checkInTime, setCheckInTime] = useState(null)
-  const [activeSessionSecs, setActiveSessionSecs] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
-  const [accumulatedSecs, setAccumulatedSecs] = useState(0)
-  const [timestamps, setTimestamps] = useState([])
-
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  useEffect(() => { localStorage.setItem('showDashboard', showDashboard); }, [showDashboard]);
-  useEffect(() => { localStorage.setItem('activeTab', activeTab); }, [activeTab]);
-
+  // Auth listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
-          setCurrentUser(userDoc.data());
+          setCurrentUser({ id: user.uid, ...userDoc.data() });
         } else {
-          setCurrentUser(null);
-          setShowDashboard(false);
+          setCurrentUser({ 
+            id: user.uid, 
+            email: user.email, 
+            name: user.displayName,
+            role: 'Volunteer' 
+          });
         }
       } else {
         setCurrentUser(null);
         setShowDashboard(false);
       }
-      setAuthLoading(false);
+      setIsLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
+  // Theme effect
   useEffect(() => {
-    const q = query(collection(db, 'emergency_missions'), orderBy('timestamp', 'desc'), limit(10));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const missions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setEmergencyMissions(missions);
-    });
-    return () => unsubscribe();
-  }, []);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
-  useEffect(() => {
-    let interval;
-    if (checkInTime && !isPaused) {
-      interval = setInterval(() => {
-        const currentElapsed = Math.floor((Date.now() - checkInTime) / 1000);
-        setActiveSessionSecs(accumulatedSecs + currentElapsed);
-      }, 1000);
-    } else {
-      setActiveSessionSecs(accumulatedSecs);
-    }
-    return () => clearInterval(interval);
-  }, [checkInTime, isPaused, accumulatedSecs]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 2500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const isLoading = authLoading || showSplash;
-
-  const addToast = (message, type = 'success') => {
-    const id = Date.now();
-    setToasts(prev => [...prev, { id, message, type }]);
-  };
-  const removeToast = (id) => setToasts(prev => prev.filter(t => t.id !== id));
-
-  const handleSos = () => {
-    if (navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
-    setShowSosModal(true);
-  }
-
-  const [isSosSubmitting, setIsSosSubmitting] = useState(false);
-  const handleSosSubmit = async (missionData) => {
-    if (isSosSubmitting) return;
-    setIsSosSubmitting(true);
+  // Handle login
+  const handleLogin = async () => {
     try {
-      await addDoc(collection(db, 'emergency_missions'), {
-        ...missionData,
-        timestamp: serverTimestamp(),
-        senderId: currentUser?.uid || 'anon'
-      });
-      setShowSosModal(false);
-      setSosActive(true);
-      addToast('🚨 SOS Broadcasted! Every user is being notified.', 'error');
-      setTimeout(() => setSosActive(false), 8000);
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      
+      // Check if user exists in Firestore
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      
+      if (!userDoc.exists()) {
+        // Create new user document
+        await setDoc(doc(db, 'users', user.uid), {
+          email: user.email,
+          name: user.displayName,
+          photoURL: user.photoURL,
+          role: 'Volunteer',
+          createdAt: serverTimestamp(),
+          points: 0,
+          tasksCompleted: 0
+        });
+      }
+      
+      addToast('Successfully signed in!', 'success');
+      setShowAuthModal(false);
+      setShowDashboard(true);
     } catch (error) {
-      addToast('Failed to broadcast SOS', 'error');
-    } finally {
-      setIsSosSubmitting(false);
+      console.error('Login error:', error);
+      addToast('Failed to sign in. Please try again.', 'error');
     }
   };
 
+  // Handle logout
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setTimeout(() => {
-        setCurrentUser(null);
-        setShowDashboard(false);
-        localStorage.removeItem('showDashboard');
-        addToast('👋 Logged out successfully', 'info');
-      }, 300);
-    } catch (error) { addToast('Error logging out', 'error'); }
+      setShowDashboard(false);
+      addToast('Signed out successfully', 'success');
+    } catch (error) {
+      console.error('Logout error:', error);
+      addToast('Failed to sign out', 'error');
+    }
   };
 
-  const handleProfileUpdate = async (updated) => {
-    if (!currentUser) return;
-    try {
-      const userRef = doc(db, 'users', currentUser.uid);
-      await setDoc(userRef, updated, { merge: true });
-      setCurrentUser(updated);
-      addToast('✅ Profile updated successfully', 'success');
-    } catch (error) { addToast('Failed to update profile', 'error'); }
+  // Toast functions
+  const addToast = (message, type = 'info') => {
+    const id = Date.now();
+    setToasts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => removeToast(id), 3000);
   };
 
-  useEffect(() => {
-    if (isLoading) return;
-    const updateObserver = () => {
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active') });
-      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-      return obs;
-    };
-    const obs = updateObserver();
-    const timer = setTimeout(updateObserver, 100);
-    return () => { obs.disconnect(); clearTimeout(timer); };
-  }, [isLoading, showDashboard]);
+  const removeToast = (id) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  };
 
+  // Cursor effects
   useEffect(() => {
     let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
     let cursorX = mouseX, cursorY = mouseY, blobX = mouseX, blobY = mouseY, running = true;
+    
     const handleMouse = (e) => {
-      mouseX = e.clientX; mouseY = e.clientY;
-      document.querySelectorAll('.card-3d').forEach(card => {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-      });
+      mouseX = e.clientX; 
+      mouseY = e.clientY;
     };
+    
     window.addEventListener('mousemove', handleMouse);
+    
     const loop = () => {
-      cursorX += (mouseX - cursorX) * 0.3; cursorY += (mouseY - cursorY) * 0.3;
-      blobX += (mouseX - blobX) * 0.04; blobY += (mouseY - blobY) * 0.04;
-      if (cursorRef.current) cursorRef.current.style.transform = `translate(${cursorX-7}px,${cursorY-7}px)`;
-      if (blobRef.current) blobRef.current.style.transform = `translate(${blobX}px,${blobY}px)`;
+      cursorX += (mouseX - cursorX) * 0.3; 
+      cursorY += (mouseY - cursorY) * 0.3;
+      blobX += (mouseX - blobX) * 0.04; 
+      blobY += (mouseY - blobY) * 0.04;
+      
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${cursorX-7}px,${cursorY-7}px)`;
+      }
+      if (blobRef.current) {
+        blobRef.current.style.transform = `translate(${blobX}px,${blobY}px)`;
+      }
+      
       if (running) requestAnimationFrame(loop);
     };
+    
     loop();
-    return () => { running=false; window.removeEventListener('mousemove', handleMouse); };
+    
+    return () => { 
+      running = false; 
+      window.removeEventListener('mousemove', handleMouse); 
+    };
   }, []);
 
-  if (isLoading) return <SplashScreen />
+  if (isLoading) {
+    return (
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        background: 'var(--bg-primary)'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: '60px',
+            height: '60px',
+            border: '4px solid var(--primary-500)',
+            borderTopColor: 'transparent',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 1rem'
+          }} />
+          <p style={{ color: 'var(--text-secondary)' }}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -456,75 +173,378 @@ function App() {
       <div ref={cursorRef} className="cursor-trail" />
 
       <div className="app-container">
-        <svg className="bg-svg" preserveAspectRatio="none">
-          <path d="M-100,500 Q400,100 900,600 T2000,300" className="path-line"/>
-          <path d="M-100,200 Q300,700 1000,100 T2000,500" className="path-line" style={{animationDuration:'12s',stroke:'var(--accent-pink)'}}/>
-        </svg>
+        {/* Navbar */}
+        <nav className="navbar glass-panel">
+          <div className="navbar-content">
+            <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
+              <Heart size={28} style={{color:'var(--primary-500)'}} />
+              <span style={{fontWeight:800,fontSize:'1.5rem'}}>CommunityConnect</span>
+            </div>
+            
+            <div style={{display:'flex',alignItems:'center',gap:'1rem'}}>
+              <button 
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                style={{
+                  padding: '0.5rem',
+                  background: 'transparent',
+                  border: '1px solid var(--border-light)',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  color: 'var(--text-primary)'
+                }}
+              >
+                {theme === 'dark' ? '☀️' : '🌙'}
+              </button>
 
-        <Navbar 
-          theme={theme} setTheme={setTheme} handleSos={handleSos} 
-          currentUser={currentUser} showDashboard={showDashboard}
-          setShowDashboard={setShowDashboard} setShowProfile={setShowProfile} 
-          setShowAuthModal={setShowAuthModal} activeSessionSecs={activeSessionSecs}
-          isCheckingIn={!!checkInTime || accumulatedSecs > 0}
-          onCheckOut={() => {}} activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout}
-          onNavigateBack={() => {
-            if (showProfile) setShowProfile(false);
-            else if (showDashboard) { if (activeTab !== 'overview') setActiveTab('overview'); else setShowDashboard(false); }
-            else window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        />
-
-        <AnimatePresence>
-          {showAuthModal && <AuthModal onClose={()=>setShowAuthModal(false)} onLogin={handleLogin} addToast={addToast} theme={theme}/>}
-          {showSosModal && <SosModal user={currentUser} onClose={() => setShowSosModal(false)} onSubmit={handleSosSubmit} isLoading={isSosSubmitting} />}
-          {showHostProfile && <HostProfileModal host={showHostProfile} onClose={() => setShowHostProfile(null)} />}
-          {showProfile && currentUser && <ProfilePanel user={currentUser} onClose={() => setShowProfile(false)} onUpdate={handleProfileUpdate} addToast={addToast} onLogout={handleLogout} />}
-        </AnimatePresence>
-
-        <AnimatePresence>
-          {!showDashboard || !currentUser ? (
-            <motion.main key="landing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ position: 'relative', paddingTop: '100px' }}>
-              <Hero setShowAuthModal={setShowAuthModal} />
-              <ImpactSection />
-              <EcosystemSection />
-              <LiveNeedsSection setShowAuthModal={setShowAuthModal} currentUser={currentUser} setShowDashboard={setShowDashboard} />
-              <LeaderboardSection />
-              <StoriesSection />
-              <CtaSection setShowAuthModal={setShowAuthModal} />
-
-              <footer style={{marginTop:'100px',borderTop:'1px solid rgba(255,255,255,0.05)',padding:'4rem 2rem'}}>
-                <div style={{maxWidth:'1200px',margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:'3rem'}}>
-                  <div>
-                    <div style={{display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'1rem'}}>
-                      <style>{`[data-theme="dark"] .app-logo { filter: invert(1) brightness(2) contrast(1.2) drop-shadow(0 0 15px rgba(255,255,255,0.4)) !important; }`}</style>
-                      <img src="/CC_LOGO.png" alt="Logo" className="app-logo" style={{ height: '42px', width: 'auto', cursor: 'pointer' }} /><span style={{fontWeight:800}}>CommunityConnect</span>
-                    </div>
-                    <p style={{color:'var(--text-secondary)',fontSize:'0.9rem',lineHeight:1.6}}>AI-powered volunteer coordination built for Google Solution Challenge 2026.</p>
+              {currentUser ? (
+                <>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem 1rem',
+                    background: 'var(--bg-secondary)',
+                    borderRadius: '12px'
+                  }}>
+                    <img 
+                      src={currentUser.photoURL || `https://ui-avatars.com/api/?name=${currentUser.name}`} 
+                      alt="Avatar"
+                      style={{width:'32px',height:'32px',borderRadius:'50%'}}
+                    />
+                    <span style={{fontWeight:600}}>{currentUser.name}</span>
                   </div>
-                  <div><h4 style={{marginBottom:'1rem'}}>Platform</h4><div style={{display:'flex',flexDirection:'column',gap:'0.5rem',fontSize:'0.9rem',color:'var(--text-secondary)'}}><a href="#platform" style={{color:'inherit',textDecoration:'none'}}>Missions</a><a href="#impact" style={{color:'inherit',textDecoration:'none'}}>Impact Hub</a><a href="#stories" style={{color:'inherit',textDecoration:'none'}}>Stories</a></div></div>
-                  <div><h4 style={{marginBottom:'1rem'}}>Connect</h4><div style={{display:'flex',flexDirection:'column',gap:'0.5rem',fontSize:'0.9rem',color:'var(--text-secondary)'}}><a href="#" style={{color:'inherit',textDecoration:'none'}}>Twitter</a><a href="#" style={{color:'inherit',textDecoration:'none'}}>GitHub</a><a href="#" style={{color:'inherit',textDecoration:'none'}}>LinkedIn</a></div></div>
+                  <button
+                    onClick={handleLogout}
+                    className="btn-magic"
+                    style={{display:'flex',alignItems:'center',gap:'0.5rem'}}
+                  >
+                    <LogOut size={18} />
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => setShowAuthModal(true)}
+                  className="btn-magic"
+                >
+                  Sign In
+                </button>
+              )}
+            </div>
+          </div>
+        </nav>
+
+        {/* Main Content */}
+        <AnimatePresence mode="wait">
+          {!showDashboard ? (
+            <motion.main 
+              key="landing"
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }}
+              style={{ position: 'relative', paddingTop: '120px', minHeight: '100vh' }}
+            >
+              {/* Hero Section */}
+              <section style={{
+                textAlign: 'center',
+                padding: '4rem 2rem',
+                maxWidth: '1200px',
+                margin: '0 auto'
+              }}>
+                <h1 className="hero-title" style={{
+                  fontSize: 'clamp(2.5rem, 8vw, 6rem)',
+                  fontWeight: 900,
+                  marginBottom: '1.5rem',
+                  lineHeight: 1.1
+                }}>
+                  Volunteer. Impact. <span className="text-gradient">Transform.</span>
+                </h1>
+                
+                <p className="hero-subtitle" style={{
+                  fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+                  color: 'var(--text-secondary)',
+                  maxWidth: '600px',
+                  margin: '0 auto 2.5rem',
+                  lineHeight: 1.8
+                }}>
+                  Join India's most intelligent volunteer coordination platform. 
+                  Powered by AI, driven by compassion.
+                </p>
+
+                <div style={{display:'flex',gap:'1rem',justifyContent:'center',flexWrap:'wrap'}}>
+                  <button 
+                    onClick={() => currentUser ? setShowDashboard(true) : setShowAuthModal(true)}
+                    className="btn-magic"
+                    style={{fontSize:'1.1rem',padding:'1rem 2.5rem'}}
+                  >
+                    {currentUser ? 'Go to Dashboard' : 'Get Started'}
+                  </button>
+                  <button 
+                    className="btn-secondary"
+                    style={{
+                      padding: '1rem 2.5rem',
+                      fontSize: '1.1rem',
+                      background: 'transparent',
+                      border: '2px solid var(--primary-500)',
+                      borderRadius: '99px',
+                      color: 'var(--primary-500)',
+                      fontWeight: 700,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Learn More
+                  </button>
                 </div>
+              </section>
+
+              {/* Impact Stats */}
+              <section style={{padding:'4rem 2rem',maxWidth:'1200px',margin:'0 auto'}}>
+                <div style={{
+                  display:'grid',
+                  gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))',
+                  gap:'1.5rem',
+                  textAlign:'center'
+                }}>
+                  {[
+                    {val:'50,389+',label:'Lives Impacted',icon:'❤️',color:'var(--accent-pink)'},
+                    {val:'10,245+',label:'Active Volunteers',icon:'🙋‍♂️',color:'var(--primary-500)'},
+                    {val:'8,742+',label:'Tasks Completed',icon:'✅',color:'var(--accent-highlight)'},
+                    {val:'127+',label:'NGO Partners',icon:'🤝',color:'#fbbf24'}
+                  ].map((m,i)=>(
+                    <div key={i} className="card-3d glass-panel" style={{padding:'2rem'}}>
+                      <div style={{fontSize:'3rem',marginBottom:'1rem'}}>{m.icon}</div>
+                      <div style={{fontSize:'2.5rem',fontWeight:900,color:m.color,marginBottom:'0.5rem'}}>
+                        {m.val}
+                      </div>
+                      <div style={{color:'var(--text-secondary)',fontWeight:600,fontSize:'0.9rem'}}>
+                        {m.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Features */}
+              <section style={{padding:'4rem 2rem',maxWidth:'1200px',margin:'0 auto'}}>
+                <h2 style={{
+                  fontSize:'3rem',
+                  fontWeight:900,
+                  textAlign:'center',
+                  marginBottom:'3rem'
+                }}>
+                  Why Choose Us?
+                </h2>
+                
+                <div style={{
+                  display:'grid',
+                  gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))',
+                  gap:'2rem'
+                }}>
+                  {[
+                    {icon:'🎯',title:'Smart Matching',desc:'AI-powered task recommendations based on your skills and location'},
+                    {icon:'📱',title:'Real-time Updates',desc:'Stay connected with live notifications and progress tracking'},
+                    {icon:'🏆',title:'Gamified Experience',desc:'Earn points, unlock badges, and climb the leaderboard'},
+                    {icon:'🔒',title:'Blockchain Verified',desc:'Your volunteer hours securely stored on Polygon network'}
+                  ].map((f,i)=>(
+                    <div key={i} className="card-3d glass-panel" style={{padding:'2rem'}}>
+                      <div style={{fontSize:'3rem',marginBottom:'1rem'}}>{f.icon}</div>
+                      <h3 style={{fontSize:'1.5rem',fontWeight:800,marginBottom:'0.5rem'}}>
+                        {f.title}
+                      </h3>
+                      <p style={{color:'var(--text-secondary)',lineHeight:1.7}}>
+                        {f.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Footer */}
+              <footer style={{
+                marginTop:'100px',
+                borderTop:'1px solid rgba(255,255,255,0.05)',
+                padding:'3rem 2rem',
+                textAlign:'center'
+              }}>
+                <p style={{color:'var(--text-secondary)'}}>
+                  © 2026 CommunityConnect. Built for Google Solution Challenge.
+                </p>
               </footer>
             </motion.main>
           ) : (
-            <motion.div key="dashboard" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}>
-              {currentUser.role === 'NGO' ? (
-                <NgoDashboard user={currentUser} activeTab={activeTab} setActiveTab={setActiveTab} addToast={addToast} />
-              ) : (
-                <VolunteerDashboard user={currentUser} activeTab={activeTab} setActiveTab={setActiveTab} addToast={addToast} />
-              )}
+            <motion.div 
+              key="dashboard"
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }}
+              style={{paddingTop:'120px',minHeight:'100vh',padding:'120px 2rem 2rem'}}
+            >
+              <div style={{maxWidth:'1200px',margin:'0 auto'}}>
+                <h1 style={{fontSize:'3rem',fontWeight:900,marginBottom:'2rem'}}>
+                  Welcome back, {currentUser?.name}! 👋
+                </h1>
+                
+                <div style={{
+                  display:'grid',
+                  gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))',
+                  gap:'2rem',
+                  marginBottom:'3rem'
+                }}>
+                  <div className="glass-panel" style={{padding:'2rem',borderRadius:'20px'}}>
+                    <h3 style={{fontSize:'1.2rem',marginBottom:'0.5rem',color:'var(--text-secondary)'}}>
+                      Your Points
+                    </h3>
+                    <div style={{fontSize:'3rem',fontWeight:900,color:'var(--primary-500)'}}>
+                      {currentUser?.points || 0}
+                    </div>
+                  </div>
+                  
+                  <div className="glass-panel" style={{padding:'2rem',borderRadius:'20px'}}>
+                    <h3 style={{fontSize:'1.2rem',marginBottom:'0.5rem',color:'var(--text-secondary)'}}>
+                      Tasks Completed
+                    </h3>
+                    <div style={{fontSize:'3rem',fontWeight:900,color:'var(--accent-highlight)'}}>
+                      {currentUser?.tasksCompleted || 0}
+                    </div>
+                  </div>
+                  
+                  <div className="glass-panel" style={{padding:'2rem',borderRadius:'20px'}}>
+                    <h3 style={{fontSize:'1.2rem',marginBottom:'0.5rem',color:'var(--text-secondary)'}}>
+                      Your Rank
+                    </h3>
+                    <div style={{fontSize:'3rem',fontWeight:900,color:'var(--accent-pink)'}}>
+                      #247
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass-panel" style={{padding:'2rem',borderRadius:'20px'}}>
+                  <h2 style={{fontSize:'2rem',fontWeight:800,marginBottom:'1.5rem'}}>
+                    Available Tasks
+                  </h2>
+                  <p style={{color:'var(--text-secondary)',fontSize:'1.1rem'}}>
+                    Task listing coming soon! Start contributing to your community.
+                  </p>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
 
+        {/* Auth Modal */}
         <AnimatePresence>
-          {toasts.map(t => <Toast key={t.id} message={t.message} type={t.type} onClose={() => removeToast(t.id)} />)}
+          {showAuthModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                background: 'rgba(0,0,0,0.7)',
+                backdropFilter: 'blur(8px)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 9999,
+                padding: '1rem'
+              }}
+              onClick={() => setShowAuthModal(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+                className="glass-panel"
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  maxWidth: '450px',
+                  width: '100%',
+                  padding: '3rem',
+                  borderRadius: '24px',
+                  textAlign: 'center'
+                }}
+              >
+                <div style={{fontSize:'3rem',marginBottom:'1rem'}}>🚀</div>
+                <h2 style={{fontSize:'2rem',fontWeight:900,marginBottom:'1rem'}}>
+                  Welcome to CommunityConnect
+                </h2>
+                <p style={{color:'var(--text-secondary)',marginBottom:'2rem',lineHeight:1.7}}>
+                  Sign in with Google to start making a difference in your community
+                </p>
+                
+                <button
+                  onClick={handleLogin}
+                  className="btn-magic"
+                  style={{
+                    width: '100%',
+                    padding: '1rem',
+                    fontSize: '1.1rem',
+                    marginBottom: '1rem'
+                  }}
+                >
+                  <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
+                    <svg width="20" height="20" viewBox="0 0 20 20">
+                      <path fill="currentColor" d="M19.6 10.23c0-.82-.1-1.42-.25-2.05H10v3.72h5.5c-.15.96-.74 2.31-2.04 3.22v2.45h3.16c1.89-1.73 2.98-4.3 2.98-7.34z"/>
+                      <path fill="currentColor" d="M13.46 15.13c-.83.59-1.96 1-3.46 1-2.64 0-4.88-1.74-5.68-4.15H1.07v2.52C2.72 17.75 6.09 20 10 20c2.7 0 4.96-.89 6.62-2.42l-3.16-2.45z"/>
+                      <path fill="currentColor" d="M3.99 10c0-.69.12-1.35.32-1.97V5.51H1.07A9.973 9.973 0 000 10c0 1.61.39 3.14 1.07 4.49l3.24-2.52c-.2-.62-.32-1.28-.32-1.97z"/>
+                      <path fill="currentColor" d="M10 3.88c1.88 0 3.13.81 3.85 1.48l2.84-2.76C14.96.99 12.7 0 10 0 6.09 0 2.72 2.25 1.07 5.51l3.24 2.52C5.12 5.62 7.36 3.88 10 3.88z"/>
+                    </svg>
+                    Continue with Google
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setShowAuthModal(false)}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    padding: '0.5rem',
+                    fontSize: '0.9rem'
+                  }}
+                >
+                  Cancel
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
         </AnimatePresence>
 
-        {sosActive && <div className="sos-overlay" />}
-        {voiceActive && <div className="voice-wave-container"><div className="voice-wave" /><div className="voice-text">{voiceText}</div></div>}
+        {/* Toast Notifications */}
+        <AnimatePresence>
+          {toasts.map(t => (
+            <motion.div
+              key={t.id}
+              initial={{ opacity: 0, y: 50, x: '-50%' }}
+              animate={{ opacity: 1, y: 0, x: '-50%' }}
+              exit={{ opacity: 0, y: 50, x: '-50%' }}
+              style={{
+                position: 'fixed',
+                bottom: '2rem',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: t.type === 'success' ? '#10b981' : t.type === 'error' ? '#ef4444' : 'var(--primary-500)',
+                color: 'white',
+                padding: '1rem 2rem',
+                borderRadius: '12px',
+                fontWeight: 600,
+                zIndex: 10000,
+                boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+              }}
+            >
+              {t.message}
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
+
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </>
   )
 }
