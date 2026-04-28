@@ -32,7 +32,7 @@ export function Navbar({
         {/* Left: Logo & Navigation Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }} onClick={() => setShowDashboard(false)}>
-            <img src="/CC_LOGO.png" alt="Logo" style={{ height: '32px', width: 'auto', cursor: 'pointer' }} />
+            <img src="/CC_LOGO.png" alt="Logo" className="app-logo" style={{ height: '42px', width: 'auto', cursor: 'pointer' }} />
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.2rem', cursor: 'pointer', display: 'none', md: 'block' }}>CommunityConnect</span>
           </div>
           
@@ -61,7 +61,7 @@ export function Navbar({
             </div>
           ) : (
             <nav className="desktop-nav" style={{ display: 'flex', gap: '2rem' }}>
-              {['Platform', 'Impact', 'Stories'].map(l => (
+              {['Platform', 'Impact', 'Ecosystem', 'Leaderboard', 'Stories'].map(l => (
                 <a key={l} href={`#${l.toLowerCase()}`} style={{ textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 600, fontSize: '0.9rem' }}>{l}</a>
               ))}
             </nav>

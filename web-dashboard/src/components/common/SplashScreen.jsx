@@ -7,7 +7,7 @@ export function SplashScreen() {
       exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
       style={{
-        position: 'fixed', inset: 0, zIndex: 999999, background: '#111827',
+        position: 'fixed', inset: 0, zIndex: 999999, background: 'radial-gradient(circle at center, #1e293b 0%, #111827 100%)',
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         padding: '2rem', textAlign: 'center'
       }}
@@ -16,14 +16,16 @@ export function SplashScreen() {
         initial={{ scale: 0.5, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ duration: 1, type: "spring", bounce: 0.5 }}
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}
+        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '1rem', position: 'relative' }}
       >
+        <div style={{ position: 'absolute', width: '250px', height: '250px', background: 'radial-gradient(circle, rgba(249,115,22,0.2) 0%, transparent 70%)', borderRadius: '50%', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: -1 }} />
         <motion.img 
           src="/CC_LOGO.png"
           alt="Logo"
+          className="app-logo"
           animate={{ scale: [1, 1.1, 1] }} 
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          style={{ height: '80px', width: 'auto', objectFit: 'contain' }}
+          style={{ height: '120px', width: 'auto', objectFit: 'contain' }}
         />
         <h1 style={{ 
           fontFamily: 'var(--font-display)', 
@@ -42,7 +44,7 @@ export function SplashScreen() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.8 }}
-        style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.85rem, 3vw, 1.2rem)', fontWeight: 500, letterSpacing: '2px', lineHeight: 1.5 }}
+        style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: 'clamp(0.85rem, 3vw, 1.2rem)', fontWeight: 500, letterSpacing: '2px', lineHeight: 1.5 }}
       >
         WELCOME TO THE FUTURE OF IMPACT
       </motion.p>

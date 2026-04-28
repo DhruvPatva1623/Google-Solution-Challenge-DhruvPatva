@@ -205,7 +205,7 @@ export function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile, em
             <motion.div initial={{y:20,opacity:0}} animate={{y:0,opacity:1}} style={{background:'linear-gradient(135deg,var(--primary-500),var(--accent-pink))',borderRadius:'24px',padding:'2rem',marginBottom:'2rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'1rem'}}>
               <div style={{color:'white'}}>
                 <p style={{opacity:0.85,marginBottom:'0.3rem'}}>Good {new Date().getHours()<12?'Morning':'Afternoon'},</p>
-                <h2 style={{fontSize:'2rem',fontWeight:800}}>Welcome back, {user.name.split(' ')[0]}! 👋</h2>
+                <h2 style={{fontSize:'2rem',fontWeight:800}}>Welcome back, {user?.name ? user.name.split(' ')[0] : 'Volunteer'}! 👋</h2>
                 <div style={{display:'flex',gap:'1rem',marginTop:'0.4rem',flexWrap:'wrap'}}>
                   {user.age && <span style={{background:'rgba(255,255,255,0.15)',padding:'0.2rem 0.8rem',borderRadius:'99px',fontSize:'0.75rem',fontWeight:700}}>🎂 {user.age} Years Old</span>}
                   {(user.interests || []).slice(0,3).map((it,idx) => (

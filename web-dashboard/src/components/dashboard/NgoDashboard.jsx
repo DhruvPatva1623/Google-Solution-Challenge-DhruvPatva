@@ -53,7 +53,7 @@ export function NgoDashboard({ user, onLogout, onOpenProfile, addToast, emergenc
         
         {/* Welcome Section */}
         <div style={{ marginBottom: '2.5rem' }}>
-          <h1 style={{ fontSize: '2.2rem', fontWeight: 800 }}>Welcome back, {user.name.split(' ')[0]}!</h1>
+          <h1 style={{ fontSize: '2.2rem', fontWeight: 800 }}>Welcome back, {user?.name ? user.name.split(' ')[0] : 'Partner'}!</h1>
           <div style={{ display: 'flex', gap: '1rem', marginTop: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
             <p style={{ color: 'var(--text-secondary)' }}>Coordinating for <strong>{user.org || 'Your Organization'}</strong> in {user.city}.</p>
             {user.established && <span style={{ background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.8rem', borderRadius: '89px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Est. {user.established}</span>}

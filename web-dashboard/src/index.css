@@ -138,6 +138,17 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height
   animation: pulseRotate 12s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
+.dotted-bg {
+  position: relative;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 30px 30px;
+  background-position: center;
+}
+
+[data-theme="light"] .dotted-bg {
+  background-image: radial-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+}
+
 .bg-svg {
   position: fixed;
   top: 0;
@@ -152,9 +163,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height
 .path-line {
   fill: none;
   stroke: var(--primary-500);
-  stroke-width: 1;
+  stroke-width: 1px;
   stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
+  stroke-dashoffset: 1000px;
   animation: drawLine 15s linear infinite;
 }
 
@@ -212,44 +223,103 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height
   display: flex; justify-content: space-between; align-items: center;
 }
 
-/* Magic Buttons */
+/* ─── Magic Buttons (Reference-Exact) ─── */
 .btn-magic {
   position: relative;
   background: linear-gradient(135deg, var(--primary-400), var(--accent-pink));
-  color: white; font-weight: 700; font-family: var(--font-display);
-  border: none; padding: 0.8rem 2rem; border-radius: 99px;
-  overflow: hidden; z-index: 1; transition: all 0.3s var(--ease-bounce);
+  color: white;
+  font-weight: 700;
+  font-family: var(--font-display);
+  z-index: 1;
+  border: none;
+  border-radius: 99px;
+  padding: 0.8rem 2rem;
+  overflow: hidden;
+  transition: all 0.3s var(--ease-bounce);
   box-shadow: 0 10px 20px -5px rgba(236, 72, 153, 0.4);
-}
-.btn-magic::before {
-  content: ''; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(135deg, var(--accent-pink), var(--primary-400));
-  opacity: 0; transition: opacity 0.5s ease;
-}
-.btn-magic:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 15px 25px -5px rgba(236, 72, 153, 0.6); }
-.btn-magic:hover::before { opacity: 1; }
-.btn-magic:active { transform: translateY(0) scale(0.95); }
-
-.nav-page-btn {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-light);
-  padding: 0.5rem;
-  border-radius: 8px;
   cursor: pointer;
-  color: var(--text-primary);
+}
+
+.btn-magic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, var(--accent-pink), var(--primary-400));
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.btn-magic:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 25px -5px rgba(236, 72, 153, 0.6);
+}
+
+.btn-magic:hover::before {
+  opacity: 1;
+}
+
+.btn-magic:active {
+  transform: translateY(0) scale(0.95);
+}
+
+.btn-cta {
+  background: white !important;
+  color: var(--primary-500) !important;
+  padding: 1.4rem 3.5rem;
+  border-radius: 99px;
+  font-weight: 900;
+  font-size: 1.3rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.btn-cta:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+
+.cta-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.mission-item {
+  background: rgba(2, 6, 23, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 24px;
+  padding: 1.8rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s;
+}
+
+.mission-item:hover {
+  border-color: rgba(249, 115, 22, 0.3);
+  background: rgba(2, 6, 23, 0.6);
+}
+
+.tag-critical { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+.tag-urgent { background: rgba(249, 115, 22, 0.1); color: #f97316; border: 1px solid rgba(249, 115, 22, 0.2); }
+.tag-routine { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+
+.leaderboard-row {
   display: flex;
   align-items: center;
-  transition: all 0.2s ease;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: background 0.3s;
 }
-.nav-page-btn:hover {
-  background: var(--primary-500);
-  color: white;
-  border-color: var(--primary-500);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
-}
-.nav-page-btn:active {
-  transform: translateY(0);
+
+.leaderboard-row:hover {
+  background: rgba(255, 255, 255, 0.02);
 }
 
 /* Hero Typography */
@@ -315,8 +385,24 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height
 }
 
 /* Scroll Reveling */
+.app-logo {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.2));
+}
+
+[data-theme="dark"] .app-logo {
+  filter: invert(1) brightness(1.8) contrast(1.1) drop-shadow(0 0 20px rgba(255, 255, 255, 0.6)) !important;
+  animation: logo-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes logo-glow {
+  0% { filter: invert(1) brightness(1.8) contrast(1.1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4)); transform: scale(1); }
+  100% { filter: invert(1) brightness(2.2) contrast(1.2) drop-shadow(0 0 25px rgba(255, 255, 255, 0.8)); transform: scale(1.05); }
+}
+
 .reveal {
-  opacity: 0; transform: translateY(60px) scale(0.95);
+  opacity: 0;
+  transform: translateY(60px) scale(0.95);
   transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
 }
 .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
@@ -361,13 +447,31 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 800; line-height
   .mobile-nav { display: flex; }
 }
 
-/* ─── Background Elevated (used in bento cards) ─── */
-:root {
-  --bg-elevated: rgba(255, 255, 255, 0.7);
+.nav-page-btn {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  color: var(--text-primary);
+  border-radius: 8px;
+  align-items: center;
+  padding: 0.5rem;
+  transition: all 0.2s;
+  display: flex;
 }
-[data-theme="dark"] {
-  --bg-elevated: rgba(15, 23, 42, 0.7);
+
+.nav-page-btn:hover {
+  background: var(--primary-500);
+  color: white;
+  border-color: var(--primary-500);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
 }
+
+.nav-page-btn:active {
+  transform: translateY(0);
+}
+
+/* ─── Background Elevated ─── */
 
 /* ─── Custom Scrollbar ─── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }

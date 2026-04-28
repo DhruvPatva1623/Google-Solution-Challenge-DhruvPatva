@@ -2,7 +2,7 @@ export const IMPACT_DATA = {
   labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
   datasets: [{ 
     label: 'Direct Beneficiaries Helped', 
-    data: [1200, 3100, 2800, 5020], 
+    data: [1200, 3100, 2800, 4899], 
     borderColor: '#ec4899', 
     backgroundColor: 'transparent', 
     tension: 0.4, 

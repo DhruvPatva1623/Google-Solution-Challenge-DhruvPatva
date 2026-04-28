@@ -1,4 +1,4 @@
-import { Activity, MapPin } from 'lucide-react';
+import { Activity, MapPin, Clock } from 'lucide-react';
 
 export function Hero({ setShowAuthModal }) {
   return (
@@ -20,7 +20,7 @@ export function Hero({ setShowAuthModal }) {
         </button>
       </div>
 
-      {/* Floating Decorative Elements - Pointer events none to avoid interaction issues */}
+      {/* Floating Decorative Elements - Stats from reference */}
       <div className="glass-panel animate-float-slow" style={{ position: 'absolute', top: '15%', left: '5%', padding: '0.8rem 1.2rem', borderRadius: '16px', display: 'flex', alignItems: 'center', gap: '1rem', pointerEvents: 'none', opacity: 0.8, transform: 'scale(0.9)' }}>
         <div style={{ width: 40, height: 40, background: 'var(--accent-highlight)', borderRadius: 10, display: 'grid', placeItems: 'center', color: 'white', fontWeight: 'bold' }}>94%</div>
         <div style={{ textAlign: 'left' }}><div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Matching Accuracy</div><div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>Algorithm V2</div></div>

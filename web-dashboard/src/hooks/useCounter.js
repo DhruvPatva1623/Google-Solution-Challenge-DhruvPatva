@@ -18,11 +18,14 @@ export function useCounter(end, duration = 2000) {
         };
         requestAnimationFrame(step);
       }
-    }, { threshold: 0.3 });
+    }, { threshold: 0.1 });
 
-    if (ref.current) observer.observe(ref.current);
+    if (ref.current) {
+      started.current = false; // Reset on re-observe
+      observer.observe(ref.current);
+    }
     return () => observer.disconnect();
-  }, [end, duration]);
+  }, [end, duration, ref.current]); // Added ref.current to dependencies
 
   return [count, ref];
 }
