@@ -39,7 +39,7 @@ function createCustomIcon(type, color) {
   });
 }
 
-export default function TaskMap({ theme = 'dark', tasks = [], userLocation, onAcceptTask, acceptedTasks = {} }) {
+export default function TaskMap({ theme = 'dark', tasks = [], userLocation, onAcceptTask, acceptedTasks = {}, height = '400px' }) {
   const isDark = theme === 'dark';
   
   // States for dynamic layers and overlays
@@ -84,7 +84,7 @@ export default function TaskMap({ theme = 'dark', tasks = [], userLocation, onAc
   ];
 
   return (
-    <div className="relative w-full h-[400px] rounded-2xl overflow-hidden border border-[var(--border-light)] shadow-xl" style={{ zIndex: 1 }}>
+    <div className="relative w-full rounded-2xl overflow-hidden border border-[var(--border-light)] shadow-xl" style={{ height: height, zIndex: 1 }}>
       
       {/* Inject custom isolated CSS for map controls */}
       <style>{`

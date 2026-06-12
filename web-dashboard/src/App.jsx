@@ -66,14 +66,14 @@ function EcosystemSection() {
       <div className="aurora-blur" style={{bottom:'-10%',left:'-5%',width:'600px',height:'600px',background:'rgba(139,92,246,0.1)',filter:'blur(150px)'}}/>
 
       <div style={{textAlign:'center',marginBottom:'6rem',position:'relative',zIndex:1}} className="reveal">
-        <h2 style={{fontSize:'4.5rem',fontWeight:900,marginBottom:'1rem',color:'white',letterSpacing:'-1px'}}>Intelligent Ecosystem</h2>
+        <h2 style={{fontSize:'4.5rem',fontWeight:900,marginBottom:'1rem',color:'var(--text-primary)',letterSpacing:'-1px'}}>Intelligent Ecosystem</h2>
         <p style={{color:'var(--text-secondary)',fontSize:'1.2rem',fontWeight:500}}>Powered by cutting-edge heuristics and empathy-driven UX.</p>
       </div>
       
       <div style={{display:'grid',gridTemplateColumns:'repeat(12,1fr)',gap:'1.5rem',maxWidth:'1300px',margin:'0 auto',position:'relative',zIndex:1}}>
-        <div className="bento-card reveal" style={{gridColumn:'span 6',gridRow:'span 2',display:'flex',flexDirection:'column'}}>
+        <div className="card-3d reveal" style={{gridColumn:'span 6',gridRow:'span 2',display:'flex',flexDirection:'column',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
           <div style={{fontSize:'3rem',marginBottom:'2rem'}}>🔮</div>
-          <h3 style={{fontSize:'2.5rem',fontWeight:800,marginBottom:'1.5rem',color:'white'}}>Predictive Needs Graph</h3>
+          <h3 style={{fontSize:'2.5rem',fontWeight:800,marginBottom:'1.5rem',color:'var(--text-primary)'}}>Predictive Needs Graph</h3>
           <p style={{color:'var(--text-secondary)',fontSize:'1.1rem',lineHeight:1.8,marginBottom:'2rem'}}>Leveraging historical climatic anomalies and socioeconomic shifts, the Vertex AI engine scales anticipated supply shortages before they impact marginalized communities.</p>
           <div style={{height:'220px',marginTop:'auto'}}>
              <Line 
@@ -95,41 +95,61 @@ function EcosystemSection() {
                    }
                  }]
                }}
-               options={{ maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{display:false}},y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{display:false}}} }}
+               options={{ maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{color:'var(--border-light)'},ticks:{display:false}},y:{grid:{color:'var(--border-light)'},ticks:{display:false}}} }}
              />
           </div>
         </div>
 
-        <div className="bento-card reveal" style={{gridColumn:'span 3'}}>
+        <div className="card-3d reveal" style={{gridColumn:'span 3',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
           <div style={{fontSize:'2.5rem',marginBottom:'1.5rem'}}>🏆</div>
-          <h3 style={{fontSize:'1.8rem',fontWeight:800,marginBottom:'1rem',color:'white'}}>Gamified Growth</h3>
+          <h3 style={{fontSize:'1.8rem',fontWeight:800,marginBottom:'1rem',color:'var(--text-primary)'}}>Gamified Growth</h3>
           <p style={{color:'var(--text-secondary)',fontSize:'1rem',lineHeight:1.6,marginBottom:'2rem'}}>Rank up by aiding your community. Unlock exclusive blockchain badges.</p>
-          <div style={{background:'rgba(2,6,23,0.4)',padding:'1.2rem',borderRadius:'20px',border:'1px solid rgba(255,255,255,0.05)'}}>
-            <div style={{display:'flex',justifyContent:'space-between',marginBottom:'1rem',fontSize:'0.9rem',fontWeight:800}}><span>Level 4: Hero</span><span style={{color:'var(--primary-500)'}}>1450 pts</span></div>
-            <div style={{height:'10px',background:'rgba(255,255,255,0.08)',borderRadius:'99px',overflow:'hidden'}}><div style={{width:'72%',height:'100%',background:'linear-gradient(90deg,#f97316,#ec4899)'}}/></div>
+          <div style={{background:'var(--bg-secondary)',padding:'1.2rem',borderRadius:'20px',border:'1px solid var(--border-light)'}}>
+            <div style={{display:'flex',justifyContent:'space-between',marginBottom:'1rem',fontSize:'0.9rem',fontWeight:800,color:'var(--text-primary)'}}><span>Level 4: Hero</span><span style={{color:'var(--primary-500)'}}>1450 pts</span></div>
+            <div style={{height:'10px',background:'rgba(15,23,42,0.08)',borderRadius:'99px',overflow:'hidden'}}><div style={{width:'72%',height:'100%',background:'linear-gradient(90deg,#f97316,#ec4899)'}}/></div>
           </div>
         </div>
 
-        <div className="bento-card reveal" style={{gridColumn:'span 3'}}>
+        <div className="card-3d reveal" style={{gridColumn:'span 3',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
           <div style={{fontSize:'2.5rem',marginBottom:'1.5rem'}}>🌍</div>
-          <h3 style={{fontSize:'1.8rem',fontWeight:800,marginBottom:'1rem',color:'white'}}>Multilingual Voice</h3>
+          <h3 style={{fontSize:'1.8rem',fontWeight:800,marginBottom:'1rem',color:'var(--text-primary)'}}>Multilingual Voice</h3>
           <p style={{color:'var(--text-secondary)',fontSize:'1rem',lineHeight:1.7}}>Real-time Dialogflow parsing across 15+ complex regional dialects bridging technological divide.</p>
         </div>
 
-        <div className="bento-card reveal" style={{gridColumn:'span 6',display:'flex',justifyContent:'space-between',alignItems:'center',gap:'2rem',marginTop:'-1.5rem'}}>
+        <div className="card-3d reveal" style={{gridColumn:'span 6',display:'flex',justifyContent:'space-between',alignItems:'center',gap:'2rem',marginTop:'-1.5rem',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
           <div style={{flex:1}}>
-            <h3 style={{fontSize:'2rem',fontWeight:800,marginBottom:'0.5rem',color:'white'}}>Polygon Blockchain Identity</h3>
+            <h3 style={{fontSize:'2rem',fontWeight:800,marginBottom:'0.5rem',color:'var(--text-primary)'}}>Polygon Blockchain Identity</h3>
             <p style={{color:'var(--text-secondary)',fontSize:'0.9rem',lineHeight:1.7}}>Your verified volunteer hours are securely minted as non-fungible certificates on the Polygon L2 network, preventing fraud and providing lifelong, transportable accreditation.</p>
           </div>
-          <div style={{background:'rgba(2,6,23,0.5)',padding:'1.2rem 1.8rem',borderRadius:'20px',border:'1px solid rgba(255,255,255,0.05)',display:'flex',alignItems:'center',gap:'1.2rem',minWidth:'280px'}}>
+          <div style={{background:'var(--bg-secondary)',padding:'1.2rem 1.8rem',borderRadius:'20px',border:'1px solid var(--border-light)',display:'flex',alignItems:'center',gap:'1.2rem',minWidth:'280px'}}>
              <div style={{fontSize:'2.5rem'}}>🏅</div>
              <div>
                <div style={{fontSize:'0.75rem',color:'var(--text-secondary)',fontWeight:800,textTransform:'uppercase',letterSpacing:'1px',marginBottom:'0.2rem'}}>Verified NFT Minted</div>
-               <div style={{fontSize:'1.1rem',fontWeight:900,color:'white'}}>120h Community Service</div>
+               <div style={{fontSize:'1.1rem',fontWeight:900,color:'var(--text-primary)'}}>120h Community Service</div>
                <div style={{fontSize:'0.65rem',fontFamily:'monospace',color:'var(--primary-400)',marginTop:'0.2rem'}}>0x7f3a...b92e</div>
              </div>
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function MapSection({ theme, currentUser, setShowDashboard, setShowAuthModal }) {
+  return (
+    <section id="map-explore" className="dotted-bg" style={{padding:'6rem 2rem 2rem',maxWidth:'1400px',margin:'0 auto',position:'relative',overflow:'hidden'}}>
+      <div className="reveal" style={{textAlign:'center',marginBottom:'4rem'}}>
+        <h2 style={{fontSize:'4.5rem',fontWeight:900,marginBottom:'1rem',color:'var(--text-primary)',letterSpacing:'-1px'}}>Interactive Geo-Impact Map</h2>
+        <p style={{color:'var(--text-secondary)',fontSize:'1.2rem',fontWeight:500,maxWidth:'650px',margin:'0 auto'}}>Explore ongoing volunteer projects and real-time community needs in your city. Select map details to filter transit networks or active crisis overlays.</p>
+      </div>
+      <div className="reveal" style={{ maxWidth: '1300px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
+        <TaskMap 
+          theme={theme}
+          tasks={LANDING_TASKS} 
+          userLocation={[23.0225, 72.5714]} 
+          onAcceptTask={() => currentUser ? setShowDashboard(true) : setShowAuthModal(true)}
+          height="520px"
+        />
       </div>
     </section>
   );
@@ -143,38 +163,30 @@ function LiveNeedsSection({ setShowAuthModal, currentUser, setShowDashboard }) {
       <div className="aurora-blur" style={{bottom:'5%',right:'-8%',width:'500px',height:'500px',background:'rgba(236,72,153,0.08)',filter:'blur(130px)'}}/>
 
       <div style={{textAlign:'center',marginBottom:'6rem',position:'relative',zIndex:1}} className="reveal">
-        <h2 style={{fontSize:'4.5rem',fontWeight:900,marginBottom:'1rem',color:'white',letterSpacing:'-1px'}}>Live Needs & Social Impact</h2>
+        <h2 style={{fontSize:'4.5rem',fontWeight:900,marginBottom:'1rem',color:'var(--text-primary)',letterSpacing:'-1px'}}>Live Needs & Social Impact</h2>
         <p style={{color:'var(--text-secondary)',fontSize:'1.2rem',fontWeight:500}}>Real-time matching powered by TensorFlow.js and geospatial ML models.</p>
-      </div>
-
-      <div style={{ maxWidth: '1300px', margin: '0 auto 3rem auto', position: 'relative', zIndex: 2 }} className="reveal">
-        <TaskMap 
-          tasks={LANDING_TASKS} 
-          userLocation={[23.0225, 72.5714]} 
-          onAcceptTask={() => currentUser ? setShowDashboard(true) : setShowAuthModal(true)}
-        />
       </div>
 
       <div style={{display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:'2rem',maxWidth:'1300px',margin:'0 auto'}}>
         <div className="card-3d reveal" style={{padding:'3rem',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
           <div style={{display:'flex',alignItems:'center',gap:'1rem',marginBottom:'3rem'}}>
             <Activity color="#f97316" size={32} />
-            <h3 style={{fontSize:'2rem',fontWeight:900,color:'white'}}>Active Action Requests</h3>
+            <h3 style={{fontSize:'2rem',fontWeight:900,color:'var(--text-primary)'}}>Active Action Requests</h3>
           </div>
           {LANDING_TASKS.map((t,i)=>(
-            <div key={i} className="mission-item">
+            <div key={i} className="mission-item" style={{background:'var(--bg-secondary)',border:'1px solid var(--border-light)'}}>
               <div style={{display:'flex',justifyContent:'space-between',marginBottom:'1.2rem',alignItems:'center'}}>
                 <span className={t.type === 'CRITICAL' ? 'tag-critical' : t.type === 'URGENT' ? 'tag-urgent' : 'tag-routine'} style={{fontSize:'0.75rem',fontWeight:900,padding:'0.3rem 0.8rem',borderRadius:'6px',textTransform:'uppercase',letterSpacing:'1px'}}>{t.type}</span>
                 <span style={{color:'var(--accent-highlight)',fontWeight:900,fontSize:'0.95rem'}}>{t.score}% ML Match</span>
               </div>
-              <h4 style={{fontSize:'1.6rem',fontWeight:800,marginBottom:'0.8rem',color:'white'}}>{t.title}</h4>
+              <h4 style={{fontSize:'1.6rem',fontWeight:800,marginBottom:'0.8rem',color:'var(--text-primary)'}}>{t.title}</h4>
               <div style={{display:'flex',alignItems:'center',gap:'1.2rem',color:'var(--text-secondary)',fontSize:'0.9rem',marginBottom:'2rem'}}>
                 <span>📍 {t.dist} away</span>
                 <span>• Skills: {t.skills.join(', ')}</span>
               </div>
               <div style={{display:'flex',gap:'1rem'}}>
                 <button style={{background:'#f97316',color:'white',padding:'1rem 2rem',borderRadius:'12px',fontWeight:800,border:'none',flex:1,cursor:'pointer'}} onClick={()=>currentUser ? setShowDashboard(true) : setShowAuthModal(true)}>Accept Mission</button>
-                <button style={{width:'56px',height:'56px',background:'transparent',border:'1px solid rgba(255,255,255,0.2)',borderRadius:'12px',display:'flex',alignItems:'center',justifyContent:'center'}}><Compass size={24} color="white" /></button>
+                <button style={{width:'56px',height:'56px',background:'transparent',border:'1px solid var(--border-light)',borderRadius:'12px',display:'flex',alignItems:'center',justifyContent:'center'}}><Compass size={24} color="var(--text-primary)" /></button>
               </div>
             </div>
           ))}
@@ -182,7 +194,7 @@ function LiveNeedsSection({ setShowAuthModal, currentUser, setShowDashboard }) {
 
         <div style={{display:'flex',flexDirection:'column',gap:'2rem'}}>
           <div className="card-3d reveal" style={{background:'var(--glass-bg)',backdropFilter:'blur(16px)',padding:'2rem'}}>
-            <h3 style={{fontSize:'1.8rem',fontWeight:800,marginBottom:'2.5rem',color:'white'}}>Community Impact Trajectory</h3>
+            <h3 style={{fontSize:'1.8rem',fontWeight:800,marginBottom:'2.5rem',color:'var(--text-primary)'}}>Community Impact Trajectory</h3>
             <div style={{height:'300px'}}>
               <Line 
                 data={IMPACT_DATA} 
@@ -190,17 +202,17 @@ function LiveNeedsSection({ setShowAuthModal, currentUser, setShowDashboard }) {
                   maintainAspectRatio:false,
                   plugins:{legend:{display:false}},
                   scales:{
-                    y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'rgba(255,255,255,0.4)',font:{weight:700}}},
-                    x:{grid:{display:false},ticks:{color:'rgba(255,255,255,0.4)',font:{weight:700}}}
+                    y:{grid:{color:'var(--border-light)'},ticks:{color:'var(--text-secondary)',font:{weight:700}}},
+                    x:{grid:{display:false},ticks:{color:'var(--text-secondary)',font:{weight:700}}}
                   }
                 }}
               />
             </div>
           </div>
 
-          <div className="card-3d reveal" style={{background:'rgba(15, 23, 42, 0.6)',backdropFilter:'blur(16px)',padding:'2rem'}}>
+          <div className="card-3d reveal" style={{background:'var(--glass-bg)',backdropFilter:'blur(16px)',padding:'2rem',border:'1px solid var(--border-light)'}}>
             <div style={{fontSize:'3rem',marginBottom:'1.5rem'}}>🏛️</div>
-            <h3 style={{fontSize:'2rem',fontWeight:900,marginBottom:'1.2rem',color:'white'}}>Govt Scheme Eligibility AI</h3>
+            <h3 style={{fontSize:'2rem',fontWeight:900,marginBottom:'1.2rem',color:'var(--text-primary)'}}>Govt Scheme Eligibility AI</h3>
             <p style={{color:'var(--text-secondary)',fontSize:'1rem',lineHeight:1.8,marginBottom:'2.5rem'}}>Our system automatically cross-references beneficiary needs with Direct Benefit Transfer (DBT) and Digital India portals.</p>
             <button style={{width:'100%',padding:'1.2rem',borderRadius:'14px',background:'transparent',border:'1px solid rgba(59,130,246,0.3)',color:'#60a5fa',fontWeight:800,fontSize:'1rem',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.8rem'}}>
               <ShieldCheck size={22} /> Scan Beneficiary Profile
@@ -216,7 +228,7 @@ function LeaderboardSection() {
   return (
     <section id="leaderboard" style={{padding:'8rem 2rem',maxWidth:'1400px',margin:'0 auto'}}>
       <div style={{textAlign:'center',marginBottom:'6rem'}} className="reveal">
-        <h2 style={{fontSize:'4rem',fontWeight:900,marginBottom:'1rem',color:'white'}}>Volunteer Leaderboard</h2>
+        <h2 style={{fontSize:'4rem',fontWeight:900,marginBottom:'1rem',color:'var(--text-primary)'}}>Volunteer Leaderboard</h2>
         <p style={{color:'var(--text-secondary)',fontSize:'1.2rem'}}>Top contributors making the most impact this month.</p>
       </div>
       <div className="card-3d reveal" style={{padding:0,overflow:'hidden',maxWidth:'1000px',margin:'0 auto',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
@@ -227,7 +239,7 @@ function LeaderboardSection() {
                 {i<3 ? <Award size={24} /> : i+1}
               </div>
               <div>
-                <div style={{fontWeight:800,fontSize:'1.2rem',color:'white'}}>{v.name} {i===3&&<span style={{background:'var(--primary-500)',color:'white',padding:'0.2rem 0.6rem',borderRadius:'6px',fontSize:'0.75rem',marginLeft:'0.8rem',fontWeight:900}}>YOU</span>}</div>
+                <div style={{fontWeight:800,fontSize:'1.2rem',color:'var(--text-primary)'}}>{v.name} {i===3&&<span style={{background:'var(--primary-500)',color:'white',padding:'0.2rem 0.6rem',borderRadius:'6px',fontSize:'0.75rem',marginLeft:'0.8rem',fontWeight:900}}>YOU</span>}</div>
                 <div style={{fontSize:'0.9rem',color:'var(--text-secondary)',fontWeight:600}}>{v.city}</div>
               </div>
             </div>
@@ -243,7 +255,7 @@ function StoriesSection() {
   return (
     <section id="stories" style={{padding:'8rem 2rem',maxWidth:'1400px',margin:'0 auto'}}>
       <div style={{textAlign:'center',marginBottom:'6rem'}} className="reveal">
-        <h2 style={{fontSize:'4rem',fontWeight:900,marginBottom:'1rem',color:'white'}}>Success Stories</h2>
+        <h2 style={{fontSize:'4rem',fontWeight:900,marginBottom:'1rem',color:'var(--text-primary)'}}>Success Stories</h2>
         <p style={{color:'var(--text-secondary)',fontSize:'1.2rem'}}>Real voices from the communities we serve.</p>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(340px,1fr))',gap:'2rem',maxWidth:'1300px',margin:'0 auto'}}>
@@ -254,7 +266,7 @@ function StoriesSection() {
             </div>
             <p style={{color:'var(--text-secondary)',fontStyle:'italic',flex:1,lineHeight:1.9,marginBottom:'2.5rem',fontSize:'1.1rem'}}>"{t.text}"</p>
             <div style={{borderTop:'1px solid rgba(255,255,255,0.05)',paddingTop:'2rem'}}>
-              <div style={{fontWeight:900,fontSize:'1.2rem',color:'white'}}>{t.name}</div>
+              <div style={{fontWeight:900,fontSize:'1.2rem',color:'var(--text-primary)'}}>{t.name}</div>
               <div style={{fontSize:'0.95rem',color:'var(--text-secondary)',fontWeight:700}}>{t.role}</div>
             </div>
           </motion.div>
@@ -495,6 +507,7 @@ function App() {
               <Hero setShowAuthModal={setShowAuthModal} />
               <ImpactSection />
               <EcosystemSection />
+              <MapSection theme={theme} currentUser={currentUser} setShowDashboard={setShowDashboard} setShowAuthModal={setShowAuthModal} />
               <LiveNeedsSection setShowAuthModal={setShowAuthModal} currentUser={currentUser} setShowDashboard={setShowDashboard} />
               <LeaderboardSection />
               <StoriesSection />
