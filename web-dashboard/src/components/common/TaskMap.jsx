@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, Circle, Polyline } from 'react-leaflet';
 import L from 'leaflet';
-import { Layers, Activity, ShieldAlert, Navigation, Check } from 'lucide-react';
+import { Layers, ShieldAlert, Navigation } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 
 // Center location (default to Ahmedabad, India)
@@ -40,42 +40,42 @@ function createCustomIcon(type, color) {
 }
 
 export default function TaskMap({ theme = 'dark', tasks = [], userLocation, onAcceptTask, acceptedTasks = {} }) {
-  const isDarkTheme = theme === 'dark';
+  const isDark = theme === 'dark';
   
   // States for dynamic layers and overlays
-  const [mapType, setMapType] = useState(isDarkTheme ? 'dark' : 'default'); // 'default', 'dark', 'satellite', 'terrain'
+  const [mapType, setMapType] = useState(isDark ? 'dark' : 'default');
   const [showCrisisZones, setShowCrisisZones] = useState(false);
   const [showTransit, setShowTransit] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Sync with main app theme changes initially
   useEffect(() => {
-    setMapType(isDarkTheme ? 'dark' : 'default');
+    setMapType(isDark ? 'dark' : 'default');
   }, [theme]);
 
   // Layer configurations
   const layers = {
     default: {
       url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     },
     dark: {
       url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     },
     satellite: {
       url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+      attribution: 'Tiles &copy; Esri'
     },
     terrain: {
       url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-      attribution: 'Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap (CC-BY-SA)'
+      attribution: 'Map &copy; OpenTopoMap'
     }
   };
 
   const mapCenter = userLocation || DEFAULT_CENTER;
 
-  // Mock transit stations for Ahmedabad (rendered when Transit Overlay is toggled)
+  // Mock transit stations for Ahmedabad
   const transitStations = [
     { name: 'Ahmedabad Metro Station (Kalupur)', lat: 23.0300, lng: 72.6000 },
     { name: 'Gitamandir Bus Terminus', lat: 23.0160, lng: 72.5920 },
@@ -86,85 +86,115 @@ export default function TaskMap({ theme = 'dark', tasks = [], userLocation, onAc
   return (
     <div className="relative w-full h-[400px] rounded-2xl overflow-hidden border border-[var(--border-light)] shadow-xl" style={{ zIndex: 1 }}>
       
-      {/* Floating Google-Maps-Style Layers Control Button & Panel */}
-      <div className="absolute top-4 right-4 z-[999] flex flex-col items-end">
-        <button 
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="p-3 bg-white text-slate-800 dark:bg-slate-900 dark:text-white rounded-xl shadow-lg border border-slate-200 dark:border-slate-800 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 font-bold text-xs"
-        >
-          <Layers size={18} className="text-orange-500 animate-pulse" />
-          Map Options
-        </button>
-
-        {isMenuOpen && (
-          <div className="mt-2 w-72 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 shadow-2xl border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-white transition-all duration-200">
-            <div className="flex justify-between items-center mb-3 pb-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="font-extrabold text-sm">Map configurations</span>
-              <button onClick={() => setIsMenuOpen(false)} className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-extrabold">✕</button>
-            </div>
-
-            {/* Map Types selection grid */}
-            <div className="mb-4">
-              <span className="block text-[11px] font-extrabold uppercase text-slate-400 mb-2 tracking-wider">Map Type</span>
-              <div className="grid grid-cols-2 gap-2">
-                {[
-                  { id: 'default', label: 'Default' },
-                  { id: 'dark', label: 'Dark Sleek' },
-                  { id: 'satellite', label: 'Satellite' },
-                  { id: 'terrain', label: 'Terrain' }
-                ].map((t) => (
-                  <button
-                    key={t.id}
-                    onClick={() => setMapType(t.id)}
-                    className={`py-2 px-3 rounded-lg text-xs font-bold text-center border transition-all ${
-                      mapType === t.id 
-                        ? 'border-orange-500 bg-orange-500/10 text-orange-500 shadow-sm' 
-                        : 'border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800'
-                    }`}
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Map Details / Overlays toggles */}
-            <div>
-              <span className="block text-[11px] font-extrabold uppercase text-slate-400 mb-2 tracking-wider">Overlays & Details</span>
-              <div className="flex flex-col gap-2">
-                <label className="flex items-center justify-between p-2 rounded-lg border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer">
-                  <div className="flex items-center gap-2">
-                    <ShieldAlert size={16} className="text-red-500" />
-                    <span className="text-xs font-bold">Crisis / Flood Zones</span>
-                  </div>
-                  <input 
-                    type="checkbox" 
-                    checked={showCrisisZones} 
-                    onChange={(e) => setShowCrisisZones(e.target.checked)}
-                    className="accent-orange-500 w-4 h-4 cursor-pointer"
-                  />
-                </label>
-
-                <label className="flex items-center justify-between p-2 rounded-lg border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer">
-                  <div className="flex items-center gap-2">
-                    <Navigation size={16} className="text-blue-500" />
-                    <span className="text-xs font-bold">Transit Station Overlays</span>
-                  </div>
-                  <input 
-                    type="checkbox" 
-                    checked={showTransit} 
-                    onChange={(e) => setShowTransit(e.target.checked)}
-                    className="accent-orange-500 w-4 h-4 cursor-pointer"
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Inject custom styled Leaflet classes to ensure high contrast and matching theme */}
+      {/* Inject custom isolated CSS for map controls */}
       <style>{`
+        .map-config-panel {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          z-index: 1000;
+          font-family: 'Outfit', 'Inter', sans-serif;
+        }
+        .map-config-btn {
+          background: ${isDark ? 'rgba(30, 41, 59, 0.95)' : 'rgba(255, 255, 255, 0.95)'};
+          color: ${isDark ? '#f8fafc' : '#0f172a'};
+          border: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(15, 23, 42, 0.12)'};
+          padding: 10px 16px;
+          border-radius: 12px;
+          font-weight: 700;
+          font-size: 13px;
+          cursor: pointer;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          backdrop-filter: blur(8px);
+          transition: all 0.2s ease;
+        }
+        .map-config-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+        .map-config-dropdown {
+          position: absolute;
+          right: 0;
+          top: 48px;
+          width: 270px;
+          background: ${isDark ? 'rgba(15, 23, 42, 0.98)' : 'rgba(255, 255, 255, 0.98)'};
+          border: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(15, 23, 42, 0.15)'};
+          border-radius: 16px;
+          padding: 16px;
+          box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+          backdrop-filter: blur(12px);
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          color: ${isDark ? '#f8fafc' : '#0f172a'};
+          transition: all 0.2s ease;
+        }
+        .map-section-title {
+          font-size: 10px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 1.2px;
+          color: ${isDark ? '#94a3b8' : '#64748b'};
+          margin-bottom: 8px;
+          display: block;
+        }
+        .map-type-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+        }
+        .map-type-option {
+          padding: 10px 8px;
+          font-size: 12px;
+          font-weight: 700;
+          text-align: center;
+          border-radius: 10px;
+          cursor: pointer;
+          border: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(15, 23, 42, 0.1)'};
+          background: ${isDark ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 0, 0, 0.02)'};
+          color: ${isDark ? '#f8fafc' : '#0f172a'};
+          transition: all 0.2s ease;
+        }
+        .map-type-option:hover {
+          background: ${isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)'};
+        }
+        .map-type-option.active {
+          background: rgba(249, 115, 22, 0.15);
+          border-color: #f97316;
+          color: #f97316;
+        }
+        .map-overlay-list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .map-overlay-item {
+          display: flex;
+          align-items: center;
+          justify-content: justify;
+          padding: 10px 12px;
+          border-radius: 10px;
+          border: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(15, 23, 42, 0.08)'};
+          background: ${isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'};
+          cursor: pointer;
+          font-size: 12px;
+          font-weight: 700;
+          transition: all 0.2s ease;
+        }
+        .map-overlay-item:hover {
+          background: ${isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)'};
+        }
+        .map-overlay-checkbox {
+          accent-color: #f97316;
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+        
+        /* Popups styles */
         .leaflet-popup-content-wrapper {
           background: ${mapType === 'dark' ? 'rgba(15, 23, 42, 0.95)' : 'rgba(255, 255, 255, 0.95)'} !important;
           color: ${mapType === 'dark' ? '#f8fafc' : '#0f172a'} !important;
@@ -182,6 +212,76 @@ export default function TaskMap({ theme = 'dark', tasks = [], userLocation, onAc
           font-weight: bold;
         }
       `}</style>
+
+      {/* Floating config panel placed outside MapContainer to avoid Leaflet positioning conflicts */}
+      <div className="map-config-panel">
+        <button className="map-config-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <Layers size={16} />
+          <span>Map Details</span>
+        </button>
+
+        {isMenuOpen && (
+          <div className="map-config-dropdown">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)', paddingBottom: '8px' }}>
+              <span style={{ fontWeight: 800, fontSize: '13px' }}>Map Configurations</span>
+              <button onClick={() => setIsMenuOpen(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontWeight: 800 }}>✕</button>
+            </div>
+
+            {/* Map Types selection grid */}
+            <div>
+              <span className="map-section-title">Map Type</span>
+              <div className="map-type-grid">
+                {[
+                  { id: 'default', label: 'Default' },
+                  { id: 'dark', label: 'Dark Sleek' },
+                  { id: 'satellite', label: 'Satellite' },
+                  { id: 'terrain', label: 'Terrain' }
+                ].map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => setMapType(t.id)}
+                    className={`map-type-option ${mapType === t.id ? 'active' : ''}`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Map Details / Overlays toggles */}
+            <div>
+              <span className="map-section-title">Overlays & Details</span>
+              <div className="map-overlay-list">
+                <div className="map-overlay-item" onClick={() => setShowCrisisZones(!showCrisisZones)}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <ShieldAlert size={16} color="#ef4444" />
+                    <span>Crisis / Flood Zones</span>
+                  </div>
+                  <input 
+                    type="checkbox" 
+                    checked={showCrisisZones} 
+                    onChange={() => {}} // Handled by div click
+                    className="map-overlay-checkbox"
+                  />
+                </div>
+
+                <div className="map-overlay-item" onClick={() => setShowTransit(!showTransit)}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Navigation size={16} color="#3b82f6" />
+                    <span>Transit Stations</span>
+                  </div>
+                  <input 
+                    type="checkbox" 
+                    checked={showTransit} 
+                    onChange={() => {}} // Handled by div click
+                    className="map-overlay-checkbox"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       <MapContainer 
         center={mapCenter} 
