@@ -9,11 +9,6 @@ import { Bar, Line, Doughnut } from 'react-chartjs-2';
 import { AvatarPlaceholder } from '../common/AvatarPlaceholder';
 
 export function NgoDashboard({ user, onLogout, onOpenProfile, addToast, emergencyMissions = [], onTriggerSos, theme, setTheme, activeTab, setActiveTab }) {
-  const [verifications, setVerifications] = useState([
-    { id: 1, name: 'Amit Patel', email: 'amit@example.com', skills: ['First Aid', 'Teaching'], status: 'Pending' },
-    { id: 2, name: 'Sneha Rao', email: 'sneha@example.com', skills: ['Social Media', 'Writing'], status: 'Pending' },
-    { id: 3, name: 'Rohan Joshi', email: 'rohan@example.com', skills: ['Logistics', 'Driving'], status: 'Verified' }
-  ]);
   
   const myMissions = useMemo(() => [
     { id: 101, title: 'Slum Education Drive', status: 'Active', volunteers: 12, target: 15, date: '2026-04-25' },
@@ -219,63 +214,7 @@ export function NgoDashboard({ user, onLogout, onOpenProfile, addToast, emergenc
                   </div>
                 ))}
               </div>
-
-              {/* Profile Verification Requests */}
-              <div style={{ marginTop: '3.5rem', marginBottom: '1.5rem' }}>
-                <h2 style={{ fontSize: '1.8rem', fontWeight: 800 }}>Profile Verification Requests</h2>
-                <p style={{ color: '#9ca3af', fontSize: '0.9rem' }}>Verify volunteer identities and background checks before assigning to critical missions.</p>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
-                {verifications.map((v) => (
-                  <div key={v.id} style={{ ...cardS, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.2rem 2rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                      <AvatarPlaceholder name={v.name} size={45} />
-                      <div>
-                        <h4 style={{ fontWeight: 700, fontSize: '1.1rem' }}>{v.name}</h4>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginTop: '0.2rem' }}>
-                          <span style={{ fontSize: '0.8rem', color: '#3b82f6' }}>{v.email}</span>
-                          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Skills: {v.skills.join(', ')}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                      <span style={{ 
-                        padding: '0.4rem 1rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800,
-                        background: v.status === 'Verified' ? 'rgba(16,185,129,0.1)' : 'rgba(249,115,22,0.1)',
-                        color: v.status === 'Verified' ? '#10b981' : '#f97316',
-                        border: `1px solid ${v.status === 'Verified' ? 'rgba(16,185,129,0.2)' : 'rgba(249,115,22,0.2)'}`
-                      }}>
-                        {v.status.toUpperCase()}
-                      </span>
-                      {v.status === 'Pending' && (
-                        <div style={{ display: 'flex', gap: '0.6rem' }}>
-                          <button 
-                            onClick={() => {
-                              setVerifications(prev => prev.map(item => item.id === v.id ? { ...item, status: 'Verified' } : item));
-                              addToast(`✅ ${v.name}'s profile has been verified!`, 'success');
-                            }}
-                            style={{ background: '#10b981', color: 'white', padding: '0.5rem 1.2rem', borderRadius: '8px', border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' }}
-                          >
-                            Approve
-                          </button>
-                          <button 
-                            onClick={() => {
-                              setVerifications(prev => prev.filter(item => item.id !== v.id));
-                              addToast(`❌ ${v.name}'s request rejected`, 'warning');
-                            }}
-                            style={{ background: 'transparent', color: '#ef4444', padding: '0.5rem 1.2rem', borderRadius: '8px', border: '1px solid rgba(239,68,68,0.3)', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}
-                          >
-                            Reject
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
             </motion.div>
-
           )}
 
           {activeTab === 'analytics' && (

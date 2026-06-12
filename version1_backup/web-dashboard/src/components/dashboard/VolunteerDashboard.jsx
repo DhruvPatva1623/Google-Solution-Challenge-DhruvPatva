@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, LogOut, CheckCircle, Target, User, MapPin, ChevronRight, Zap, Compass, Share2, Calendar, Clock, Globe, ShieldCheck, Trophy, X, Download, AlertTriangle } from 'lucide-react';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import { AvatarPlaceholder } from '../common/AvatarPlaceholder';
-import TaskMap from '../common/TaskMap';
 
 export function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile, emergencyMissions = [], onViewHost, theme, setTheme, isCheckingIn, activeSessionSecs, onCheckIn, onCheckOut, activeTab, setActiveTab, onMissionAccept, acceptedTasks }) {
   const [notifications, setNotifications] = useState([
@@ -17,13 +16,12 @@ export function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile, em
   const [showSchemeResult, setShowSchemeResult] = useState(false);
 
   const tasks = [
-    { id:1, title: 'Emergency Medical Supply Drop', dist: '1.2 km', score: 98, type: 'CRITICAL', color: '#ef4444', skills: ['First Aid', 'Driving'], deadline:'Today 6:00 PM', volunteers:3, needed:5, lat: 23.0338, lng: 72.5856 },
-    { id:2, title: 'Elderly Food Assistance', dist: '3.4 km', score: 85, type: 'URGENT', color: '#f97316', skills: ['Cooking', 'Transport'], deadline:'Today 8:00 PM', volunteers:8, needed:10, lat: 23.0120, lng: 72.5532 },
-    { id:3, title: 'Local School Renovation Aid', dist: '5.0 km', score: 76, type: 'ROUTINE', color: '#10b981', skills: ['Painting', 'Carpentry'], deadline:'Tomorrow 9:00 AM', volunteers:15, needed:20, lat: 23.0450, lng: 72.5612 },
-    { id:4, title: 'Flood Relief — Kheda District', dist: '24 km', score: 99, type: 'CRITICAL', color: '#ef4444', skills: ['Swimming', 'First Aid', 'Driving'], deadline:'Immediate', volunteers:42, needed:100, lat: 22.7523, lng: 72.6841 },
-    { id:5, title: 'Clean Water Distribution', dist: '7.2 km', score: 80, type: 'URGENT', color: '#f97316', skills: ['Logistics'], deadline:'Tomorrow 12:00 PM', volunteers:6, needed:15, lat: 23.0805, lng: 72.5312 },
+    { id:1, title: 'Emergency Medical Supply Drop', dist: '1.2 km', score: 98, type: 'CRITICAL', color: '#ef4444', skills: ['First Aid', 'Driving'], deadline:'Today 6:00 PM', volunteers:3, needed:5 },
+    { id:2, title: 'Elderly Food Assistance', dist: '3.4 km', score: 85, type: 'URGENT', color: '#f97316', skills: ['Cooking', 'Transport'], deadline:'Today 8:00 PM', volunteers:8, needed:10 },
+    { id:3, title: 'Local School Renovation Aid', dist: '5.0 km', score: 76, type: 'ROUTINE', color: '#10b981', skills: ['Painting', 'Carpentry'], deadline:'Tomorrow 9:00 AM', volunteers:15, needed:20 },
+    { id:4, title: 'Flood Relief — Kheda District', dist: '24 km', score: 99, type: 'CRITICAL', color: '#ef4444', skills: ['Swimming', 'First Aid', 'Driving'], deadline:'Immediate', volunteers:42, needed:100 },
+    { id:5, title: 'Clean Water Distribution', dist: '7.2 km', score: 80, type: 'URGENT', color: '#f97316', skills: ['Logistics'], deadline:'Tomorrow 12:00 PM', volunteers:6, needed:15 },
   ];
-
 
   const myTaskHistory = useMemo(() => {
     const realHistory = (user.history || []).map(h => ({
@@ -309,16 +307,6 @@ export function VolunteerDashboard({ user, addToast, onLogout, onOpenProfile, em
           <div>
             <h2 style={{fontSize:'1.8rem',marginBottom:'0.4rem'}}>🎯 Active Missions Near You</h2>
             <p style={{color:'#9ca3af',marginBottom:'1.5rem',fontSize:'0.9rem'}}>AI-matched to your skills ({(user.skills||['All Skills']).slice(0,3).join(', ')}) · {user.city||'Your City'}.</p>
-
-            <div style={{ marginBottom: '2.5rem' }}>
-              <TaskMap 
-                theme={theme}
-                tasks={tasks} 
-                userLocation={[23.0225, 72.5714]} 
-                onAcceptTask={(task) => handleAccept(task)}
-                acceptedTasks={acceptedTasks}
-              />
-            </div>
 
             <div style={{display:'flex',flexDirection:'column',gap:'1.2rem'}}>
               {/* Emergency / SOS Missions */}

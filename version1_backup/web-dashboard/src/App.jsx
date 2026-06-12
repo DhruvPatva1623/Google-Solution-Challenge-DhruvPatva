@@ -27,7 +27,6 @@ import { Hero } from './components/landing/Hero';
 import { SosModal } from './components/common/SosModal';
 import { SessionController } from './components/common/SessionController';
 import { HostProfileModal } from './components/common/HostProfileModal';
-import TaskMap from './components/common/TaskMap';
 
 // Data
 import { IMPACT_DATA, LANDING_TASKS, LEADERBOARD_DATA, TESTIMONIALS, GOVT_SCHEMES } from './constants/data';
@@ -145,14 +144,6 @@ function LiveNeedsSection({ setShowAuthModal, currentUser, setShowDashboard }) {
       <div style={{textAlign:'center',marginBottom:'6rem',position:'relative',zIndex:1}} className="reveal">
         <h2 style={{fontSize:'4.5rem',fontWeight:900,marginBottom:'1rem',color:'white',letterSpacing:'-1px'}}>Live Needs & Social Impact</h2>
         <p style={{color:'var(--text-secondary)',fontSize:'1.2rem',fontWeight:500}}>Real-time matching powered by TensorFlow.js and geospatial ML models.</p>
-      </div>
-
-      <div style={{ maxWidth: '1300px', margin: '0 auto 3rem auto', position: 'relative', zIndex: 2 }} className="reveal">
-        <TaskMap 
-          tasks={LANDING_TASKS} 
-          userLocation={[23.0225, 72.5714]} 
-          onAcceptTask={() => currentUser ? setShowDashboard(true) : setShowAuthModal(true)}
-        />
       </div>
 
       <div style={{display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:'2rem',maxWidth:'1300px',margin:'0 auto'}}>
@@ -439,19 +430,7 @@ function App() {
     return () => { obs.disconnect(); clearTimeout(timer); };
   }, [isLoading, showDashboard]);
 
-  useEffect(() => {
-    // High-performance event listener using CSS hover instead of JS loop
-    const handleMouse = (e) => {
-      const card = e.target.closest('.card-3d');
-      if (card) {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-      }
-    };
-    window.addEventListener('mousemove', handleMouse, { passive: true });
-    return () => { window.removeEventListener('mousemove', handleMouse); };
-  }, []);
+
 
   if (isLoading) return <SplashScreen />
 
