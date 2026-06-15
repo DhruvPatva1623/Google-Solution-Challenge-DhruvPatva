@@ -371,6 +371,12 @@ function App() {
   const [voiceActive, setVoiceActive] = useState(false)
   const [voiceText, setVoiceText] = useState('')
   const [toasts, setToasts] = useState([])
+
+  const addToast = (message, type = 'success', onClick = null) => {
+    const id = Date.now();
+    setToasts(prev => [...prev, { id, message, type, onClick }]);
+  };
+  const removeToast = (id) => setToasts(prev => prev.filter(t => t.id !== id));
   const [acceptedTasks, setAcceptedTasks] = useState({})
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [showOrgAuthModal, setShowOrgAuthModal] = useState(false)
@@ -577,11 +583,7 @@ function App() {
 
   const isLoading = authLoading || showSplash;
 
-  const addToast = (message, type = 'success', onClick = null) => {
-    const id = Date.now();
-    setToasts(prev => [...prev, { id, message, type, onClick }]);
-  };
-  const removeToast = (id) => setToasts(prev => prev.filter(t => t.id !== id));
+
 
   const handleSos = () => {
     if (navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
