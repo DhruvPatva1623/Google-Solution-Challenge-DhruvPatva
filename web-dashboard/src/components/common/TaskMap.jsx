@@ -8,11 +8,15 @@ import 'leaflet/dist/leaflet.css';
 const DEFAULT_CENTER = [23.0225, 72.5714];
 
 // Dynamic map view updater
-function ChangeView({ center, zoom }) {
+function ChangeView({ center, zoom, tasksCount }) {
   const map = useMap();
   useEffect(() => {
     map.setView(center, zoom);
-  }, [center, zoom]);
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [center, zoom, map, tasksCount]);
   return null;
 }
 
@@ -289,7 +293,7 @@ export default function TaskMap({ theme = 'dark', tasks = [], userLocation, onAc
         scrollWheelZoom={false}
         style={{ width: '100%', height: '100%', background: mapType === 'dark' ? '#020617' : '#f8fafc' }}
       >
-        <ChangeView center={mapCenter} zoom={13} />
+        <ChangeView center={mapCenter} zoom={13} tasksCount={tasks.length} />
         <TileLayer
           attribution={layers[mapType].attribution}
           url={layers[mapType].url}

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, Square, Clock, List, GripHorizontal, X } from 'lucide-react';
+import { Play, Pause, Square, Clock, List, GripHorizontal, X, LogOut, Sliders } from 'lucide-react';
 
-export function SessionController({ activeSessionSecs, isCheckingIn, isPaused, onPause, onResume, onStop, onAddTimestamp, timestamps }) {
+export function SessionController({ activeSessionSecs, isCheckingIn, isPaused, onPause, onResume, onStop, onAddTimestamp, timestamps, opacity, onOpacityChange }) {
   const [isMinimized, setIsMinimized] = useState(false);
   const [showTimestamps, setShowTimestamps] = useState(false);
+  const [showOpacitySlider, setShowOpacitySlider] = useState(false);
 
   const formatTime = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
@@ -20,7 +21,7 @@ export function SessionController({ activeSessionSecs, isCheckingIn, isPaused, o
       drag
       dragMomentum={false}
       initial={{ opacity: 0, scale: 0.9, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
+      animate={{ opacity: opacity !== undefined ? opacity / 100 : 1, scale: 1, y: 0 }}
       className="session-controller glass-panel"
       style={{
         position: 'fixed',
@@ -44,8 +45,15 @@ export function SessionController({ activeSessionSecs, isCheckingIn, isPaused, o
           </span>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button 
-            onClick={() => setIsMinimized(!isMinimized)} 
+          <button
+            onClick={(e) => { e.stopPropagation(); setShowOpacitySlider(!showOpacitySlider); }}
+            style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '2px' }}
+            title="Adjust Transparency"
+          >
+            <Sliders size={14} />
+          </button>
+          <button
+            onClick={() => setIsMinimized(!isMinimized)}
             style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '2px' }}
           >
             {isMinimized ? <Play size={14} /> : <X size={14} />}
@@ -53,10 +61,35 @@ export function SessionController({ activeSessionSecs, isCheckingIn, isPaused, o
         </div>
       </div>
 
+      {showOpacitySlider && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          style={{ overflow: 'hidden', marginBottom: '0.5rem', padding: '0.5rem 0' }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Opacity</span>
+            <input
+              type="range"
+              min="30"
+              max="100"
+              value={opacity !== undefined ? opacity : 100}
+              onChange={(e) => { if (onOpacityChange) onOpacityChange(parseInt(e.target.value)); }}
+              style={{ flex: 1, accentColor: 'var(--primary-500)' }}
+            />
+            <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontWeight: 700, minWidth: '28px', textAlign: 'right' }}>
+              {opacity !== undefined ? opacity : 100}%
+            </span>
+          </div>
+        </motion.div>
+      )}
+
       {!isMinimized && (
         <>
           <div style={{ textAlign: 'center', margin: '1.5rem 0' }}>
-            <motion.div 
+            <motion.div
               animate={isPaused ? { scale: 1 } : { scale: [1, 1.02, 1] }}
               transition={{ repeat: Infinity, duration: 2 }}
               style={{ fontSize: '2.5rem', fontWeight: 800, fontFamily: 'monospace', color: 'var(--text-primary)' }}
@@ -77,29 +110,29 @@ export function SessionController({ activeSessionSecs, isCheckingIn, isPaused, o
                 <span>Pause</span>
               </button>
             )}
-            
+
             <button onClick={onAddTimestamp} className="session-btn marker-btn">
               <Clock size={18} />
               <span>Marker</span>
             </button>
 
             <button onClick={onStop} className="session-btn stop-btn">
-              <Square size={18} />
-              <span>Stop</span>
+              <LogOut size={18} />
+              <span>Checkout</span>
             </button>
           </div>
 
           <div style={{ marginTop: '1rem', borderTop: '1px solid var(--border-light)', paddingTop: '1rem' }}>
-            <button 
+            <button
               onClick={(e) => { e.stopPropagation(); setShowTimestamps(!showTimestamps); }}
               style={{ width: '100%', background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '0.75rem', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', cursor: 'pointer' }}
             >
               <List size={14} /> {showTimestamps ? 'Hide Timeline' : `Timeline (${timestamps.length})`}
             </button>
-            
+
             <AnimatePresence>
               {showTimestamps && (
-                <motion.div 
+                <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}

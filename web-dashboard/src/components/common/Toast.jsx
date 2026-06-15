@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, AlertCircle, ShieldCheck, X } from 'lucide-react';
 
-export function Toast({ message, type = 'success', onClose }) {
+export function Toast({ message, type = 'success', onClose, onClick }) {
   const colors = { 
     success: '#10b981', 
     error: '#ef4444', 
@@ -18,7 +18,7 @@ export function Toast({ message, type = 'success', onClose }) {
   };
 
   useEffect(() => { 
-    const t = setTimeout(onClose, 4000); 
+    const t = setTimeout(onClose, 3000); 
     return () => clearTimeout(t); 
   }, [onClose]);
 
@@ -27,6 +27,7 @@ export function Toast({ message, type = 'success', onClose }) {
       initial={{ opacity: 0, y: 50, scale: 0.8 }} 
       animate={{ opacity: 1, y: 0, scale: 1 }} 
       exit={{ opacity: 0, y: 50, scale: 0.8 }}
+      onClick={onClick}
       style={{
         position: 'fixed',
         bottom: '30px',
@@ -42,12 +43,13 @@ export function Toast({ message, type = 'success', onClose }) {
         gap: '0.8rem',
         boxShadow: `0 8px 30px ${colors[type]}66`,
         fontWeight: 600,
-        maxWidth: '90vw'
+        maxWidth: '90vw',
+        cursor: onClick ? 'pointer' : 'default'
       }}
     >
       {icons[type]}<span>{message}</span>
       <button 
-        onClick={onClose} 
+        onClick={(e) => { e.stopPropagation(); onClose(); }} 
         style={{ background: 'transparent', border: 'none', color: 'white', cursor: 'pointer', marginLeft: '0.5rem' }}
       >
         <X size={16}/>

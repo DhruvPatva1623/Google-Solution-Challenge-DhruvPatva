@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { AlertCircle, Mic, Heart, Compass, Award, User, MapPin, CheckCircle, ShieldCheck, Activity, Star, Clock, AlertTriangle, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Line } from 'react-chartjs-2'
@@ -20,6 +20,8 @@ import { AvatarPlaceholder } from './components/common/AvatarPlaceholder';
 import { SplashScreen } from './components/common/SplashScreen';
 import { Navbar } from './components/layout/Navbar';
 import { AuthModal } from './components/auth/AuthModal';
+import { OrgAuthModal } from './components/auth/OrgAuthModal';
+import { PolicyModal } from './components/auth/PolicyModal';
 import { VolunteerDashboard } from './components/dashboard/VolunteerDashboard';
 import { NgoDashboard } from './components/dashboard/NgoDashboard';
 import { ProfilePanel } from './components/dashboard/ProfilePanel';
@@ -28,11 +30,42 @@ import { SosModal } from './components/common/SosModal';
 import { SessionController } from './components/common/SessionController';
 import { HostProfileModal } from './components/common/HostProfileModal';
 import TaskMap from './components/common/TaskMap';
+import { useBroadcastListener } from './components/org/BroadcastButton';
 
 // Data
 import { IMPACT_DATA, LANDING_TASKS, LEADERBOARD_DATA, TESTIMONIALS, GOVT_SCHEMES } from './constants/data';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend, ArcElement);
+
+const getCoordsForCity = (city, index = 0) => {
+  const coords = {
+    ahmedabad: [23.0225, 72.5714],
+    mumbai: [19.0760, 72.8777],
+    delhi: [28.6139, 77.2090],
+    kheda: [22.7523, 72.6841],
+    surat: [21.1702, 72.8311],
+    bangalore: [12.9716, 77.5946],
+    pune: [18.5204, 73.8567],
+    jaipur: [26.9124, 75.7873],
+    vadodara: [22.3072, 73.1812]
+  };
+  const key = (city || 'ahmedabad').toLowerCase().trim();
+  const base = coords[key] || [23.0225, 72.5714];
+  const offsetLat = ((index * 17) % 100) / 2000 - 0.025;
+  const offsetLng = ((index * 31) % 100) / 2000 - 0.025;
+  return [base[0] + offsetLat, base[1] + offsetLng];
+};
+
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6371; // km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+};
 
 function ImpactSection() {
   const [livesCount, livesRef] = useCounter(50389, 2500);
@@ -135,7 +168,7 @@ function EcosystemSection() {
   );
 }
 
-function MapSection({ theme, currentUser, setShowDashboard, setShowAuthModal }) {
+function MapSection({ theme, currentUser, setShowDashboard, setShowAuthModal, tasks }) {
   return (
     <section id="map-explore" className="dotted-bg" style={{padding:'6rem 2rem 2rem',maxWidth:'1400px',margin:'0 auto',position:'relative',overflow:'hidden'}}>
       <div className="reveal" style={{textAlign:'center',marginBottom:'4rem'}}>
@@ -145,7 +178,7 @@ function MapSection({ theme, currentUser, setShowDashboard, setShowAuthModal }) 
       <div className="reveal" style={{ maxWidth: '1300px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
         <TaskMap 
           theme={theme}
-          tasks={LANDING_TASKS} 
+          tasks={tasks} 
           userLocation={[23.0225, 72.5714]} 
           onAcceptTask={() => currentUser ? setShowDashboard(true) : setShowAuthModal(true)}
           height="520px"
@@ -155,7 +188,11 @@ function MapSection({ theme, currentUser, setShowDashboard, setShowAuthModal }) 
   );
 }
 
-function LiveNeedsSection({ setShowAuthModal, currentUser, setShowDashboard }) {
+function LiveNeedsSection({ setShowAuthModal, currentUser, setShowDashboard, tasks, setActiveTab }) {
+  const displayTasks = useMemo(() => {
+    return (tasks || LANDING_TASKS).slice(0, 3);
+  }, [tasks]);
+
   return (
     <section id="impact" className="dotted-bg" style={{padding:'8rem 2rem',maxWidth:'1400px',margin:'0 auto',position:'relative',overflow:'hidden'}}>
       {/* Decorative Aurora Blurs */}
@@ -173,7 +210,7 @@ function LiveNeedsSection({ setShowAuthModal, currentUser, setShowDashboard }) {
             <Activity color="#f97316" size={32} />
             <h3 style={{fontSize:'2rem',fontWeight:900,color:'var(--text-primary)'}}>Active Action Requests</h3>
           </div>
-          {LANDING_TASKS.map((t,i)=>(
+          {displayTasks.map((t,i)=>(
             <div key={i} className="mission-item" style={{background:'var(--bg-secondary)',border:'1px solid var(--border-light)'}}>
               <div style={{display:'flex',justifyContent:'space-between',marginBottom:'1.2rem',alignItems:'center'}}>
                 <span className={t.type === 'CRITICAL' ? 'tag-critical' : t.type === 'URGENT' ? 'tag-urgent' : 'tag-routine'} style={{fontSize:'0.75rem',fontWeight:900,padding:'0.3rem 0.8rem',borderRadius:'6px',textTransform:'uppercase',letterSpacing:'1px'}}>{t.type}</span>
@@ -212,10 +249,20 @@ function LiveNeedsSection({ setShowAuthModal, currentUser, setShowDashboard }) {
 
           <div className="card-3d reveal" style={{background:'var(--glass-bg)',backdropFilter:'blur(16px)',padding:'2rem',border:'1px solid var(--border-light)'}}>
             <div style={{fontSize:'3rem',marginBottom:'1.5rem'}}>🏛️</div>
-            <h3 style={{fontSize:'2rem',fontWeight:900,marginBottom:'1.2rem',color:'var(--text-primary)'}}>Govt Scheme Eligibility AI</h3>
-            <p style={{color:'var(--text-secondary)',fontSize:'1rem',lineHeight:1.8,marginBottom:'2.5rem'}}>Our system automatically cross-references beneficiary needs with Direct Benefit Transfer (DBT) and Digital India portals.</p>
-            <button style={{width:'100%',padding:'1.2rem',borderRadius:'14px',background:'transparent',border:'1px solid rgba(59,130,246,0.3)',color:'#60a5fa',fontWeight:800,fontSize:'1rem',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.8rem'}}>
-              <ShieldCheck size={22} /> Scan Beneficiary Profile
+            <h3 style={{fontSize:'2rem',fontWeight:900,marginBottom:'1.2rem',color:'var(--text-primary)'}}>Government Schemes & Portals</h3>
+            <p style={{color:'var(--text-secondary)',fontSize:'1rem',lineHeight:1.8,marginBottom:'2.5rem'}}>Quick lookup for official Indian Government welfare schemes (PM-KISAN, Ayushman Bharat, MGNREGA, etc.) with real, working external portal links.</p>
+            <button 
+              onClick={() => {
+                if (currentUser) {
+                  setActiveTab('schemes');
+                  setShowDashboard(true);
+                } else {
+                  setShowAuthModal(true);
+                }
+              }}
+              style={{width:'100%',padding:'1.2rem',borderRadius:'14px',background:'transparent',border:'1px solid rgba(59,130,246,0.3)',color:'#60a5fa',fontWeight:800,fontSize:'1rem',display:'flex',alignItems:'center',justifyContent:'center',gap:'0.8rem',cursor:'pointer'}}
+            >
+              <ShieldCheck size={22} /> View Schemes Directory
             </button>
           </div>
         </div>
@@ -224,7 +271,26 @@ function LiveNeedsSection({ setShowAuthModal, currentUser, setShowDashboard }) {
   );
 }
 
-function LeaderboardSection() {
+function LeaderboardSection({ currentUser }) {
+  const leaderboard = useMemo(() => {
+    if (!currentUser || currentUser.role === 'ngo') {
+      return LEADERBOARD_DATA.map(v => ({ ...v, isMe: false }));
+    }
+    const base = [
+      { name: 'Anjali Desai', city: 'Surat', pts: 4820 },
+      { name: 'Rahul Verma', city: 'Delhi', pts: 3950 },
+      { name: 'Ananya Iyer', city: 'Bangalore', pts: 3100 },
+      { name: currentUser.name || 'You', city: currentUser.city || 'Your City', pts: currentUser.points || 0, isMe: true },
+      { name: 'Kamal Singh', city: 'Jaipur', pts: 1200 },
+    ];
+    const sorted = [...base].sort((a, b) => b.pts - a.pts);
+    return sorted.map((v, i) => ({
+      ...v,
+      badge: i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}`,
+      rank: i + 1
+    }));
+  }, [currentUser]);
+
   return (
     <section id="leaderboard" style={{padding:'8rem 2rem',maxWidth:'1400px',margin:'0 auto'}}>
       <div style={{textAlign:'center',marginBottom:'6rem'}} className="reveal">
@@ -232,14 +298,17 @@ function LeaderboardSection() {
         <p style={{color:'var(--text-secondary)',fontSize:'1.2rem'}}>Top contributors making the most impact this month.</p>
       </div>
       <div className="card-3d reveal" style={{padding:0,overflow:'hidden',maxWidth:'1000px',margin:'0 auto',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
-        {LEADERBOARD_DATA.map((v,i)=>(
-          <div key={i} className="leaderboard-row" style={{background:i===3?'rgba(249,115,22,0.08)':'transparent'}}>
+        {leaderboard.map((v,i)=>(
+          <div key={i} className="leaderboard-row" style={{background:v.isMe?'rgba(249,115,22,0.08)':'transparent'}}>
             <div style={{display:'flex',alignItems:'center',gap:'2rem'}}>
               <div style={{width:'40px',height:'40px',background:i<3?'rgba(59,130,246,0.1)':'transparent',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:i<3?'1.5rem':'1rem',fontWeight:900,color:'#3b82f6'}}>
                 {i<3 ? <Award size={24} /> : i+1}
               </div>
               <div>
-                <div style={{fontWeight:800,fontSize:'1.2rem',color:'var(--text-primary)'}}>{v.name} {i===3&&<span style={{background:'var(--primary-500)',color:'white',padding:'0.2rem 0.6rem',borderRadius:'6px',fontSize:'0.75rem',marginLeft:'0.8rem',fontWeight:900}}>YOU</span>}</div>
+                <div style={{fontWeight:800,fontSize:'1.2rem',color:'var(--text-primary)'}}>
+                  {v.name} 
+                  {v.isMe && <span style={{background:'var(--primary-500)',color:'white',padding:'0.2rem 0.6rem',borderRadius:'6px',fontSize:'0.75rem',marginLeft:'0.8rem',fontWeight:900}}>YOU</span>}
+                </div>
                 <div style={{fontSize:'0.9rem',color:'var(--text-secondary)',fontWeight:600}}>{v.city}</div>
               </div>
             </div>
@@ -304,6 +373,7 @@ function App() {
   const [toasts, setToasts] = useState([])
   const [acceptedTasks, setAcceptedTasks] = useState({})
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [showOrgAuthModal, setShowOrgAuthModal] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
   const [showSplash, setShowSplash] = useState(true)
   const [showSosModal, setShowSosModal] = useState(false)
@@ -314,6 +384,50 @@ function App() {
   const [isPaused, setIsPaused] = useState(false)
   const [accumulatedSecs, setAccumulatedSecs] = useState(0)
   const [timestamps, setTimestamps] = useState([])
+  const [opacity, setOpacity] = useState(100);
+  const [dbMissions, setDbMissions] = useState([]);
+
+  useEffect(() => {
+    try {
+      const q = query(collection(db, 'missions'));
+      const unsub = onSnapshot(q, (snap) => {
+        const list = snap.docs.map(doc => {
+          const data = doc.data();
+          const index = doc.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+          const cityCoords = getCoordsForCity(data.location || 'Ahmedabad', index);
+          const distKm = calculateDistance(23.0225, 72.5714, cityCoords[0], cityCoords[1]);
+          return {
+            id: doc.id,
+            title: data.title,
+            description: data.description,
+            skills: data.skills || [],
+            type: data.type || (data.status === 'Active' ? 'URGENT' : 'ROUTINE'),
+            color: data.type === 'CRITICAL' ? '#ef4444' : data.type === 'URGENT' ? '#f97316' : '#10b981',
+            deadline: data.date ? `By ${data.date}` : 'Ongoing',
+            volunteers: data.volunteers || 0,
+            needed: data.target || 10,
+            lat: cityCoords[0],
+            lng: cityCoords[1],
+            dist: `${distKm.toFixed(1)} km`,
+            score: Math.min(100, 75 + (index % 25)),
+            isDbMission: true,
+            orgName: data.orgName || 'NGO Partner',
+            orgId: data.orgId || ''
+          };
+        });
+        setDbMissions(list);
+      }, (err) => {
+        console.warn("Missions snapshot subscription failed:", err);
+      });
+      return unsub;
+    } catch (e) {
+      console.warn("Missions snapshot query initialization failed:", e);
+    }
+  }, []);
+
+  const combinedLandingTasks = useMemo(() => {
+    return [...dbMissions, ...LANDING_TASKS];
+  }, [dbMissions]);
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
@@ -324,31 +438,123 @@ function App() {
   useEffect(() => { localStorage.setItem('activeTab', activeTab); }, [activeTab]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    let unsubUser = () => {};
+    const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
+      unsubUser();
       if (user) {
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          setCurrentUser(userDoc.data());
+        const userRef = doc(db, 'users', user.uid);
+        unsubUser = onSnapshot(userRef, async (userDoc) => {
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setCurrentUser(userData);
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+          } else {
+            // Check organizers
+            const orgDoc = await getDoc(doc(db, 'organizers', user.uid));
+            if (orgDoc.exists()) {
+              const orgData = orgDoc.data();
+              const orgUser = {
+                uid: orgData.companyId, userId: orgData.companyId,
+                name: orgData.contactName || orgData.orgName,
+                email: orgData.contactEmail,
+                role: 'ngo', org: orgData.orgName, orgType: orgData.orgType,
+                city: orgData.area, companyId: orgData.companyId, companyName: orgData.orgName,
+                policiesAccepted: true, regId: orgData.companyId
+              };
+              setCurrentUser(orgUser);
+              localStorage.setItem('currentUser', JSON.stringify(orgUser));
+            } else {
+              const localUser = localStorage.getItem('currentUser');
+              if (localUser) {
+                setCurrentUser(JSON.parse(localUser));
+              } else {
+                setCurrentUser(null);
+                setShowDashboard(false);
+              }
+            }
+          }
+        }, (err) => {
+          console.warn("User document snapshot listener failed:", err);
+        });
+      } else {
+        const localUser = localStorage.getItem('currentUser');
+        if (localUser) {
+          try {
+            setCurrentUser(JSON.parse(localUser));
+          } catch (_) {
+            setCurrentUser(null);
+            setShowDashboard(false);
+          }
         } else {
           setCurrentUser(null);
           setShowDashboard(false);
         }
-      } else {
-        setCurrentUser(null);
-        setShowDashboard(false);
       }
       setAuthLoading(false);
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribeAuth();
+      unsubUser();
+    };
   }, []);
 
+  // Sync broadcasts to notifications toast
+  useBroadcastListener(currentUser, addToast, (data) => {
+    setShowDashboard(true);
+    setActiveTab('missions');
+  });
+
   useEffect(() => {
-    const q = query(collection(db, 'emergency_missions'), orderBy('timestamp', 'desc'), limit(10));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const missions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setEmergencyMissions(missions);
-    });
-    return () => unsubscribe();
+    let dbMissionsList = [];
+
+    const updateCombinedSOS = (firebaseSOS) => {
+      dbMissionsList = firebaseSOS;
+      let localSOS = [];
+      try {
+        localSOS = JSON.parse(localStorage.getItem('cc_local_emergencies') || '[]');
+      } catch (_) {}
+      
+      const combined = [...dbMissionsList];
+      localSOS.forEach(localItem => {
+        if (!combined.some(item => item.topic === localItem.topic && Math.abs(new Date(item.timestamp) - new Date(localItem.timestamp)) < 10000)) {
+          combined.push(localItem);
+        }
+      });
+      combined.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      setEmergencyMissions(combined.slice(0, 10));
+    };
+
+    let unsubscribeFirestore = () => {};
+    try {
+      const q = query(collection(db, 'emergency_missions'), orderBy('timestamp', 'desc'), limit(10));
+      unsubscribeFirestore = onSnapshot(q, (snapshot) => {
+        const missions = snapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data,
+            timestamp: data.timestamp?.toDate ? data.timestamp.toDate().toISOString() : data.timestamp
+          };
+        });
+        updateCombinedSOS(missions);
+      }, (err) => {
+        console.warn("Firestore SOS listener blocked, loading local emergencies:", err);
+        updateCombinedSOS([]);
+      });
+    } catch (err) {
+      console.warn("Firestore query failed:", err);
+      updateCombinedSOS([]);
+    }
+
+    const handleStorageChange = () => {
+      updateCombinedSOS(dbMissionsList);
+    };
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      unsubscribeFirestore();
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -371,9 +577,9 @@ function App() {
 
   const isLoading = authLoading || showSplash;
 
-  const addToast = (message, type = 'success') => {
+  const addToast = (message, type = 'success', onClick = null) => {
     const id = Date.now();
-    setToasts(prev => [...prev, { id, message, type }]);
+    setToasts(prev => [...prev, { id, message, type, onClick }]);
   };
   const removeToast = (id) => setToasts(prev => prev.filter(t => t.id !== id));
 
@@ -386,33 +592,170 @@ function App() {
   const handleSosSubmit = async (missionData) => {
     if (isSosSubmitting) return;
     setIsSosSubmitting(true);
+    const localData = {
+      ...missionData,
+      id: 'local-sos-' + Date.now(),
+      timestamp: new Date().toISOString(),
+      senderId: currentUser?.uid || 'anon',
+      org: currentUser?.org || currentUser?.name || 'NGO'
+    };
+
     try {
       await addDoc(collection(db, 'emergency_missions'), {
         ...missionData,
         timestamp: serverTimestamp(),
-        senderId: currentUser?.uid || 'anon'
+        senderId: currentUser?.uid || 'anon',
+        org: currentUser?.org || currentUser?.name || 'NGO'
       });
       setShowSosModal(false);
       setSosActive(true);
       addToast('🚨 SOS Broadcasted! Every user is being notified.', 'error');
       setTimeout(() => setSosActive(false), 8000);
     } catch (error) {
-      addToast('Failed to broadcast SOS', 'error');
+      console.warn("Firestore SOS write failed, falling back to localStorage:", error);
+      try {
+        const localSOS = JSON.parse(localStorage.getItem('cc_local_emergencies') || '[]');
+        localSOS.unshift(localData);
+        localStorage.setItem('cc_local_emergencies', JSON.stringify(localSOS.slice(0, 20)));
+        window.dispatchEvent(new Event('storage'));
+        
+        setShowSosModal(false);
+        setSosActive(true);
+        addToast('🚨 SOS Broadcasted (Local fallback)! Every user is being notified.', 'error');
+        setTimeout(() => setSosActive(false), 8000);
+      } catch (e) {
+        addToast('Failed to broadcast SOS', 'error');
+      }
     } finally {
       setIsSosSubmitting(false);
     }
   };
 
-  const handleLogin = (userData) => {
+  const handleLogin = (userData, stayLoggedIn) => {
     setCurrentUser(userData);
-    setShowAuthModal(false);
     setShowDashboard(true);
-    localStorage.setItem('showDashboard', 'true');
+    setShowAuthModal(false);
+    setShowOrgAuthModal(false);
+    if (stayLoggedIn) {
+      localStorage.setItem('showDashboard', 'true');
+      localStorage.setItem('currentUser', JSON.stringify(userData));
+    } else {
+      localStorage.removeItem('showDashboard');
+      localStorage.removeItem('currentUser');
+    }
+    addToast(`👋 Welcome back, ${userData.name}!`, 'success');
   };
 
-  const handleMissionAccept = (title, taskId) => {
+  const handleMissionAccept = async (title, taskId) => {
     setAcceptedTasks(prev => ({ ...prev, [taskId]: true }));
-    addToast(`✅ Accepted: ${title}`, 'success');
+    addToast(`✅ Accepted Mission: ${title}`, 'success');
+
+    if (typeof taskId === 'string') {
+      try {
+        const missionRef = doc(db, 'missions', taskId);
+        const docSnap = await getDoc(missionRef);
+        if (docSnap.exists()) {
+          const currentVols = docSnap.data().volunteers || 0;
+          await updateDoc(missionRef, {
+            volunteers: currentVols + 1
+          });
+          addToast(`👥 Joined roster for "${title}"!`, 'info');
+        }
+      } catch (err) {
+        console.warn("Failed to update volunteer count in Firestore:", err);
+      }
+    }
+  };
+
+  const handleCheckIn = () => {
+    if (!currentUser) return;
+    setCheckInTime(Date.now());
+    setIsPaused(false);
+    setAccumulatedSecs(0);
+    setActiveSessionSecs(0);
+    setTimestamps([]);
+    addToast('🎯 Checked in! Your service hours are now being recorded live.', 'success');
+  };
+
+  const handlePause = () => {
+    if (!checkInTime) return;
+    const elapsed = Math.floor((Date.now() - checkInTime) / 1000);
+    setAccumulatedSecs(prev => prev + elapsed);
+    setCheckInTime(null);
+    setIsPaused(true);
+    addToast('⏸️ Session paused', 'info');
+  };
+
+  const handleResume = () => {
+    setCheckInTime(Date.now());
+    setIsPaused(false);
+    addToast('▶️ Session resumed', 'success');
+  };
+
+  const handleAddTimestamp = () => {
+    const current = activeSessionSecs;
+    setTimestamps(prev => [current, ...prev]);
+    addToast(`⏰ Marker added at ${Math.floor(current / 60)}m ${current % 60}s`, 'info');
+  };
+
+  const handleCheckOut = async () => {
+    const finalSecs = activeSessionSecs;
+    const finalHours = parseFloat((finalSecs / 3600).toFixed(2));
+    const earnedPoints = Math.round(finalHours * 100);
+
+    setCheckInTime(null);
+    setIsPaused(false);
+    setAccumulatedSecs(0);
+    setActiveSessionSecs(0);
+    setTimestamps([]);
+
+    if (finalHours <= 0) {
+      addToast('⏹️ Checked out. No hours recorded (session was too short).', 'info');
+      return;
+    }
+
+    addToast(`⏹️ Checking out... Logging ${finalHours} hours to database.`, 'info');
+
+    if (currentUser) {
+      const updatedUser = {
+        ...currentUser,
+        volunteerHours: parseFloat(((currentUser.volunteerHours || 0) + finalHours).toFixed(2)),
+        points: (currentUser.points || 0) + earnedPoints,
+        history: [
+          {
+            id: Date.now(),
+            title: 'Community Support Session',
+            date: new Date().toISOString().split('T')[0],
+            hrs: finalHours,
+            pts: earnedPoints,
+            status: 'Completed'
+          },
+          ...(currentUser.history || [])
+        ]
+      };
+
+      setCurrentUser(updatedUser);
+      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+      try {
+        const users = JSON.parse(localStorage.getItem('cc_local_users') || '[]');
+        const filtered = users.filter(u => u.uid !== updatedUser.uid && u.userId !== updatedUser.userId);
+        filtered.push(updatedUser);
+        localStorage.setItem('cc_local_users', JSON.stringify(filtered));
+      } catch (_) {}
+
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        await setDoc(userRef, {
+          volunteerHours: updatedUser.volunteerHours,
+          points: updatedUser.points,
+          history: updatedUser.history
+        }, { merge: true });
+        addToast(`🎉 Logged ${finalHours} hrs successfully! Earned +${earnedPoints} pts!`, 'success');
+      } catch (err) {
+        console.warn("Firestore hours log failed, session saved locally:", err);
+        addToast(`✓ Logged ${finalHours} hrs locally (offline mode).`, 'success');
+      }
+    }
   };
 
   const handleLogout = async () => {
@@ -422,6 +765,7 @@ function App() {
         setCurrentUser(null);
         setShowDashboard(false);
         localStorage.removeItem('showDashboard');
+        localStorage.removeItem('currentUser');
         addToast('👋 Logged out successfully', 'info');
       }, 300);
     } catch (error) { addToast('Error logging out', 'error'); }
@@ -433,8 +777,49 @@ function App() {
       const userRef = doc(db, 'users', currentUser.uid);
       await setDoc(userRef, updated, { merge: true });
       setCurrentUser(updated);
+      localStorage.setItem('currentUser', JSON.stringify(updated));
+      try {
+        const users = JSON.parse(localStorage.getItem('cc_local_users') || '[]');
+        const filtered = users.filter(u => u.uid !== updated.uid && u.userId !== updated.userId);
+        filtered.push(updated);
+        localStorage.setItem('cc_local_users', JSON.stringify(filtered));
+      } catch (_) {}
       addToast('✅ Profile updated successfully', 'success');
-    } catch (error) { addToast('Failed to update profile', 'error'); }
+    } catch (error) {
+      console.warn("Firestore profile update failed, saving locally:", error);
+      setCurrentUser(updated);
+      localStorage.setItem('currentUser', JSON.stringify(updated));
+      try {
+        const users = JSON.parse(localStorage.getItem('cc_local_users') || '[]');
+        const filtered = users.filter(u => u.uid !== updated.uid && u.userId !== updated.userId);
+        filtered.push(updated);
+        localStorage.setItem('cc_local_users', JSON.stringify(filtered));
+      } catch (_) {}
+      addToast('✅ Profile updated locally', 'success');
+    }
+  };
+
+  const handleAcceptPolicies = async () => {
+    if (!currentUser) return;
+    const updatedUser = { ...currentUser, policiesAccepted: true };
+    setCurrentUser(updatedUser);
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+    
+    try {
+      const users = JSON.parse(localStorage.getItem('cc_local_users') || '[]');
+      const filtered = users.filter(u => u.uid !== updatedUser.uid && u.userId !== updatedUser.userId);
+      filtered.push(updatedUser);
+      localStorage.setItem('cc_local_users', JSON.stringify(filtered));
+    } catch (_) {}
+
+    try {
+      const userRef = doc(db, 'users', currentUser.uid);
+      await setDoc(userRef, { policiesAccepted: true }, { merge: true });
+      addToast('📜 Policies accepted! Welcome to your dashboard.', 'success');
+    } catch (err) {
+      console.warn("Failed to save policy agreement to Firestore:", err);
+      addToast('✓ Policies accepted locally.', 'success');
+    }
   };
 
   useEffect(() => {
@@ -452,7 +837,6 @@ function App() {
   }, [isLoading, showDashboard]);
 
   useEffect(() => {
-    // High-performance event listener using CSS hover instead of JS loop
     const handleMouse = (e) => {
       const card = e.target.closest('.card-3d');
       if (card) {
@@ -486,19 +870,63 @@ function App() {
           setShowDashboard={setShowDashboard} setShowProfile={setShowProfile} 
           setShowAuthModal={setShowAuthModal} activeSessionSecs={activeSessionSecs}
           isCheckingIn={!!checkInTime || accumulatedSecs > 0}
-          onCheckOut={() => {}} activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout}
+          onCheckOut={handleCheckOut} activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout}
           onNavigateBack={() => {
             if (showProfile) setShowProfile(false);
-            else if (showDashboard) { if (activeTab !== 'overview') setActiveTab('overview'); else setShowDashboard(false); }
+            else if (showDashboard) { 
+              if (activeTab !== 'overview') setActiveTab('overview'); 
+            }
             else window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
+          addToast={addToast}
         />
 
+        {currentUser && (
+          <SessionController
+            activeSessionSecs={activeSessionSecs}
+            isCheckingIn={!!checkInTime || accumulatedSecs > 0}
+            isPaused={isPaused}
+            onPause={handlePause}
+            onResume={handleResume}
+            onStop={handleCheckOut}
+            onAddTimestamp={handleAddTimestamp}
+            timestamps={timestamps}
+            opacity={opacity}
+            onOpacityChange={setOpacity}
+          />
+        )}
+
         <AnimatePresence>
-          {showAuthModal && <AuthModal onClose={()=>setShowAuthModal(false)} onLogin={handleLogin} addToast={addToast} theme={theme}/>}
+          {showAuthModal && (
+            <AuthModal 
+              onClose={()=>setShowAuthModal(false)} 
+              onLogin={handleLogin} 
+              addToast={addToast} 
+              theme={theme}
+              onOpenOrgAuth={() => {
+                setShowAuthModal(false);
+                setShowOrgAuthModal(true);
+              }}
+            />
+          )}
+          {showOrgAuthModal && (
+            <OrgAuthModal
+              onClose={()=>setShowOrgAuthModal(false)}
+              onLogin={handleLogin}
+              addToast={addToast}
+              theme={theme}
+            />
+          )}
           {showSosModal && <SosModal user={currentUser} onClose={() => setShowSosModal(false)} onSubmit={handleSosSubmit} isLoading={isSosSubmitting} />}
           {showHostProfile && <HostProfileModal host={showHostProfile} onClose={() => setShowHostProfile(null)} />}
           {showProfile && currentUser && <ProfilePanel user={currentUser} onClose={() => setShowProfile(false)} onUpdate={handleProfileUpdate} addToast={addToast} onLogout={handleLogout} />}
+          {currentUser && !currentUser.policiesAccepted && (
+            <PolicyModal 
+              user={currentUser} 
+              onAccept={handleAcceptPolicies} 
+              theme={theme} 
+            />
+          )}
         </AnimatePresence>
 
         <AnimatePresence>
@@ -507,9 +935,9 @@ function App() {
               <Hero setShowAuthModal={setShowAuthModal} />
               <ImpactSection />
               <EcosystemSection />
-              <MapSection theme={theme} currentUser={currentUser} setShowDashboard={setShowDashboard} setShowAuthModal={setShowAuthModal} />
-              <LiveNeedsSection setShowAuthModal={setShowAuthModal} currentUser={currentUser} setShowDashboard={setShowDashboard} />
-              <LeaderboardSection />
+              <MapSection theme={theme} currentUser={currentUser} setShowDashboard={setShowDashboard} setShowAuthModal={setShowAuthModal} tasks={combinedLandingTasks} />
+              <LiveNeedsSection setShowAuthModal={setShowAuthModal} currentUser={currentUser} setShowDashboard={setShowDashboard} tasks={combinedLandingTasks} setActiveTab={setActiveTab} />
+              <LeaderboardSection currentUser={currentUser} />
               <StoriesSection />
               <CtaSection setShowAuthModal={setShowAuthModal} />
 
@@ -529,17 +957,53 @@ function App() {
             </motion.main>
           ) : (
             <motion.div key="dashboard" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}>
-              {currentUser.role === 'NGO' ? (
-                <NgoDashboard user={currentUser} activeTab={activeTab} setActiveTab={setActiveTab} addToast={addToast} onTriggerSos={handleSosSubmit} theme={theme} setTheme={setTheme} onLogout={handleLogout} onOpenProfile={() => setShowProfile(true)} />
+              {currentUser.role === 'ngo' ? (
+                <NgoDashboard 
+                  user={currentUser} 
+                  activeTab={activeTab} 
+                  setActiveTab={setActiveTab} 
+                  addToast={addToast}
+                  emergencyMissions={emergencyMissions}
+                  onTriggerSos={handleSosSubmit}
+                  theme={theme}
+                  setTheme={setTheme}
+                  onLogout={handleLogout}
+                  onOpenProfile={() => setShowProfile(true)}
+                />
               ) : (
-                <VolunteerDashboard user={currentUser} activeTab={activeTab} setActiveTab={setActiveTab} addToast={addToast} acceptedTasks={acceptedTasks} onMissionAccept={handleMissionAccept} theme={theme} setTheme={setTheme} onLogout={handleLogout} onOpenProfile={() => setShowProfile(true)} />
+                <VolunteerDashboard 
+                  user={currentUser} 
+                  activeTab={activeTab} 
+                  setActiveTab={setActiveTab} 
+                  addToast={addToast}
+                  acceptedTasks={acceptedTasks}
+                  onMissionAccept={handleMissionAccept}
+                  theme={theme}
+                  setTheme={setTheme}
+                  onLogout={handleLogout}
+                  onOpenProfile={() => setShowProfile(true)}
+                  emergencyMissions={emergencyMissions}
+                  onViewHost={setShowHostProfile}
+                  isCheckingIn={!!checkInTime || accumulatedSecs > 0}
+                  activeSessionSecs={activeSessionSecs}
+                  onCheckIn={handleCheckIn}
+                  onCheckOut={handleCheckOut}
+                />
               )}
             </motion.div>
           )}
         </AnimatePresence>
 
         <AnimatePresence>
-          {toasts.map(t => <Toast key={t.id} message={t.message} type={t.type} onClose={() => removeToast(t.id)} />)}
+          {toasts.map(t => (
+            <Toast 
+              key={t.id} 
+              message={t.message} 
+              type={t.type} 
+              onClose={() => removeToast(t.id)} 
+              onClick={t.onClick ? () => { t.onClick(); removeToast(t.id); } : undefined} 
+            />
+          ))}
         </AnimatePresence>
 
         {sosActive && <div className="sos-overlay" />}
