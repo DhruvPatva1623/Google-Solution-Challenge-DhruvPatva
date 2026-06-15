@@ -40,12 +40,3 @@ firebase-debug.log.*
 
 # Secret Developer Features (hidden from production repository)
 web-dashboard/src/components/common/AdminSecretPortal.jsx
-
-# Internal Implementation Plans / Backups
-PHASE1_IMPLEMENTATION_PLAN.md
-PHASE2_IMPLEMENTATION_PLAN.md
-PHASE3_IMPLEMENTATION_PLAN.md
-PHASE4_IMPLEMENTATION_PLAN.md
-PHASE5_IMPLEMENTATION_PLAN.md
-FRONTEND_UIUX.md
-version1_backup/
