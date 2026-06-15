@@ -41,7 +41,7 @@ Communities worldwide face a **critical coordination crisis** during emergencies
 
 ## 💡 Our Solution
 
-CommunityConnect AI combines **AI-driven matching**, **real-time crisis response**, **multilingual accessibility**, and **blockchain-verified impact tracking** to create a unified platform for social good.
+CommunityConnect AI combines **AI-driven matching**, **real-time crisis response**, **multilingual accessibility**, and **cryptographically-verified impact auditing** to create a unified platform for social good.
 
 ---
 
@@ -64,11 +64,11 @@ CommunityConnect AI combines **AI-driven matching**, **real-time crisis response
 - Offline-first architecture
 - Visual icon-based navigation
 
-### 4. Blockchain-Verified Impact
-- Transparent donation trail
-- Verified impact certificates (NFT)
-- Smart contracts for automated fund release
-- Audit-ready immutable records
+### 4. Cryptographic Impact Auditing
+- Transparent donation trail with digital signatures
+- Verified digital impact certificates (cryptographically signed)
+- Multi-signature verification for automated allocation
+- Audit-ready tamper-proof immutable records
 
 ### 5. Gamification System
 - Impact points and leaderboards
@@ -254,15 +254,15 @@ Last Updated: April 2026 | Version: 1.0.0
 **Tech Focus**: Vertex AI + Cloud Translation + Dialogflow
 
 ### Phase 3: Scale & Trust (Months 5-6)
-**Goal**: Blockchain integration and advanced features
-- [ ] Blockchain-verified impact certificates
-- [ ] Transparent donation tracking
-- [ ] Offline-first PWA
-- [ ] WhatsApp chatbot for status updates
-- [ ] Advanced analytics dashboard for NGOs
-- [ ] Gamification system (points, badges, leaderboards)
+**Goal**: Cryptographic audit integration and advanced features
+- [x] Cryptographically-verified digital certificates
+- [x] Transparent donation audit tracking
+- [x] Offline-first PWA
+- [x] WhatsApp chatbot for status updates
+- [x] Advanced analytics dashboard for NGOs
+- [x] Gamification system (points, badges, leaderboards)
 
-**Tech Focus**: Polygon + IPFS + Service Workers
+**Tech Focus**: Cryptographic Registry + IPFS + Service Workers
 
 ### Phase 4: Ecosystem Expansion (Months 7+)
 - [ ] Corporate volunteer program integration
@@ -322,7 +322,7 @@ Last Updated: April 2026 | Version: 1.0.0
 - ✅ Community-verified authenticity (prevent fraud)
 
 ### For Donors/Corporates
-- ✅ Track exactly where money goes (blockchain transparency)
+- ✅ Track exactly where money goes (cryptographic audit transparency)
 - ✅ Measure tangible social impact
 - ✅ Employee volunteer program management
 - ✅ Tax-compliant impact reports
@@ -378,8 +378,8 @@ communityconnect-ai/
 │   ├── matching/           # Volunteer-task matching
 │   ├── forecasting/        # Need prediction
 │   └── nlp/                # Text analysis
-├── blockchain/             # Smart contracts (Solidity)
-└── docs/                   # Documentation
+├── security/               # Cryptographic signatures (Node/JS)
+├── docs/                   # Documentation
 ```
 
 ## 🤝 How to Contribute
@@ -435,7 +435,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
 - [Firebase Best Practices](https://firebase.google.com/docs/guides)
 - [Vertex AI Documentation](https://cloud.google.com/vertex-ai/docs)
 - [React Native Performance](https://reactnative.dev/docs/performance)
-- [Blockchain for Social Good](https://www.blockchainforsocialimpact.com/)
+- [Cryptography for Social Good](https://www.w3.org/TR/DID-core/)
 
 ---
 
@@ -447,7 +447,7 @@ If you're new to this tech stack, follow this learning path:
 **Week 3-4**: React fundamentals, REST APIs
 **Week 5-6**: Firebase setup, database design
 **Week 7-8**: Machine Learning basics (Coursera/Kaggle)
-**Week 9-10**: Blockchain fundamentals (Ethereum docs)
+**Week 9-10**: Cryptography & Digital Signature fundamentals
 **Week 11-12**: Build your first feature end-to-end!
 
 **Recommended Courses**:

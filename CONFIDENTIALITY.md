@@ -69,10 +69,10 @@ As an AI-powered platform handling sensitive social welfare data, we adhere to s
 - **Multi-Factor Authentication (MFA)** for admin accounts
 - Regular access audits and least-privilege enforcement
 
-### Blockchain
+### Cryptographic Audit Logging
 
-- Volunteer impact hours are tokenized securely on Polygon network
-- Underlying identity details are **never exposed** in blockchain transactions
+- Volunteer impact hours are logged securely in a tamper-proof cryptographic registry
+- Cryptographic hash signatures verify authenticity without exposing underlying identity details
 
 ---
 

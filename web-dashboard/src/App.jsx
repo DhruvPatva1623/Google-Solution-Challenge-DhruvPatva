@@ -136,7 +136,7 @@ function EcosystemSection() {
         <div className="card-3d reveal" style={{gridColumn:'span 3',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
           <div style={{fontSize:'2.5rem',marginBottom:'1.5rem'}}>🏆</div>
           <h3 style={{fontSize:'1.8rem',fontWeight:800,marginBottom:'1rem',color:'var(--text-primary)'}}>Gamified Growth</h3>
-          <p style={{color:'var(--text-secondary)',fontSize:'1rem',lineHeight:1.6,marginBottom:'2rem'}}>Rank up by aiding your community. Unlock exclusive blockchain badges.</p>
+          <p style={{color:'var(--text-secondary)',fontSize:'1rem',lineHeight:1.6,marginBottom:'2rem'}}>Rank up by aiding your community. Unlock exclusive cryptographic badges.</p>
           <div style={{background:'var(--bg-secondary)',padding:'1.2rem',borderRadius:'20px',border:'1px solid var(--border-light)'}}>
             <div style={{display:'flex',justifyContent:'space-between',marginBottom:'1rem',fontSize:'0.9rem',fontWeight:800,color:'var(--text-primary)'}}><span>Level 4: Hero</span><span style={{color:'var(--primary-500)'}}>1450 pts</span></div>
             <div style={{height:'10px',background:'rgba(15,23,42,0.08)',borderRadius:'99px',overflow:'hidden'}}><div style={{width:'72%',height:'100%',background:'linear-gradient(90deg,#f97316,#ec4899)'}}/></div>
@@ -151,15 +151,15 @@ function EcosystemSection() {
 
         <div className="card-3d reveal" style={{gridColumn:'span 6',display:'flex',justifyContent:'space-between',alignItems:'center',gap:'2rem',marginTop:'-1.5rem',background:'var(--glass-bg)',backdropFilter:'blur(16px)'}}>
           <div style={{flex:1}}>
-            <h3 style={{fontSize:'2rem',fontWeight:800,marginBottom:'0.5rem',color:'var(--text-primary)'}}>Polygon Blockchain Identity</h3>
-            <p style={{color:'var(--text-secondary)',fontSize:'0.9rem',lineHeight:1.7}}>Your verified volunteer hours are securely minted as non-fungible certificates on the Polygon L2 network, preventing fraud and providing lifelong, transportable accreditation.</p>
+            <h3 style={{fontSize:'2rem',fontWeight:800,marginBottom:'0.5rem',color:'var(--text-primary)'}}>Cryptographic Registry</h3>
+            <p style={{color:'var(--text-secondary)',fontSize:'0.9rem',lineHeight:1.7}}>Your verified volunteer hours are securely logged in our tamper-proof cryptographic audit registry, preventing fraud and providing lifelong, cryptographically signed credentials.</p>
           </div>
           <div style={{background:'var(--bg-secondary)',padding:'1.2rem 1.8rem',borderRadius:'20px',border:'1px solid var(--border-light)',display:'flex',alignItems:'center',gap:'1.2rem',minWidth:'280px'}}>
              <div style={{fontSize:'2.5rem'}}>🏅</div>
              <div>
-               <div style={{fontSize:'0.75rem',color:'var(--text-secondary)',fontWeight:800,textTransform:'uppercase',letterSpacing:'1px',marginBottom:'0.2rem'}}>Verified NFT Minted</div>
-               <div style={{fontSize:'1.1rem',fontWeight:900,color:'var(--text-primary)'}}>120h Community Service</div>
-               <div style={{fontSize:'0.65rem',fontFamily:'monospace',color:'var(--primary-400)',marginTop:'0.2rem'}}>0x7f3a...b92e</div>
+                <div style={{fontSize:'0.75rem',color:'var(--text-secondary)',fontWeight:800,textTransform:'uppercase',letterSpacing:'1px',marginBottom:'0.2rem'}}>Registry Record Signed</div>
+                <div style={{fontSize:'1.1rem',fontWeight:900,color:'var(--text-primary)'}}>120h Community Service</div>
+                <div style={{fontSize:'0.65rem',fontFamily:'monospace',color:'var(--primary-400)',marginTop:'0.2rem'}}>sha256-7f3a...b92e</div>
              </div>
           </div>
         </div>
